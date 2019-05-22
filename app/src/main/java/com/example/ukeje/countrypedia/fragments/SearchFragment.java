@@ -1,17 +1,22 @@
 package com.example.ukeje.countrypedia.fragments;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.bottomappbar.BottomAppBar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import com.example.ukeje.countrypedia.R;
+import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.databinding.FragmentSearchBinding;
 
 
@@ -37,6 +42,9 @@ public class SearchFragment extends Fragment {
 
     public View v;
     FragmentSearchBinding binding;
+
+    //ViewModel for fragment
+    private SharedFragmentViewModel viewModel;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -75,9 +83,10 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        binding = FragmentSearchBinding.inflate(getLayoutInflater(), container,
-                                                        false);
+        binding = FragmentSearchBinding.inflate(getLayoutInflater(), container, false);
         v = binding.getRoot();
+
+        viewModel = ViewModelProviders.of(this.getActivity()).get(SharedFragmentViewModel.class);
         initView();
         return  v;
     }
@@ -120,6 +129,24 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 onButtonPressed();
+            }
+        });
+
+        binding.countrySearchBox.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if(keyCode == EditorInfo.IME_ACTION_DONE || keyCode == EditorInfo.IME_ACTION_SEARCH
+                        || event.getAction() == KeyEvent.ACTION_DOWN &&
+                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER){
+
+                    if(!event.isShiftPressed()){
+                        viewModel.setSearchedCountry(binding.countrySearchBox.getText().toString());
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                viewModel.getSearchedCountry(),Toast.LENGTH_LONG).show();
+                    }
+                }
+                return false;
             }
         });
     }
