@@ -1,14 +1,15 @@
-package com.example.ukeje.countrypedia.responses;
+package com.example.ukeje.countrypedia.web.responses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
 
 @Data
-public class CountryResponse {
+public class CountryResponse implements Serializable {
 
     @SerializedName("name")
     @Expose

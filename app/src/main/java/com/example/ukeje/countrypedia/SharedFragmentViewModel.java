@@ -1,15 +1,10 @@
 package com.example.ukeje.countrypedia;
 
-import android.util.Log;
-
-import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModel;
 
-import com.example.ukeje.countrypedia.responses.CountryResponse;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
+import com.example.ukeje.countrypedia.web.responses.CountryResponse;
+import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 
 public class SharedFragmentViewModel extends ViewModel {
 
@@ -26,13 +21,8 @@ public class SharedFragmentViewModel extends ViewModel {
         this.searchedCountry = searchedCountry;
     }
 
-    public CountryResponse loadCountryDetails(String countryName, CountryRepository.CountryApiResponseListener countryApiResponseListener){
+    public void loadCountryDetails(ApiResponseListener<CountryResponse, ErrorResponse> apiResponseListener){
+        countryRepository.getCountry(getSearchedCountry(), apiResponseListener);
 
-        if(countryDetails == null){
-
-           countryRepository.getCountry(countryName, countryApiResponseListener);
-        }
-
-        return  countryDetails;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.ukeje.countrypedia.responses;
+package com.example.ukeje.countrypedia.web.responses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
