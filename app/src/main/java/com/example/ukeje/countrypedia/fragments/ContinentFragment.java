@@ -3,7 +3,7 @@ package com.example.ukeje.countrypedia.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,9 +70,9 @@ public class ContinentFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed() {
+    public void onButtonPressed(String tag) {
         if (mListener != null) {
-            mListener.onFragmentInteraction();
+            mListener.onFragmentInteraction(tag);
         }
     }
 
@@ -105,6 +105,6 @@ public class ContinentFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction();
+        void onFragmentInteraction(String tag);
     }
 }

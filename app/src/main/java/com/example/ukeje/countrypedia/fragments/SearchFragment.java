@@ -1,12 +1,12 @@
 package com.example.ukeje.countrypedia.fragments;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.bottomappbar.BottomAppBar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,9 +92,9 @@ public class SearchFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed() {
+    public void onButtonPressed(String tag) {
         if (mListener != null) {
-            mListener.onFragmentInteraction();
+            mListener.onFragmentInteraction(tag);
         }
     }
 
@@ -119,18 +119,19 @@ public class SearchFragment extends Fragment {
     //Methods to be implemented in the UI are declared here
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction();
+        void onFragmentInteraction(String tag);
     }
 
     public void initView(){
 
-
-        binding.continentBtn.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onButtonPressed();
+                onButtonPressed("FAB");
             }
-        });
+        };
+
+        binding.continentBtn.setOnClickListener(listener);
 
         binding.countrySearchBox.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -142,8 +143,7 @@ public class SearchFragment extends Fragment {
 
                     if(!event.isShiftPressed()){
                         viewModel.setSearchedCountry(binding.countrySearchBox.getText().toString());
-                        Toast.makeText(getActivity().getApplicationContext(),
-                                viewModel.getSearchedCountry(),Toast.LENGTH_LONG).show();
+                        onButtonPressed("ET");
                     }
                 }
                 return false;

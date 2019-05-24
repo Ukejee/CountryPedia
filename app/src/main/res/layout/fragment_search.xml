@@ -7,7 +7,7 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="false"
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1.4"
@@ -69,9 +69,9 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/capital_name" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.design.widget.CoordinatorLayout
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_weight="1"
                 android:layout_gravity="bottom"
                 android:id="@+id/coordinatorLayout"
@@ -83,7 +83,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="top">
@@ -109,7 +109,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <android.support.constraint.Guideline
+                    <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,10 +117,10 @@
                         app:layout_constraintGuide_begin="215dp" />
 
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <android.support.design.bottomappbar.BottomAppBar
+                <com.google.android.material.bottomappbar.BottomAppBar
                     android:id="@+id/bottomAppBar"
                     style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
                     android:layout_width="match_parent"
@@ -129,9 +129,9 @@
                     app:backgroundTint="#266876"
                     app:navigationIcon="@drawable/menu_icon">
 
-                </android.support.design.bottomappbar.BottomAppBar>
+                </com.google.android.material.bottomappbar.BottomAppBar>
 
-                <android.support.design.widget.FloatingActionButton
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/continent_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -140,9 +140,9 @@
                     app:fabSize="normal"
                     app:layout_anchor="@id/bottomAppBar" />
 
-            </android.support.design.widget.CoordinatorLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

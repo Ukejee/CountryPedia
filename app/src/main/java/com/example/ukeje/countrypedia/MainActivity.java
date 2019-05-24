@@ -1,18 +1,19 @@
 package com.example.ukeje.countrypedia;
 
-import android.net.Uri;
-import android.support.design.bottomappbar.BottomAppBar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.ukeje.countrypedia.fragments.ContinentFragment;
+import com.example.ukeje.countrypedia.fragments.ResultFragment;
 import com.example.ukeje.countrypedia.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements ContinentFragment.OnFragmentInteractionListener,
-                                                                SearchFragment.OnFragmentInteractionListener{
+                                                                SearchFragment.OnFragmentInteractionListener,
+                                                                ResultFragment.OnFragmentInteractionListener{
 
     BottomAppBar bottomAppBar;
     FloatingActionButton continentBtn;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements ContinentFragment
     FragmentTransaction fragmentTransaction;
     ContinentFragment continentFragment;
     SearchFragment searchFragment;
+    ResultFragment resultFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements ContinentFragment
 
         continentFragment = new ContinentFragment();
         searchFragment = new SearchFragment();
+        resultFragment = new ResultFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -37,11 +40,20 @@ public class MainActivity extends AppCompatActivity implements ContinentFragment
 
     }
 
-    public void onFragmentInteraction(){
+    public void onFragmentInteraction(String tag){
 
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.your_placeholder, continentFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        if(tag.equalsIgnoreCase("FAB")){
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.your_placeholder, continentFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+        if(tag.equalsIgnoreCase("ET")){
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.your_placeholder, resultFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        }
     }
 }

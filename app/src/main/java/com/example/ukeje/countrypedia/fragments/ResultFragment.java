@@ -1,14 +1,29 @@
 package com.example.ukeje.countrypedia.fragments;
 
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+
+import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.ukeje.countrypedia.CountryRepository;
 import com.example.ukeje.countrypedia.R;
+import com.example.ukeje.countrypedia.SharedFragmentViewModel;
+import com.example.ukeje.countrypedia.databinding.FragmentResultBinding;
+import com.example.ukeje.countrypedia.responses.CountryResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +42,10 @@ public class ResultFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    View v;
+    private SharedFragmentViewModel sharedFragmentViewModel;
+    FragmentResultBinding binding;
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,13 +84,18 @@ public class ResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_result, container, false);
+        binding = FragmentResultBinding.inflate(getLayoutInflater(), container, false);
+        v = binding.getRoot();
+        sharedFragmentViewModel = ViewModelProviders.of(this.getActivity()).get(SharedFragmentViewModel.class);
+        init();
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(String tag) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction(tag);
         }
     }
 
@@ -104,6 +128,29 @@ public class ResultFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(String tag);
+    }
+
+    public void init() {
+
+        sharedFragmentViewModel.loadCountryDetails(sharedFragmentViewModel.getSearchedCountry(), new CountryRepository.CountryApiResponseListener() {
+            @Override
+            public void onApiSuccessful(CountryResponse countryResponse) {
+                Toast.makeText(getActivity().getApplicationContext(),countryResponse.toString(),Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onApiFailed() {
+                Toast.makeText(getActivity().getApplicationContext(),"API ERROR", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNetworkFailure() {
+                Toast.makeText(getActivity().getApplicationContext(),"NETWORK ERROR", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
     }
 }
