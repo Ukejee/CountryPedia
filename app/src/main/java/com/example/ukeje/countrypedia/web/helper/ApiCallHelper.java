@@ -8,6 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -23,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @email ..: uyioriaghan@gmail.com, uyi.oriaghan@cwg-plc.com
  * @created : 2019-05-24 14:11
  */
-public abstract class ApiCallHelper<S, E, T> {
+public abstract class ApiCallHelper<S , E, T> {
     private Retrofit retrofit;
     private Class<T> retrofitApiService;
     private Class<E> errorResponse;
@@ -55,7 +57,7 @@ public abstract class ApiCallHelper<S, E, T> {
 
     public abstract Call<S> createApiServiceCall(T apiService);
 
-    public void makeApiCall(final ApiResponseListener<S, E> apiResponseListener) {
+    public void makeApiCall(final ApiResponseListener<S , E> apiResponseListener) {
 
         T apiService = retrofit.create(retrofitApiService);
 

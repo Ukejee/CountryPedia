@@ -19,6 +19,7 @@ import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -72,10 +73,16 @@ public class ResultFragment extends Fragment {
 
     public void init() {
 
-        sharedFragmentViewModel.loadCountryDetails(new ApiResponseListener<CountryResponse, ErrorResponse>() {
+        sharedFragmentViewModel.loadCountryDetails(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
             @Override
-            public void onApiSuccessful(CountryResponse successResponse) {
-                Toast.makeText(getContext(), successResponse.getName(), Toast.LENGTH_LONG).show();
+            public void onApiSuccessful(List<CountryResponse> successResponse) {
+                CountryResponse cr = successResponse.get(0);
+                binding.countryName.setText(cr.getName());
+                binding.capitalName.setText("It's capital is " + cr.getCapital());
+                binding.subregionName.setText(cr.getSubregion());
+                binding.regionName.setText(cr.getRegion());
+                binding.countryCode.setText(cr.getCallingCodes().get(0));
+                Toast.makeText(getContext(), successResponse.get(0).getName(), Toast.LENGTH_LONG).show();
             }
 
             @Override

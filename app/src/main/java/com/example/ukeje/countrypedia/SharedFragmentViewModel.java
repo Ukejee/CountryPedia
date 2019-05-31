@@ -6,6 +6,8 @@ import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 
+import java.util.List;
+
 public class SharedFragmentViewModel extends ViewModel {
 
     private String searchedCountry;
@@ -21,7 +23,7 @@ public class SharedFragmentViewModel extends ViewModel {
         this.searchedCountry = searchedCountry;
     }
 
-    public void loadCountryDetails(ApiResponseListener<CountryResponse, ErrorResponse> apiResponseListener){
+    public void loadCountryDetails(ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener){
         countryRepository.getCountry(getSearchedCountry(), apiResponseListener);
 
     }
