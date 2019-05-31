@@ -10,10 +10,10 @@ import retrofit2.http.Path;
 
 public interface CountryPediaApiService {
 
-    @GET("v2/name/{name}")
-    Call<CountryResponse> getCountryDetails(@Path("name") String countryName);
+    @GET("name/{name}")
+    Call<List<CountryResponse>> getCountryDetails(@Path("name") String countryName);
 
-    @GET("v2/name/{continent}")
+    @GET("name/{continent}")
     Call<List<CountryResponse>> getCountryList(@Path("continent") String continentName);
 
 }

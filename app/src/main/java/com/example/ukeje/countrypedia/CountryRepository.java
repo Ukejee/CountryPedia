@@ -12,15 +12,15 @@ import retrofit2.Call;
 
 public class CountryRepository {
 
-    public static final String BASE_URL = "https://restcountries.eu/rest/";
+    public static final String BASE_URL = "https://restcountries.eu/rest/v2/";
 
-    void getCountry(final String countryName, final ApiResponseListener<CountryResponse, ErrorResponse> apiResponseListener) {
+    void getCountry(final String countryName, final ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener) {
 
-        new ApiCallHelper<CountryResponse, ErrorResponse, CountryPediaApiService>
+        new ApiCallHelper<List<CountryResponse>, ErrorResponse, CountryPediaApiService>
                 (CountryRepository.BASE_URL, ErrorResponse.class, CountryPediaApiService.class) {
 
             @Override
-            public Call<CountryResponse> createApiServiceCall(CountryPediaApiService apiService) {
+            public Call<List<CountryResponse>> createApiServiceCall(CountryPediaApiService apiService) {
                 return apiService.getCountryDetails(countryName);
             }
 
