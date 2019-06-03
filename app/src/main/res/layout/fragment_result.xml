@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewmodel"
+            type="com.example.ukeje.countrypedia.SharedFragmentViewModel" />
     </data>
 
     <ScrollView
@@ -22,6 +24,7 @@
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="215dp"
+                android:elevation="@dimen/result_page_elevation"
                 android:background="#E5E5E5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +77,7 @@
                 android:id="@+id/constraintLayout2"
                 android:layout_width="0dp"
                 android:layout_height="86dp"
+                android:elevation="@dimen/result_page_elevation"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
@@ -144,6 +148,7 @@
                 android:id="@+id/constraintLayout3"
                 android:layout_width="128dp"
                 android:layout_height="77dp"
+                android:elevation="@dimen/result_page_elevation"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="10dp"
                 android:background="#F5F5F5"
@@ -165,8 +170,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="128dp"
+                android:layout_width="135dp"
                 android:layout_height="77dp"
+                android:elevation="@dimen/result_page_elevation"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="46dp"
@@ -185,16 +191,17 @@
                     android:text="DZD"
                     android:textColor="@color/info_colors"
                     android:textSize="28sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textView14"
+                    app:layout_constraintBottom_toTopOf="@+id/currency_name"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/currency_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="10dp"
                     android:text="Algerian Dinah"
                     android:textColor="@color/info_colors"
                     android:textSize="13sp"
@@ -223,9 +230,51 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:background="#F5F5F5"
+                android:elevation="@dimen/result_page_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView15">
+
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/info_colors"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="5dp" />
+
+                <TextView
+                    android:id="@+id/country_time_zones"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="TextView"
+                    android:textSize="17sp"
+                    android:textColor="@color/info_colors"
+                    app:layout_constraintEnd_toStartOf="@+id/view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/country_time_zone_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textColor="@color/info_colors"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/view"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -245,6 +294,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="240dp"
+                android:isScrollContainer="true"
+                android:elevation="@dimen/result_page_elevation"
                 android:background="#F5F5F5"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -256,7 +307,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView16">
 
                 <TextView
-                    android:id="@+id/textView17"
+                    android:id="@+id/population_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="35dp"
@@ -268,40 +319,40 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView18"
+                    android:id="@+id/languages_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:text="Languages:"
                     android:textColor="@color/info_colors"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="@+id/textView17"
-                    app:layout_constraintTop_toBottomOf="@+id/textView17" />
+                    app:layout_constraintEnd_toEndOf="@+id/population_title"
+                    app:layout_constraintTop_toBottomOf="@+id/population_title" />
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/alt_spelling_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="Alt. Spelling:"
                     android:textColor="@color/info_colors"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="@+id/textView18"
-                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
+                    app:layout_constraintEnd_toEndOf="@+id/languages_title"
+                    app:layout_constraintTop_toBottomOf="@+id/languages_title" />
 
                 <TextView
-                    android:id="@+id/textView20"
+                    android:id="@+id/coordinate_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:text="Coordinates:"
                     android:textColor="@color/info_colors"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="@+id/textView19"
-                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                    app:layout_constraintEnd_toEndOf="@+id/alt_spelling_title"
+                    app:layout_constraintTop_toBottomOf="@+id/alt_spelling_title" />
 
                 <TextView
-                    android:id="@+id/textView21"
+                    android:id="@+id/country_population"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -309,11 +360,11 @@
                     android:text="6,000,0000"
                     android:textColor="@color/info_colors"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/textView17"
+                    app:layout_constraintStart_toEndOf="@+id/population_title"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView22"
+                    android:id="@+id/country_language"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -321,11 +372,11 @@
                     android:text="Ar"
                     android:textColor="@color/info_colors"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/textView18"
-                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                    app:layout_constraintStart_toEndOf="@+id/languages_title"
+                    app:layout_constraintTop_toBottomOf="@+id/country_population" />
 
                 <TextView
-                    android:id="@+id/textView23"
+                    android:id="@+id/country_alt_spelling"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -333,11 +384,11 @@
                     android:text="DZ, Dzayer, Algerie"
                     android:textColor="@color/info_colors"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/textView19"
-                    app:layout_constraintTop_toBottomOf="@+id/textView22" />
+                    app:layout_constraintStart_toEndOf="@+id/alt_spelling_title"
+                    app:layout_constraintTop_toBottomOf="@+id/country_language" />
 
                 <TextView
-                    android:id="@+id/textView24"
+                    android:id="@+id/country_coordinates"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -345,8 +396,8 @@
                     android:text="28.00(Lat),3.00(Long)"
                     android:textColor="@color/info_colors"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/textView20"
-                    app:layout_constraintTop_toBottomOf="@+id/textView23" />
+                    app:layout_constraintStart_toEndOf="@+id/coordinate_title"
+                    app:layout_constraintTop_toBottomOf="@+id/country_alt_spelling" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,16 @@
 package com.example.ukeje.countrypedia.fragments;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+
+import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
+import com.example.ukeje.countrypedia.web.responses.CountryResponse;
+import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
@@ -18,6 +25,8 @@ import android.widget.Toast;
 import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.databinding.FragmentSearchBinding;
+
+import java.util.List;
 
 
 /**
@@ -131,7 +140,12 @@ public class SearchFragment extends Fragment {
             }
         };
 
-        binding.continentBtn.setOnClickListener(listener);
+        binding.searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callSearchApi();
+            }
+        });
 
         binding.countrySearchBox.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -142,11 +156,36 @@ public class SearchFragment extends Fragment {
                         event.getKeyCode() == KeyEvent.KEYCODE_ENTER){
 
                     if(!event.isShiftPressed()){
-                        viewModel.setSearchedCountry(binding.countrySearchBox.getText().toString());
-                        onButtonPressed("ET");
+                       callSearchApi();
                     }
                 }
                 return false;
+            }
+        });
+    }
+
+    public void callSearchApi(){
+        viewModel.setSearchedCountry(binding.countrySearchBox.getText().toString());
+        viewModel.showProgressDialog(getActivity());
+        viewModel.loadCountryDetails(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
+            @Override
+            public void onApiSuccessful(List<CountryResponse> successResponse) {
+                viewModel.countryDetails = successResponse.get(0);
+                viewModel.cancelProgressDialog();
+                onButtonPressed("ET");
+            }
+
+            @Override
+            public void onApiFailed(@Nullable ErrorResponse errorResponse) {
+                viewModel.showAlert(errorResponse.getMessage(),getActivity());
+                viewModel.cancelProgressDialog();
+            }
+
+            @Override
+            public void onNetworkFailure() {
+                viewModel.showAlert("NETWORK FAILURE", getActivity());
+                viewModel.cancelProgressDialog();
+
             }
         });
     }

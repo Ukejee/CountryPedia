@@ -72,47 +72,63 @@ public class ResultFragment extends Fragment {
     }
 
     public void init() {
-
-        sharedFragmentViewModel.loadCountryDetails(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
-            @Override
-            public void onApiSuccessful(List<CountryResponse> successResponse) {
-                CountryResponse cr = successResponse.get(0);
-                binding.countryName.setText(cr.getName());
-                binding.capitalName.setText("It's capital is " + cr.getCapital());
-                binding.subregionName.setText(cr.getSubregion());
-                binding.regionName.setText(cr.getRegion());
-                binding.countryCode.setText(cr.getCallingCodes().get(0));
-                Toast.makeText(getContext(), successResponse.get(0).getName(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onApiFailed(@Nullable ErrorResponse errorResponse) {
-                if (errorResponse == null) {
-                    Log.e("COUNTRY PEDIA", "error is null");
-                    return;
-                }
-                Toast.makeText(getContext(), errorResponse.getMessage(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNetworkFailure() {
-                Toast.makeText(getContext(), "Network failure", Toast.LENGTH_LONG).show();
-
-            }
-        });
+        updateUI(sharedFragmentViewModel.countryDetails);
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    public void updateUI(CountryResponse cr){
+
+        binding.countryName.setText(cr.getName());
+        binding.capitalName.setText("It's capital is " + cr.getCapital());
+        binding.subregionName.setText(cr.getSubregion());
+        binding.regionName.setText(cr.getRegion());
+        binding.countryCode.setText("+" + cr.getCallingCodes().get(0));
+        binding.currencyCode.setText(cr.getCurrencies().get(0).getCode());
+        binding.currencyName.setText(cr.getCurrencies().get(0).getName());
+        binding.countryPopulation.setText(cr.getPopulation().toString());
+        binding.countryLanguage.setText(cr.getLanguages().get(0).getName());
+
+        if(cr.getLanguages().size() >= 1){
+
+            for(int i = 1; i < cr.getLanguages().size(); i++){
+                binding.countryLanguage.append(", ");
+                binding.countryLanguage.append(cr.getLanguages().get(i).getName());
+            }
+        }
+
+
+        binding.countryAltSpelling.setText(cr.getAltSpellings().get(0));
+        for(int i = 1; i < cr.getAltSpellings().size(); i++){
+            binding.countryAltSpelling.append(", ");
+            binding.countryAltSpelling.append(cr.getAltSpellings().get(i));
+            if( i > cr.getAltSpellings().size()){
+                binding.countryLanguage.append(", ");
+            }
+        }
+
+        binding.countryCoordinates.setText(cr.getLatlng().get(0).toString()+ "(Lat) "+cr.getLatlng().get(1).toString()
+                +"(Long)");
+
+        binding.countryTimeZones.setText(cr.getTimezones().get(0));
+        if(cr.getTimezones().size() > 1){
+            for(int i = 1; i < 3; i++){
+                binding.countryTimeZones.append("\n");
+                binding.countryTimeZones.append(cr.getTimezones().get(i));
+            }
+        }
+
+        if(cr.getTimezones().size() > 3){
+            for(int i = 3; i < cr.getTimezones().size(); i++){
+                binding.countryTimeZoneTwo.setText(cr.getTimezones().get(i));
+                binding.countryTimeZoneTwo.append("\n");
+            }
+        }
+
+
+
+    }
+
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(String tag);
     }

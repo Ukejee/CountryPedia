@@ -43,7 +43,7 @@ public class CountryResponse implements Serializable {
     private Integer population;
     @SerializedName("latlng")
     @Expose
-    private List<Integer> latlng = null;
+    private List<Float> latlng = null;
     @SerializedName("demonym")
     @Expose
     private String demonym;
