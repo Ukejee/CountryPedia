@@ -13,8 +13,7 @@ public interface CountryPediaApiService {
     @GET("name/{name}")
     Call<List<CountryResponse>> getCountryDetails(@Path("name") String countryName);
 
-    //fake call please delete and refactor code before next push
-    @GET("name/{continent}")
-    Call<List<CountryResponse>> getCountryList(@Path("continent") String continentName);
+    @GET("region/{region}")
+    Call<List<CountryResponse>> getCountryList(@Path("region") String regionName);
 
 }

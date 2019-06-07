@@ -19,10 +19,20 @@ import java.util.List;
 public class SharedFragmentViewModel extends ViewModel {
 
     private String searchedCountry;
+    private String regionSelected;
     public CountryResponse countryDetails;
+    public List<CountryResponse> countryList;
     private static Dialog mProgressDialog;
     private CountryRepository countryRepository = new CountryRepository();
 
+
+    public List<CountryResponse> getCountryList() {
+        return countryList;
+    }
+
+    public void setCountryList(List<CountryResponse> countryList) {
+        this.countryList = countryList;
+    }
 
     public String getSearchedCountry() {
         return searchedCountry;
@@ -32,9 +42,21 @@ public class SharedFragmentViewModel extends ViewModel {
         this.searchedCountry = searchedCountry;
     }
 
+    public String getRegionSelected() {
+        return regionSelected;
+    }
+
+    public void setRegionSelected(String regionSelected) {
+        this.regionSelected = regionSelected;
+    }
+
     public void loadCountryDetails(ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener){
         countryRepository.getCountry(getSearchedCountry(), apiResponseListener);
 
+    }
+
+    public void loadCountryList(ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener){
+        countryRepository.getCountryList(getRegionSelected(), apiResponseListener);
     }
 
     public static void showProgressDialog(final Activity activity) {

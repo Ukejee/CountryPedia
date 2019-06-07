@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#E5E5E5"
-        tools:context=".fragments.ContinentFragment">
+        tools:context=".fragments.RegionFragment">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="40dp"
-                    android:text="Continents"
+                    android:text="Regions"
                     android:textColor="#424242"
                     android:textSize="30sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -48,94 +48,135 @@
 
                 <LinearLayout
                     android:id="@+id/continent_one"
-                    android:layout_width="170dp"
+                    android:layout_width="0dp"
                     android:layout_height="170dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="20dp"
                     android:background="@color/white"
+                    android:clickable="true"
+                    android:elevation="3dp"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/continent_two"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2"></LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                    <TextView
+                        android:id="@+id/africa_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+                        android:text="Africa"
+                        android:textSize="50sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/info_colors"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/continent_two"
-                    android:layout_width="170dp"
+                    android:layout_width="0dp"
                     android:layout_height="170dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:background="#FFFFFF"
+                    android:elevation="3dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/continent_one"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2"></LinearLayout>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/continent_one">
+
+                    <TextView
+                        android:id="@+id/americas_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Americas"
+                        android:layout_marginTop="50dp"
+                        android:textSize="50sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/info_colors"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/continent_three"
-                    android:layout_width="170dp"
+                    android:layout_width="0dp"
                     android:layout_height="170dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="20dp"
                     android:background="#FFFFFF"
+                    android:elevation="3dp"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/continent_four"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/continent_one"></LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/continent_two">
+
+                    <TextView
+                        android:id="@+id/asia_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Asia"
+                        android:layout_marginTop="50dp"
+                        android:textSize="50sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/info_colors"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/continent_four"
-                    android:layout_width="170dp"
+                    android:layout_width="0dp"
                     android:layout_height="170dp"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
-                    android:background="@color/white"
+                    android:background="#FFFFFF"
+                    android:elevation="3dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/continent_three"
-                    app:layout_constraintTop_toBottomOf="@+id/continent_two" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/continent_three">
+
+                    <TextView
+                        android:id="@+id/europe_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Europe"
+                        android:layout_marginTop="50dp"
+                        android:textSize="50sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/info_colors"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/continent_five"
-                    android:layout_width="170dp"
+                    android:layout_width="0dp"
                     android:layout_height="170dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/continent_six"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/continent_three"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/continent_six"
-                    android:layout_width="170dp"
-                    android:layout_height="170dp"
-                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
-                    android:background="@color/white"
+                    android:background="#FFFFFF"
+                    android:elevation="3dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/continent_five"
-                    app:layout_constraintTop_toBottomOf="@+id/continent_four"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/continent_seven"
-                    android:layout_width="170dp"
-                    android:layout_height="170dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/continent_six"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/continent_five"></LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/continent_four">
+
+                    <TextView
+                        android:id="@+id/oceania_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Oceania"
+                        android:layout_marginTop="50dp"
+                        android:textSize="50sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/info_colors"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

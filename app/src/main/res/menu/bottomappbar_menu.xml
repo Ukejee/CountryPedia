@@ -4,5 +4,14 @@
 
  <item
      android:title="Working on it"
+     app:showAsAction="never"
      />
+ <item
+     android:id="@+id/app_bar_search"
+     android:title="Search"
+     app:showAsAction="never"/>
+ <item
+     android:id="@+id/app_bar_settings"
+     android:title="Settings"
+     app:showAsAction="never"/>
 </menu>

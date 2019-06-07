@@ -3,11 +3,15 @@ package com.example.ukeje.countrypedia.fragments;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
+
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.example.ukeje.countrypedia.MainActivity;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
@@ -16,6 +20,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -29,19 +35,14 @@ import com.example.ukeje.countrypedia.databinding.FragmentSearchBinding;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SearchFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SearchFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    public BottomNavigationDrawerFragment navMenu;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -59,14 +60,7 @@ public class SearchFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance(String param1, String param2) {
         SearchFragment fragment = new SearchFragment();
@@ -84,6 +78,7 @@ public class SearchFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
@@ -97,8 +92,12 @@ public class SearchFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this.getActivity()).get(SharedFragmentViewModel.class);
         initView();
+        //setUpBottomAppBar();
         return  v;
     }
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(String tag) {
@@ -139,11 +138,23 @@ public class SearchFragment extends Fragment {
                 onButtonPressed("FAB");
             }
         };
+        navMenu = new BottomNavigationDrawerFragment();
+
+        binding.bottomAppBar.replaceMenu(R.menu.bottomappbar_menu);
 
         binding.searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callSearchApi();
+//                callSearchApi();
+                onButtonPressed("FAB");
+            }
+        });
+
+        binding.bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navMenu.show(getFragmentManager().beginTransaction(),"TAG");
+                //navMenu.onOptionsItemSelected((MenuItem) v.findViewById(R.id.nav1));
             }
         });
 
@@ -189,4 +200,11 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
+    public void setUpBottomAppBar(){
+
+        ((MainActivity)getActivity()).setSupportActionBar(binding.bottomAppBar);
+        binding.bottomAppBar.inflateMenu(R.menu.bottomappbar_menu);
+    }
+
 }

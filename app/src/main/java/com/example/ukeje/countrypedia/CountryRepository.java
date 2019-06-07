@@ -27,15 +27,16 @@ public class CountryRepository {
         }.makeApiCall(apiResponseListener);
     }
 
-    void getCountryList(final String continent, ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener){
+    void getCountryList(final String regionName, final ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener){
 
         new ApiCallHelper<List<CountryResponse>, ErrorResponse, CountryPediaApiService>
-                (BASE_URL, ErrorResponse.class, CountryPediaApiService.class){
+                (CountryRepository.BASE_URL, ErrorResponse.class, CountryPediaApiService.class){
 
             @Override
             public Call<List<CountryResponse>> createApiServiceCall(CountryPediaApiService apiService){
-                return apiService.getCountryList(continent);
+                return apiService.getCountryList(regionName);
             }
         }.makeApiCall(apiResponseListener);
     }
+
 }
