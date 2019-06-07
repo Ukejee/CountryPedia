@@ -14,7 +14,8 @@ import com.example.ukeje.countrypedia.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements RegionFragment.OnFragmentInteractionListener,
                                                                 SearchFragment.OnFragmentInteractionListener,
-                                                                ResultFragment.OnFragmentInteractionListener{
+                                                                ResultFragment.OnFragmentInteractionListener,
+                                                                CountryListFragment.OnFragmentInteractionListener{
 
     BottomAppBar bottomAppBar;
     FloatingActionButton continentBtn;

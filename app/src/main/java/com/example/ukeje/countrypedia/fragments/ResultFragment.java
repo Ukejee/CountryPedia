@@ -109,9 +109,10 @@ public class ResultFragment extends Fragment {
         binding.countryCoordinates.setText(cr.getLatlng().get(0).toString()+ "(Lat) "+cr.getLatlng().get(1).toString()
                 +"(Long)");
 
+        //THERE'S A BUG HERE; USE SWITCH STATEMENTS TO FIX
         binding.countryTimeZones.setText(cr.getTimezones().get(0));
         if(cr.getTimezones().size() > 1){
-            for(int i = 1; i < 3; i++){
+            for(int i = 1; i  < 3; i++){
                 binding.countryTimeZones.append("\n");
                 binding.countryTimeZones.append(cr.getTimezones().get(i));
             }

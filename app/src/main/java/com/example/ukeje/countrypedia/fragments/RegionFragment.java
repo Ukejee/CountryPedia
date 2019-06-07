@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,7 @@ import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class RegionFragment extends Fragment {
@@ -53,7 +57,10 @@ public class RegionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentRegionBinding.inflate(getLayoutInflater(), container, false);
+        viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SharedFragmentViewModel.class);
+        init();
         v = binding.getRoot();
+        init();
 
         return v;
     }
@@ -82,19 +89,48 @@ public class RegionFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(String tag);
+    }
+
+    public void init(){
+
+        binding.africaTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRegion(binding.continentOne);
+            }
+        });
+
+        binding.americasTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRegion(binding.continentTwo);
+            }
+        });
+
+        binding.asiaTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRegion(binding.continentThree);
+            }
+        });
+
+        binding.europeTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRegion(binding.continentFour);
+            }
+        });
+
+        binding.oceaniaTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRegion(binding.continentFive);
+            }
+        });
     }
 
     public void onClickRegion(View view){
@@ -109,6 +145,9 @@ public class RegionFragment extends Fragment {
         }
         else if(view.getId() == R.id.europe_title || view.getId() == R.id.continent_four){
             callSearchApi("europe");
+        }
+        else if(view.getId() == R.id.oceania_title || view.getId() == R.id.continent_five){
+            callSearchApi("oceania");
         }
     }
 
