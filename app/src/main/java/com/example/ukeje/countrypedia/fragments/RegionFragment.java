@@ -97,35 +97,35 @@ public class RegionFragment extends Fragment {
 
     public void init(){
 
-        binding.africaTitle.setOnClickListener(new View.OnClickListener() {
+        binding.continentOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickRegion(binding.continentOne);
             }
         });
 
-        binding.americasTitle.setOnClickListener(new View.OnClickListener() {
+        binding.continentTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickRegion(binding.continentTwo);
             }
         });
 
-        binding.asiaTitle.setOnClickListener(new View.OnClickListener() {
+        binding.continentThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickRegion(binding.continentThree);
             }
         });
 
-        binding.europeTitle.setOnClickListener(new View.OnClickListener() {
+        binding.continentFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickRegion(binding.continentFour);
             }
         });
 
-        binding.oceaniaTitle.setOnClickListener(new View.OnClickListener() {
+        binding.continentFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickRegion(binding.continentFive);
