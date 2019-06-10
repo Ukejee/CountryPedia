@@ -49,7 +49,7 @@ public class CountryResponse implements Serializable {
     private String demonym;
     @SerializedName("area")
     @Expose
-    private Integer area;
+    private Float area;
     @SerializedName("gini")
     @Expose
     private Object gini;
