@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,7 +27,6 @@ import java.util.List;
 public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.MyHolder>{
 
     List<CountryResponse> list;
-  //  ImageLoader imageLoader;
     View.OnClickListener listener;
     View view;
     Context mContext;
@@ -36,7 +34,6 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
 
     public CountryListAdapter(List<CountryResponse> list, View.OnClickListener listener, Context mContext) {
         this.list = list;
-      //  this.imageLoader=imageLoader;
         this.listener = listener;
         this.mContext = mContext;
     }
@@ -56,16 +53,10 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
         holder.name.setText(country.getName());
         holder.capital.setText(country.getCapital());
         String image1 = country.getFlag();
-        //imageLoader.displayImage(image1, holder.image);
-        Context context = holder.image.getContext();
-        //holder.image.setImageResource(R.drawable.globe_icon);
-        Picasso.with(context).load(image1).into(holder.image);
         holder.itemView.setOnClickListener(listener);
-        //holder.image.setImageDrawable(Drawable.createFromPath("res/drawable/globe_icon.xml"));
 
         Activity activity = (Activity) mContext;
-        GlideToVectorYou.justLoadImage(activity, Uri.parse(country.getFlag()),holder.image);
-
+        GlideToVectorYou.justLoadImage(activity, Uri.parse(image1),holder.image);
     }
 
     @Override
@@ -83,7 +74,6 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
             image = itemView.findViewById(R.id.country_list_flag);
             name = itemView.findViewById(R.id.country_list_name);
             capital = itemView.findViewById(R.id.country_list_capital);
-
         }
 
     }

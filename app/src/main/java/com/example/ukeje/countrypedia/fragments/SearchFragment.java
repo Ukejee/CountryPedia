@@ -9,9 +9,13 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.example.ukeje.countrypedia.CountryRepository;
 import com.example.ukeje.countrypedia.MainActivity;
+import com.example.ukeje.countrypedia.database.Country;
+import com.example.ukeje.countrypedia.utils.AppUtils;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
@@ -32,8 +36,9 @@ import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.databinding.FragmentSearchBinding;
 
+import java.lang.reflect.Array;
 import java.util.List;
-
+import java.util.Random;
 
 
 public class SearchFragment extends Fragment {
@@ -41,6 +46,12 @@ public class SearchFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    public  Country randomCountry;
+    public List<Country> dbCountries;
+
+    Random random = new Random();
+    int ranNum = random.nextInt(246) + 1;
 
     public BottomNavigationDrawerFragment navMenu;
 
@@ -52,6 +63,7 @@ public class SearchFragment extends Fragment {
 
     public View v;
     FragmentSearchBinding binding;
+    public CountryRepository countryRepository;
 
     //ViewModel for fragment
     private SharedFragmentViewModel viewModel;
@@ -132,6 +144,7 @@ public class SearchFragment extends Fragment {
 
     public void initView(){
 
+        countryRepository = new CountryRepository(getActivity().getApplicationContext());
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,6 +186,25 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
+
+        binding.knowMoreField.setClickable(true);
+        binding.knowMoreField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callSearchApi(binding.countryTitle.getText().toString());
+            }
+        });
+
+        populateDatabase();
+        generateRandomCountry(ranNum);
+
+
+
+
+
+
+
+
     }
 
     public void callSearchApi(){
@@ -201,10 +233,118 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    public void callSearchApi(String randomCountryName){
+        viewModel.setSearchedCountry(randomCountryName);
+        viewModel.showProgressDialog(getActivity());
+        viewModel.loadCountryDetails(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
+            @Override
+            public void onApiSuccessful(List<CountryResponse> successResponse) {
+                viewModel.countryDetails = successResponse.get(0);
+                viewModel.cancelProgressDialog();
+                onButtonPressed("ET");
+            }
+
+            @Override
+            public void onApiFailed(@Nullable ErrorResponse errorResponse) {
+                viewModel.showAlert(errorResponse.getMessage(),getActivity());
+                viewModel.cancelProgressDialog();
+            }
+
+            @Override
+            public void onNetworkFailure() {
+                viewModel.showAlert("NETWORK FAILURE", getActivity());
+                viewModel.cancelProgressDialog();
+
+            }
+        });
+    }
+
     public void setUpBottomAppBar(){
 
         ((MainActivity)getActivity()).setSupportActionBar(binding.bottomAppBar);
         binding.bottomAppBar.inflateMenu(R.menu.bottomappbar_menu);
+    }
+
+    public void populateDatabase(){
+
+        String test = "test";
+        AsyncTask<String, Void, List<Country>> task = new AsyncTask<String, Void, List<Country>>(){
+
+            @Override
+            protected List<Country> doInBackground(String...params){
+                return countryRepository.getCountrys();
+            }
+
+            @Override
+            protected void onPostExecute(List<Country> countryList){
+                dbCountries = countryList;
+                if(dbCountries.size() == 0){
+                    String []countries = {"africa","asia","europe","americas","oceania"};
+                    for(int i = 0; i < countries.length; i++){
+                        viewModel.setRegionSelected(countries[i]);
+                        viewModel.loadCountryList(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
+                            @Override
+                            public void onApiSuccessful(List<CountryResponse> successResponse) {
+
+                                AppUtils.showMessage(getActivity().getApplicationContext(),"DATABASE " +
+                                        "UPLOAD HAS BEGUN");
+                                for(int i = 0; i < successResponse.size(); i++){
+                                    countryRepository.insertCountry(successResponse.get(i).getName(),successResponse.get(i).getCapital());
+                                }
+
+                                AppUtils.showMessage(getActivity().getApplicationContext(),"DATABASE" +
+                                        "UPLOAD HAS ENDED");
+                            }
+
+                            @Override
+                            public void onApiFailed(@Nullable ErrorResponse errorResponse) {
+
+                                AppUtils.showMessage(getActivity().getApplicationContext(), "DATABASE" +
+                                        "UPLOAD FALIED " + errorResponse.getMessage());
+                            }
+
+                            @Override
+                            public void onNetworkFailure() {
+
+                                AppUtils.showMessage(getActivity().getApplicationContext(), "DATABASE" +
+                                        "UPLOAD FAILED" + "NETWORK ERROR");
+
+                            }
+                        });
+
+                    }
+
+                }
+            }
+        };
+
+        task.execute(test);
+    }
+
+    public void generateRandomCountry(final int randomNo){
+
+            AsyncTask<Integer, Void, Country> task = new AsyncTask<Integer, Void, Country>() {
+                @Override
+                protected Country doInBackground(Integer... ints) {
+
+                    Country country = countryRepository.getCountry(randomNo);
+                    return country;
+                }
+
+                @Override
+                protected void onPostExecute(Country country) {
+                    randomCountry = country;
+                    if(randomCountry != null){
+                        binding.countryTitle.setText(randomCountry.getName());
+                        binding.capitalName.setText(randomCountry.getCapital());
+                        binding.knowMoreField.setText("Know more about " + randomCountry.getName());
+                    }
+
+
+                }
+            };
+
+            task.execute(1);
     }
 
 }

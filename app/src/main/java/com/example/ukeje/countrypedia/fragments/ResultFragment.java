@@ -111,16 +111,21 @@ public class ResultFragment extends Fragment {
 
         //THERE'S A BUG HERE; USE SWITCH STATEMENTS TO FIX
         binding.countryTimeZones.setText(cr.getTimezones().get(0));
-        if(cr.getTimezones().size() > 1){
-            for(int i = 1; i  < 3; i++){
+
+        if(cr.getTimezones().size() <= 6){
+            for(int i = 1; i < cr.getTimezones().size(); i++){
                 binding.countryTimeZones.append("\n");
                 binding.countryTimeZones.append(cr.getTimezones().get(i));
             }
         }
 
-        if(cr.getTimezones().size() > 3){
-            for(int i = 3; i < cr.getTimezones().size(); i++){
-                binding.countryTimeZoneTwo.setText(cr.getTimezones().get(i));
+        if(cr.getTimezones().size() > 6){
+            for(int i = 1; i < 6; i++){
+                binding.countryTimeZones.append("\n");
+                binding.countryTimeZones.append(cr.getTimezones().get(i));
+            }
+            for(int i = 6; i < cr.getTimezones().size(); i++){
+                binding.countryTimeZoneTwo.append(cr.getTimezones().get(i));
                 binding.countryTimeZoneTwo.append("\n");
             }
         }

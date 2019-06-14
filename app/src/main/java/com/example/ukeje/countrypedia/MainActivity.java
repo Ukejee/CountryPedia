@@ -1,8 +1,14 @@
 package com.example.ukeje.countrypedia;
 
 import com.example.ukeje.countrypedia.fragments.CountryListFragment;
+import com.example.ukeje.countrypedia.utils.AppUtils;
+import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
+import com.example.ukeje.countrypedia.web.responses.CountryResponse;
+import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +17,8 @@ import android.os.Bundle;
 import com.example.ukeje.countrypedia.fragments.RegionFragment;
 import com.example.ukeje.countrypedia.fragments.ResultFragment;
 import com.example.ukeje.countrypedia.fragments.SearchFragment;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RegionFragment.OnFragmentInteractionListener,
                                                                 SearchFragment.OnFragmentInteractionListener,
