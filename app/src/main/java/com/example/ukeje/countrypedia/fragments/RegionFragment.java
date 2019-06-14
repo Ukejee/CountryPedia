@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
@@ -131,6 +130,8 @@ public class RegionFragment extends Fragment {
                 onClickRegion(binding.continentFive);
             }
         });
+
+
     }
 
     public void onClickRegion(View view){

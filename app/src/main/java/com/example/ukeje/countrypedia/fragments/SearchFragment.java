@@ -1,14 +1,10 @@
 package com.example.ukeje.countrypedia.fragments;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -19,24 +15,21 @@ import com.example.ukeje.countrypedia.utils.AppUtils;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.fragment.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
 
 import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.databinding.FragmentSearchBinding;
+import com.google.android.material.navigation.NavigationView;
 
-import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Random;
 
@@ -151,7 +144,24 @@ public class SearchFragment extends Fragment {
                 onButtonPressed("FAB");
             }
         };
-        navMenu = new BottomNavigationDrawerFragment();
+        navMenu = new BottomNavigationDrawerFragment(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.region_menu:
+                        onButtonPressed("FAB");
+                        return true;
+
+                    case R.id.nav2:
+                        AppUtils.showMessage(getActivity().getApplicationContext(),"Click on nav 2");
+                        return true;
+
+                    case R.id.nav3:
+                        AppUtils.showMessage(getActivity().getApplicationContext(),"Clicked on nav 3");
+                }
+                return true;
+            }
+        });
 
         binding.bottomAppBar.replaceMenu(R.menu.bottomappbar_menu);
 
