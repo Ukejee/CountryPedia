@@ -211,13 +211,6 @@ public class SearchFragment extends Fragment {
         populateDatabase();
         generateRandomCountry(ranNum);
 
-
-
-
-
-
-
-
     }
 
     public void callSearchApi(){
@@ -308,15 +301,9 @@ public class SearchFragment extends Fragment {
                         viewModel.loadCountryList(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
                             @Override
                             public void onApiSuccessful(List<CountryResponse> successResponse) {
-
-                                AppUtils.showMessage(getActivity().getApplicationContext(),"DATABASE " +
-                                        "UPLOAD HAS BEGUN");
                                 for(int i = 0; i < successResponse.size(); i++){
                                     countryRepository.insertCountry(successResponse.get(i).getName(),successResponse.get(i).getCapital());
                                 }
-
-                                AppUtils.showMessage(getActivity().getApplicationContext(),"DATABASE" +
-                                        "UPLOAD HAS ENDED");
                             }
 
                             @Override
@@ -331,6 +318,8 @@ public class SearchFragment extends Fragment {
 
                                 AppUtils.showMessage(getActivity().getApplicationContext(), "DATABASE" +
                                         "UPLOAD FAILED" + "NETWORK ERROR");
+                                AppUtils.showMessage(getActivity(), "Please check netork connectivity" +
+                                        "and restart app");
 
                             }
                         });

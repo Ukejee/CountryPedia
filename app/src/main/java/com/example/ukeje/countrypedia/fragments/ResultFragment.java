@@ -38,6 +38,7 @@ public class ResultFragment extends Fragment {
     private CountryRepository countryRepository;
     public int countryDbId;
     private Country favoriteCountry;
+    public boolean isFavorite = false;
 
     public ResultFragment() {
         // Required empty public constructor
@@ -97,23 +98,40 @@ public class ResultFragment extends Fragment {
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onButtonPressed("home");
+
+                if(sharedFragmentViewModel.getRegionSelected() != null){
+                    onButtonPressed("back");
+                }
+                else {
+                        onButtonPressed("home");
+                }
+
             }
         });
 
         binding.favoriteBtn.setClickable(true);
-        binding.favoriteBtn.setTag(R.drawable.favorite_border);
+        if(!isFavorite){
+            binding.favoriteBtn.setTag(R.drawable.favorite_border);
+            binding.favoriteBtn.setImageResource(R.drawable.favorite_border);
+        }
+        else{
+            binding.favoriteBtn.setImageResource(R.drawable.favorite_two);
+            binding.favoriteBtn.setTag(R.drawable.favorite_two);
+        }
+
         binding.favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_border){
                     binding.favoriteBtn.setImageResource(R.drawable.favorite_two);
                     binding.favoriteBtn.setTag(R.drawable.favorite_two);
+                    isFavorite = true;
                     setCountryId();
                 }
                 else {
                     binding.favoriteBtn.setImageResource(R.drawable.favorite_border);
                     binding.favoriteBtn.setTag(R.drawable.favorite_border);
+                    isFavorite = false;
                     setCountryId();
                 }
 

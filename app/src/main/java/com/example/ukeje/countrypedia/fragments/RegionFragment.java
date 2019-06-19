@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
+import com.example.ukeje.countrypedia.adapters.RegionListAdapter;
 import com.example.ukeje.countrypedia.databinding.FragmentRegionBinding;
 import com.example.ukeje.countrypedia.utils.AppUtils;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
@@ -22,6 +24,7 @@ import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,11 +33,23 @@ public class RegionFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+
     View v;
     SharedFragmentViewModel viewModel;
     FragmentRegionBinding binding;
 
     BottomNavigationDrawerFragment navMenu;
+
+    LinearLayoutManager linearLayoutManager;
+    RegionListAdapter regionListAdapter;
+    ArrayList<String> regionList = new ArrayList<>();
+
+    View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onClickRegion(v);
+        }
+    };
 
     public RegionFragment() {
         // Required empty public constructor
@@ -63,7 +78,6 @@ public class RegionFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentRegionBinding.inflate(getLayoutInflater(), container, false);
         viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SharedFragmentViewModel.class);
-        init();
         v = binding.getRoot();
         init();
 
@@ -102,40 +116,17 @@ public class RegionFragment extends Fragment {
 
     public void init(){
 
-        binding.continentOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickRegion(binding.continentOne);
-            }
-        });
+        regionList.add("Africa");
+        regionList.add("Americas");
+        regionList.add("Asia");
+        regionList.add("Europe");
+        regionList.add("Oceania");
 
-        binding.continentTwo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickRegion(binding.continentTwo);
-            }
-        });
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        regionListAdapter = new RegionListAdapter(getActivity(), regionList, listener);
+        binding.regionList.setLayoutManager(linearLayoutManager);
+        binding.regionList.setAdapter(new RegionListAdapter(getActivity(),regionList,listener));
 
-        binding.continentThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickRegion(binding.continentThree);
-            }
-        });
-
-        binding.continentFour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickRegion(binding.continentFour);
-            }
-        });
-
-        binding.continentFive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickRegion(binding.continentFive);
-            }
-        });
 
         navMenu = new BottomNavigationDrawerFragment(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -151,7 +142,7 @@ public class RegionFragment extends Fragment {
                         return true;
 
                     case R.id.favorite_menu_item:
-                        AppUtils.showMessage(getActivity().getApplicationContext(),"Clicked on nav 3");
+                        onButtonPressed("favorite");
                         navMenu.dismiss();
                         return true;
                 }
@@ -170,21 +161,8 @@ public class RegionFragment extends Fragment {
     }
 
     public void onClickRegion(View view){
-        if(view.getId() == R.id.africa_title || view.getId() ==R.id.continent_one){
-            callSearchApi("africa");
-        }
-        else if(view.getId() == R.id.americas_title || view.getId() == R.id.continent_two){
-            callSearchApi("americas");
-        }
-        else if(view.getId() == R.id.asia_title || view.getId() == R.id.continent_three){
-            callSearchApi("asia");
-        }
-        else if(view.getId() == R.id.europe_title || view.getId() == R.id.continent_four){
-            callSearchApi("europe");
-        }
-        else if(view.getId() == R.id.oceania_title || view.getId() == R.id.continent_five){
-            callSearchApi("oceania");
-        }
+        callSearchApi(regionList.get(binding.regionList.getChildLayoutPosition(view)).toLowerCase());
+        viewModel.setRegionSelected(regionList.get(binding.regionList.getChildLayoutPosition(view)));
     }
 
     public void callSearchApi(String region){

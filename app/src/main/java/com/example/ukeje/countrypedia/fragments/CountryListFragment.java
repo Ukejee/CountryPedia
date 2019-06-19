@@ -17,14 +17,13 @@ import android.view.ViewGroup;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.adapters.CountryListAdapter;
 import com.example.ukeje.countrypedia.databinding.FragmentCountryListBinding;
-
+import com.example.ukeje.countrypedia.utils.AppUtils;
 
 
 public class CountryListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private RecyclerView recyclerView;
     public CountryListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -93,6 +92,7 @@ public class CountryListFragment extends Fragment {
 
     public void init(){
 
+        binding.regionTitle.setText(viewModel.getRegionSelected());
         layoutManager = new LinearLayoutManager(getActivity());
         binding.countryList.setLayoutManager(layoutManager);
 

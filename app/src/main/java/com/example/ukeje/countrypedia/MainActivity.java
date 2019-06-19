@@ -90,5 +90,15 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
+       if(tag.equalsIgnoreCase("back")){
+           fragmentTransaction = fragmentManager.beginTransaction();
+           fragmentTransaction.replace(R.id.your_placeholder,countryListFragment);
+           fragmentTransaction.commit();
+       }
+       if(tag.equalsIgnoreCase("backToFavorite")){
+           fragmentTransaction = fragmentManager.beginTransaction();
+           fragmentTransaction.replace(R.id.your_placeholder, favoriteFragment);
+           fragmentTransaction.commit();
+       }
     }
 }
