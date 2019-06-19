@@ -3,15 +3,17 @@
 
     <group android:checkableBehavior="none">
         <item
-            android:id="@+id/region_menu"
+            android:id="@+id/home_menu_item"
+            android:icon="@drawable/home_icon"
+            android:title="Home" />
+        <item
+            android:id="@+id/region_menu_item"
             android:icon="@drawable/globe_icon"
             android:title="Region" />
         <item
-            android:id="@+id/nav2"
-            android:title="Navigation item2" />
-        <item
-            android:id="@+id/nav3"
-            android:title="Navigation item3" />
+            android:id="@+id/favorite_menu_item"
+            android:icon="@drawable/favorite_icon"
+            android:title="Favorites" />
     </group>
 
 </menu>

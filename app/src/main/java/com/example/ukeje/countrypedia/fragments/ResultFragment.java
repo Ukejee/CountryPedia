@@ -1,9 +1,13 @@
 package com.example.ukeje.countrypedia.fragments;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -13,8 +17,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.ukeje.countrypedia.CountryRepository;
+import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
+import com.example.ukeje.countrypedia.database.Country;
 import com.example.ukeje.countrypedia.databinding.FragmentResultBinding;
+import com.example.ukeje.countrypedia.utils.AppUtils;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
@@ -27,9 +35,18 @@ public class ResultFragment extends Fragment {
     private FragmentResultBinding binding;
     private SharedFragmentViewModel sharedFragmentViewModel;
     private OnFragmentInteractionListener mListener;
+    private CountryRepository countryRepository;
+    public int countryDbId;
+    private Country favoriteCountry;
 
     public ResultFragment() {
         // Required empty public constructor
+    }
+
+    public void onButtonPressed(String tag) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(tag);
+        }
     }
 
 
@@ -74,6 +91,35 @@ public class ResultFragment extends Fragment {
     public void init() {
         updateUI(sharedFragmentViewModel.countryDetails);
 
+        countryRepository = new CountryRepository(getActivity());
+
+        binding.backBtn.setClickable(true);
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButtonPressed("home");
+            }
+        });
+
+        binding.favoriteBtn.setClickable(true);
+        binding.favoriteBtn.setTag(R.drawable.favorite_border);
+        binding.favoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_border){
+                    binding.favoriteBtn.setImageResource(R.drawable.favorite_two);
+                    binding.favoriteBtn.setTag(R.drawable.favorite_two);
+                    setCountryId();
+                }
+                else {
+                    binding.favoriteBtn.setImageResource(R.drawable.favorite_border);
+                    binding.favoriteBtn.setTag(R.drawable.favorite_border);
+                    setCountryId();
+                }
+
+            }
+        });
+
     }
 
     public void updateUI(CountryResponse cr){
@@ -106,8 +152,10 @@ public class ResultFragment extends Fragment {
             }
         }
 
-        binding.countryCoordinates.setText(cr.getLatlng().get(0).toString()+ "(Lat) "+cr.getLatlng().get(1).toString()
-                +"(Long)");
+        if(cr.getLatlng().size() >= 2) {
+            binding.countryCoordinates.setText(cr.getLatlng().get(0).toString() + "(Lat) " + cr.getLatlng().get(1).toString()
+                    + "(Long)");
+        }
 
         //THERE'S A BUG HERE; USE SWITCH STATEMENTS TO FIX
         binding.countryTimeZones.setText(cr.getTimezones().get(0));
@@ -134,8 +182,78 @@ public class ResultFragment extends Fragment {
 
     }
 
+    //THIS METHOD UPDATES THE VALUE OF THE FAVORITE COLUMN IN THE DATABASE
+    public void setFavoriteCountry(){
+        new AsyncTask<Void, Void, Country>() {
+            @Override
+            protected Country doInBackground(Void...voids) {
+                return countryRepository.getCountry(countryDbId);
+            }
+
+            @Override
+            protected void onPostExecute(Country country) {
+                favoriteCountry = country;
+
+                if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_two){
+                    favoriteCountry.setFavorite(true);
+                    countryRepository.updateCountry(favoriteCountry);
+                    AppUtils.showMessage(getActivity(),"Country Added to favorite");
+                }
+                if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_border){
+                    favoriteCountry.setFavorite(false);
+                    countryRepository.updateCountry(favoriteCountry);
+                    AppUtils.showMessage(getActivity(),"Country Has Been Removed From Favorites");
+
+                }
+
+            }
+        }.execute();
+
+
+    }
+
+//    public void deleteAsFavorites(){
+//
+//        new AsyncTask<Void, Void, Country>() {
+//            @Override
+//            protected Country doInBackground(Void...voids) {
+//                return countryRepository.getCountry(countryDbId);
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Country country) {
+//                favoriteCountry = country;
+//                favoriteCountry.setFavorite(false);
+//                countryRepository.updateCountry(favoriteCountry);
+//                AppUtils.showMessage(getActivity(),"Country Has Been Removed From Favorites");
+//            }
+//        }.execute();
+//    }
+
+
+
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(String tag);
+    }
+
+    public  void setCountryId(){
+
+        AsyncTask<Void, Void, Integer> task = new AsyncTask<Void, Void, Integer>() {
+
+            @Override
+            protected Integer doInBackground(Void...voids) {
+                return countryRepository.getCountryId(binding.countryName.getText().toString());
+            }
+
+            @Override
+            protected void onPostExecute(Integer countryId) {
+                countryDbId = countryId.intValue();
+                setFavoriteCountry();
+            }
+
+        };
+
+        task.execute();
     }
 }

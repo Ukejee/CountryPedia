@@ -148,16 +148,19 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
-                    case R.id.region_menu:
+                    case R.id.region_menu_item:
                         onButtonPressed("FAB");
+                        navMenu.dismiss();
                         return true;
 
-                    case R.id.nav2:
-                        AppUtils.showMessage(getActivity().getApplicationContext(),"Click on nav 2");
+                    case R.id.home_menu_item:
+                        navMenu.dismiss();
                         return true;
 
-                    case R.id.nav3:
-                        AppUtils.showMessage(getActivity().getApplicationContext(),"Clicked on nav 3");
+                    case R.id.favorite_menu_item:
+                        onButtonPressed("favorite");
+                        navMenu.dismiss();
+                        return true;
                 }
                 return true;
             }
@@ -168,8 +171,8 @@ public class SearchFragment extends Fragment {
         binding.searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                callSearchApi();
-                onButtonPressed("FAB");
+                callSearchApi();
+
             }
         });
 
@@ -223,14 +226,24 @@ public class SearchFragment extends Fragment {
         viewModel.loadCountryDetails(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
             @Override
             public void onApiSuccessful(List<CountryResponse> successResponse) {
-                viewModel.countryDetails = successResponse.get(0);
+                if(successResponse.size() > 1){
+                    viewModel.countryDetails = successResponse.get(1);
+                }
+                else {
+                    viewModel.countryDetails = successResponse.get(0);
+                }
                 viewModel.cancelProgressDialog();
                 onButtonPressed("ET");
             }
 
             @Override
             public void onApiFailed(@Nullable ErrorResponse errorResponse) {
-                viewModel.showAlert(errorResponse.getMessage(),getActivity());
+                if(errorResponse != null) {
+                    viewModel.showAlert(errorResponse.getMessage(), getActivity());
+                }
+                else{
+                    viewModel.showAlert("Not Found", getActivity());
+                }
                 viewModel.cancelProgressDialog();
             }
 
@@ -282,7 +295,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             protected List<Country> doInBackground(String...params){
-                return countryRepository.getCountrys();
+                return countryRepository.getCountries();
             }
 
             @Override

@@ -75,6 +75,7 @@ public class CountryRepository {
                 countryDatabase.daoAccess().updateCountry(country);
                 return null;
             }
+
         }.execute();
     }
 
@@ -105,13 +106,23 @@ public class CountryRepository {
         }.execute();
     }
 
+    public static int getCountryId(final String countryName) {
+        return countryDatabase.daoAccess().getCountryId(countryName);
+    }
+
+
     public static Country getCountry(int id) {
         return countryDatabase.daoAccess().getCountry(id);
     }
 
-    public static List<Country> getCountrys() {
+    public static List<Country> getCountries() {
 
         return countryDatabase.daoAccess().fectchAllCountries();
+    }
+
+    public static List<Country> getFavoriteCountries(boolean isFavorite){
+
+        return countryDatabase.daoAccess().getFavoriteCountries(isFavorite);
     }
 
 

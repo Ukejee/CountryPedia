@@ -3,20 +3,24 @@ package com.example.ukeje.countrypedia.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.databinding.FragmentRegionBinding;
+import com.example.ukeje.countrypedia.utils.AppUtils;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +33,8 @@ public class RegionFragment extends Fragment {
     View v;
     SharedFragmentViewModel viewModel;
     FragmentRegionBinding binding;
+
+    BottomNavigationDrawerFragment navMenu;
 
     public RegionFragment() {
         // Required empty public constructor
@@ -128,6 +134,35 @@ public class RegionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 onClickRegion(binding.continentFive);
+            }
+        });
+
+        navMenu = new BottomNavigationDrawerFragment(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.region_menu_item:
+                        navMenu.dismiss();
+                        return true;
+
+                    case R.id.home_menu_item:
+                        onButtonPressed("home");
+                        navMenu.dismiss();
+                        return true;
+
+                    case R.id.favorite_menu_item:
+                        AppUtils.showMessage(getActivity().getApplicationContext(),"Clicked on nav 3");
+                        navMenu.dismiss();
+                        return true;
+                }
+                return true;
+            }
+        });
+
+        binding.bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navMenu.show(getFragmentManager().beginTransaction(),"TAG");
             }
         });
 
