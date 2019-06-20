@@ -98,19 +98,12 @@ public class ResultFragment extends Fragment {
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(sharedFragmentViewModel.getRegionSelected() != null){
                     onButtonPressed("back");
-                }
-                else {
-                        onButtonPressed("home");
-                }
-
             }
         });
 
         binding.favoriteBtn.setClickable(true);
-        if(!isFavorite){
+        if(!sharedFragmentViewModel.getFavoriteCountries().contains(binding.countryName.getText())){
             binding.favoriteBtn.setTag(R.drawable.favorite_border);
             binding.favoriteBtn.setImageResource(R.drawable.favorite_border);
         }
@@ -125,13 +118,13 @@ public class ResultFragment extends Fragment {
                 if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_border){
                     binding.favoriteBtn.setImageResource(R.drawable.favorite_two);
                     binding.favoriteBtn.setTag(R.drawable.favorite_two);
-                    isFavorite = true;
+                    sharedFragmentViewModel.favoriteCountries.add(binding.countryName.getText().toString());
                     setCountryId();
                 }
                 else {
                     binding.favoriteBtn.setImageResource(R.drawable.favorite_border);
                     binding.favoriteBtn.setTag(R.drawable.favorite_border);
-                    isFavorite = false;
+                    sharedFragmentViewModel.favoriteCountries.remove(binding.countryName.getText().toString());
                     setCountryId();
                 }
 
@@ -140,6 +133,7 @@ public class ResultFragment extends Fragment {
 
     }
 
+    //DISPLAY THE RESULTS FROM THE API TO THE UI
     public void updateUI(CountryResponse cr){
 
         binding.countryName.setText(cr.getName());
@@ -229,26 +223,6 @@ public class ResultFragment extends Fragment {
 
 
     }
-
-//    public void deleteAsFavorites(){
-//
-//        new AsyncTask<Void, Void, Country>() {
-//            @Override
-//            protected Country doInBackground(Void...voids) {
-//                return countryRepository.getCountry(countryDbId);
-//            }
-//
-//            @Override
-//            protected void onPostExecute(Country country) {
-//                favoriteCountry = country;
-//                favoriteCountry.setFavorite(false);
-//                countryRepository.updateCountry(favoriteCountry);
-//                AppUtils.showMessage(getActivity(),"Country Has Been Removed From Favorites");
-//            }
-//        }.execute();
-//    }
-
-
 
 
     public interface OnFragmentInteractionListener {

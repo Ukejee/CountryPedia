@@ -14,6 +14,7 @@ import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SharedFragmentViewModel extends ViewModel {
@@ -24,6 +25,9 @@ public class SharedFragmentViewModel extends ViewModel {
     public List<CountryResponse> countryList;
     private static Dialog mProgressDialog;
     private CountryRepository countryRepository = new CountryRepository();
+    public ArrayList<String> favoriteCountries = new ArrayList<>();
+
+    public ArrayList<String> getFavoriteCountries(){ return favoriteCountries; }
 
 
     public List<CountryResponse> getCountryList() {

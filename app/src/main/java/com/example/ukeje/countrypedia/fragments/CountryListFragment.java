@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.adapters.CountryListAdapter;
 import com.example.ukeje.countrypedia.databinding.FragmentCountryListBinding;
 import com.example.ukeje.countrypedia.utils.AppUtils;
+import com.google.android.material.navigation.NavigationView;
 
 
 public class CountryListFragment extends Fragment {
@@ -26,6 +29,8 @@ public class CountryListFragment extends Fragment {
 
     public CountryListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    private BottomNavigationDrawerFragment navMenu;
 
     View v;
     FragmentCountryListBinding binding;
@@ -106,6 +111,36 @@ public class CountryListFragment extends Fragment {
         layoutManager = new LinearLayoutManager(this.getActivity());
         binding.countryList.setLayoutManager(layoutManager);
         binding.countryList.setAdapter(mAdapter);
+
+        navMenu = new BottomNavigationDrawerFragment(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.region_menu_item:
+                        onButtonPressed("FAB");
+                        navMenu.dismiss();
+                        return true;
+
+                    case R.id.home_menu_item:
+                        onButtonPressed("home");
+                        navMenu.dismiss();
+                        return true;
+
+                    case R.id.favorite_menu_item:
+                        onButtonPressed("favorite");
+                        navMenu.dismiss();
+                        return true;
+                }
+                return true;
+            }
+        });
+
+        binding.bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navMenu.show(getFragmentManager().beginTransaction(),"TAG");
+            }
+        });
     }
 
     public void onClickCountryList(View view){

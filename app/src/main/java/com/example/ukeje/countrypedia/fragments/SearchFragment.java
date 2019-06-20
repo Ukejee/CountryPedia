@@ -40,13 +40,14 @@ public class SearchFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    public  Country randomCountry;
-    public List<Country> dbCountries;
+    private  Country randomCountry;
+    private List<Country> dbCountries;
 
-    Random random = new Random();
-    int ranNum = random.nextInt(246) + 1;
+    private Random random = new Random();
+    private int ranNum = random.nextInt(246) + 1;
+    private int dbSize;
 
-    public BottomNavigationDrawerFragment navMenu;
+    private BottomNavigationDrawerFragment navMenu;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -84,7 +85,6 @@ public class SearchFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setHasOptionsMenu(true);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
@@ -97,7 +97,6 @@ public class SearchFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this.getActivity()).get(SharedFragmentViewModel.class);
         initView();
-        //setUpBottomAppBar();
         return  v;
     }
 
@@ -135,15 +134,9 @@ public class SearchFragment extends Fragment {
         void onFragmentInteraction(String tag);
     }
 
-    public void initView(){
+    private void initView(){
 
         countryRepository = new CountryRepository(getActivity().getApplicationContext());
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onButtonPressed("FAB");
-            }
-        };
         navMenu = new BottomNavigationDrawerFragment(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -168,10 +161,10 @@ public class SearchFragment extends Fragment {
 
         binding.bottomAppBar.replaceMenu(R.menu.bottomappbar_menu);
 
-        binding.searchBtn.setOnClickListener(new View.OnClickListener() {
+        binding.exploreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callSearchApi();
+                onButtonPressed("FAB");
 
             }
         });
@@ -180,7 +173,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 navMenu.show(getFragmentManager().beginTransaction(),"TAG");
-                //navMenu.onOptionsItemSelected((MenuItem) v.findViewById(R.id.nav1));
             }
         });
 
@@ -209,6 +201,10 @@ public class SearchFragment extends Fragment {
         });
 
         populateDatabase();
+
+        if(dbSize != 0){
+            ranNum = random.nextInt(dbSize-1) + 1;
+        }
         generateRandomCountry(ranNum);
 
     }
@@ -283,6 +279,7 @@ public class SearchFragment extends Fragment {
 
     public void populateDatabase(){
 
+        dbSize = 0;
         String test = "test";
         AsyncTask<String, Void, List<Country>> task = new AsyncTask<String, Void, List<Country>>(){
 
@@ -297,12 +294,14 @@ public class SearchFragment extends Fragment {
                 if(dbCountries.size() == 0){
                     String []countries = {"africa","asia","europe","americas","oceania"};
                     for(int i = 0; i < countries.length; i++){
+                        AppUtils.showMessage(getActivity(),"PLEASE WAIT APP IS SETTING UP SOME THINGS");
                         viewModel.setRegionSelected(countries[i]);
                         viewModel.loadCountryList(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
                             @Override
                             public void onApiSuccessful(List<CountryResponse> successResponse) {
                                 for(int i = 0; i < successResponse.size(); i++){
                                     countryRepository.insertCountry(successResponse.get(i).getName(),successResponse.get(i).getCapital());
+                                    dbSize = dbSize + successResponse.size();
                                 }
                             }
 

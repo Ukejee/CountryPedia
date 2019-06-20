@@ -2,14 +2,6 @@ package com.example.ukeje.countrypedia;
 
 import com.example.ukeje.countrypedia.fragments.CountryListFragment;
 import com.example.ukeje.countrypedia.fragments.FavoriteFragment;
-import com.example.ukeje.countrypedia.utils.AppUtils;
-import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
-import com.example.ukeje.countrypedia.web.responses.CountryResponse;
-import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,16 +11,13 @@ import com.example.ukeje.countrypedia.fragments.RegionFragment;
 import com.example.ukeje.countrypedia.fragments.ResultFragment;
 import com.example.ukeje.countrypedia.fragments.SearchFragment;
 
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity implements RegionFragment.OnFragmentInteractionListener,
                                                                 SearchFragment.OnFragmentInteractionListener,
                                                                 ResultFragment.OnFragmentInteractionListener,
                                                                 CountryListFragment.OnFragmentInteractionListener,
                                                                 FavoriteFragment.OnFragmentInteractionListener {
 
-    BottomAppBar bottomAppBar;
-    FloatingActionButton continentBtn;
+
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     RegionFragment regionFragment;
@@ -56,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
 
     }
 
+    //METHOD THAT CONTROLS FRAGMENT NAVIGATION IN THE APP
     public void onFragmentInteraction(String tag){
 
         if(tag.equalsIgnoreCase("FAB")){
@@ -79,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
         }
         if(tag.equalsIgnoreCase("home")){
             fragmentTransaction = fragmentManager.beginTransaction();
-            //fragmentTransaction.add(R.id.your_placeholder, searchFragment);
-           // fragmentTransaction.addToBackStack(null);
             fragmentTransaction.replace(R.id.your_placeholder,searchFragment);
             fragmentTransaction.commit();
         }
@@ -92,12 +80,7 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
         }
        if(tag.equalsIgnoreCase("back")){
            fragmentTransaction = fragmentManager.beginTransaction();
-           fragmentTransaction.replace(R.id.your_placeholder,countryListFragment);
-           fragmentTransaction.commit();
-       }
-       if(tag.equalsIgnoreCase("backToFavorite")){
-           fragmentTransaction = fragmentManager.beginTransaction();
-           fragmentTransaction.replace(R.id.your_placeholder, favoriteFragment);
+           fragmentTransaction.replace(R.id.your_placeholder, fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 2));
            fragmentTransaction.commit();
        }
     }
