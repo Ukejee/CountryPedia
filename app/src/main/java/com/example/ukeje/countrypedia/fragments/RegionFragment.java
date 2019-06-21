@@ -24,7 +24,9 @@ import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 import com.google.android.material.navigation.NavigationView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,7 +44,10 @@ public class RegionFragment extends Fragment {
 
     LinearLayoutManager linearLayoutManager;
     RegionListAdapter regionListAdapter;
-    ArrayList<String> regionList = new ArrayList<>();
+
+
+    ArrayList<String> regionList = new ArrayList<>(Arrays.asList("Africa","Americas","Asia","Europe","Oceania"));
+
 
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -115,12 +120,6 @@ public class RegionFragment extends Fragment {
     }
 
     public void init(){
-
-        regionList.add("Africa");
-        regionList.add("Americas");
-        regionList.add("Asia");
-        regionList.add("Europe");
-        regionList.add("Oceania");
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
         regionListAdapter = new RegionListAdapter(getActivity(), regionList, listener);

@@ -90,26 +90,68 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="top">
 
-                    <EditText
-                        android:id="@+id/country_search_box"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginStart="48dp"
                         android:layout_marginEnd="48dp"
                         android:layout_marginBottom="5dp"
-                        android:background="@drawable/edit_background"
-                        android:inputType="text"
-                        android:elevation="5dp"
-                        android:hint="@string/country_search"
-                        android:textSize="18sp"
-                        android:paddingStart="20dp"
-                        android:textColorHint="#b3b3b3"
-                        android:textColor="#787878"
+                        android:elevation="7dp"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toTopOf="@+id/guideline"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_editor_absoluteY="254dp">
+
+                        <EditText
+                            android:id="@+id/country_search_box"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:background="@drawable/edit_background"
+                            android:hint="@string/country_search"
+                            android:inputType="text"
+                            android:elevation="5dp"
+                            android:paddingStart="20dp"
+                            android:textColor="#787878"
+                            android:textColorHint="#b3b3b3"
+                            android:textSize="18sp" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/search_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:clickable="true"
+                            android:background="@drawable/btn_pressed">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:src="@drawable/search_icon"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/textView2"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textView2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Search"
+                                android:textColor="#858585"
+                                android:textSize="18sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </LinearLayout>
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline"

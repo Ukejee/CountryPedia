@@ -207,6 +207,13 @@ public class SearchFragment extends Fragment {
         }
         generateRandomCountry(ranNum);
 
+        binding.searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callSearchApi();
+            }
+        });
+
     }
 
     public void callSearchApi(){
