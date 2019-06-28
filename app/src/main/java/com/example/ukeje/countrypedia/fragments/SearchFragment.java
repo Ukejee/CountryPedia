@@ -2,6 +2,9 @@ package com.example.ukeje.countrypedia.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
@@ -28,13 +31,17 @@ import android.view.inputmethod.EditorInfo;
 import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.databinding.FragmentSearchBinding;
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 import java.util.Random;
 
+import kotlin.coroutines.RestrictsSuspension;
 
-public class SearchFragment extends Fragment {
+
+public class SearchFragment extends Fragment implements SearchResultFragment.OnFragmentInteractionListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +68,7 @@ public class SearchFragment extends Fragment {
 
     //ViewModel for fragment
     private SharedFragmentViewModel viewModel;
+    public SearchResultFragment searchResultFragment;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -87,6 +95,7 @@ public class SearchFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -99,9 +108,6 @@ public class SearchFragment extends Fragment {
         initView();
         return  v;
     }
-
-
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(String tag) {
@@ -134,47 +140,29 @@ public class SearchFragment extends Fragment {
         void onFragmentInteraction(String tag);
     }
 
+    @Override
+    public void onFragmentInteraction(String tag) {
+
+    }
+
     private void initView(){
 
-        countryRepository = new CountryRepository(getActivity().getApplicationContext());
-        navMenu = new BottomNavigationDrawerFragment(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.region_menu_item:
-                        onButtonPressed("FAB");
-                        navMenu.dismiss();
-                        return true;
+        countryRepository = new CountryRepository(getActivity());
 
-                    case R.id.home_menu_item:
-                        navMenu.dismiss();
-                        return true;
+//        binding.bottomAppBar.replaceMenu(R.menu.bottomappbar_menu);
 
-                    case R.id.favorite_menu_item:
-                        onButtonPressed("favorite");
-                        navMenu.dismiss();
-                        return true;
-                }
-                return true;
-            }
-        });
-
-        binding.bottomAppBar.replaceMenu(R.menu.bottomappbar_menu);
-
-        binding.exploreBtn.setOnClickListener(new View.OnClickListener() {
+        binding.countrySearchBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onButtonPressed("FAB");
-
+                onButtonPressed("SearchResult");
+//                searchResultFragment = new SearchResultFragment();
+//                FragmentManager fragmentManager = getFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(binding.placeholder.getId(), searchResultFragment);
+//                fragmentTransaction.commit();
             }
         });
 
-        binding.bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navMenu.show(getFragmentManager().beginTransaction(),"TAG");
-            }
-        });
 
         binding.countrySearchBox.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -185,7 +173,14 @@ public class SearchFragment extends Fragment {
                         event.getKeyCode() == KeyEvent.KEYCODE_ENTER){
 
                     if(!event.isShiftPressed()){
-                       callSearchApi();
+
+                        if(binding.countrySearchBox.getText().toString() != null){
+                            callSearchApi();
+                        }
+                        else{
+                            viewModel.showAlert("Please Enter a country name ", getActivity());
+                        }
+
                     }
                 }
                 return false;
@@ -210,7 +205,13 @@ public class SearchFragment extends Fragment {
         binding.searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callSearchApi();
+                if(binding.countrySearchBox.getText() != null){
+                    callSearchApi();
+                }
+                else{
+                    viewModel.showAlert("Please Enter a Text", getActivity());
+                }
+
             }
         });
 
@@ -223,7 +224,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onApiSuccessful(List<CountryResponse> successResponse) {
                 if(successResponse.size() > 1){
-                    viewModel.countryDetails = successResponse.get(1);
+                    viewModel.countryDetails = successResponse.get(0);
                 }
                 else {
                     viewModel.countryDetails = successResponse.get(0);
@@ -278,11 +279,7 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    public void setUpBottomAppBar(){
 
-        ((MainActivity)getActivity()).setSupportActionBar(binding.bottomAppBar);
-        binding.bottomAppBar.inflateMenu(R.menu.bottomappbar_menu);
-    }
 
     public void populateDatabase(){
 

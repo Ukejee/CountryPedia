@@ -30,8 +30,6 @@ public class CountryListFragment extends Fragment {
     public CountryListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private BottomNavigationDrawerFragment navMenu;
-
     View v;
     FragmentCountryListBinding binding;
     SharedFragmentViewModel viewModel;
@@ -112,35 +110,6 @@ public class CountryListFragment extends Fragment {
         binding.countryList.setLayoutManager(layoutManager);
         binding.countryList.setAdapter(mAdapter);
 
-        navMenu = new BottomNavigationDrawerFragment(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.region_menu_item:
-                        onButtonPressed("FAB");
-                        navMenu.dismiss();
-                        return true;
-
-                    case R.id.home_menu_item:
-                        onButtonPressed("home");
-                        navMenu.dismiss();
-                        return true;
-
-                    case R.id.favorite_menu_item:
-                        onButtonPressed("favorite");
-                        navMenu.dismiss();
-                        return true;
-                }
-                return true;
-            }
-        });
-
-        binding.bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navMenu.show(getFragmentManager().beginTransaction(),"TAG");
-            }
-        });
     }
 
     public void onClickCountryList(View view){

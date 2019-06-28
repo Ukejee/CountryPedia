@@ -126,37 +126,6 @@ public class RegionFragment extends Fragment {
         binding.regionList.setLayoutManager(linearLayoutManager);
         binding.regionList.setAdapter(new RegionListAdapter(getActivity(),regionList,listener));
 
-
-        navMenu = new BottomNavigationDrawerFragment(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.region_menu_item:
-                        navMenu.dismiss();
-                        return true;
-
-                    case R.id.home_menu_item:
-                        onButtonPressed("home");
-                        navMenu.dismiss();
-                        return true;
-
-                    case R.id.favorite_menu_item:
-                        onButtonPressed("favorite");
-                        navMenu.dismiss();
-                        return true;
-                }
-                return true;
-            }
-        });
-
-        binding.bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navMenu.show(getFragmentManager().beginTransaction(),"TAG");
-            }
-        });
-
-
     }
 
     public void onClickRegion(View view){

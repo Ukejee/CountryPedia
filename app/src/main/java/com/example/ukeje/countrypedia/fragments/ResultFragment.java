@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -155,7 +156,10 @@ public class ResultFragment extends Fragment {
         }
 
 
-        binding.countryAltSpelling.setText(cr.getAltSpellings().get(0));
+        if(cr.getAltSpellings().size() != 0){
+            binding.countryAltSpelling.setText(cr.getAltSpellings().get(0));
+        }
+
         for(int i = 1; i < cr.getAltSpellings().size(); i++){
             binding.countryAltSpelling.append(", ");
             binding.countryAltSpelling.append(cr.getAltSpellings().get(i));
@@ -172,7 +176,10 @@ public class ResultFragment extends Fragment {
         //THERE'S A BUG HERE; USE SWITCH STATEMENTS TO FIX
         binding.countryTimeZones.setText(cr.getTimezones().get(0));
 
+
         if(cr.getTimezones().size() <= 6){
+            binding.countryTimeZones.setGravity(Gravity.CENTER);
+            binding.timezoneSepartingLine.setVisibility(View.GONE);
             for(int i = 1; i < cr.getTimezones().size(); i++){
                 binding.countryTimeZones.append("\n");
                 binding.countryTimeZones.append(cr.getTimezones().get(i));
