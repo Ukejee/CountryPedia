@@ -26,6 +26,7 @@ public class SharedFragmentViewModel extends ViewModel {
     private static Dialog mProgressDialog;
     private CountryRepository countryRepository = new CountryRepository();
     public ArrayList<String> favoriteCountries = new ArrayList<>();
+    public ArrayList<String> funFacts;
 
     public ArrayList<String> getFavoriteCountries(){ return favoriteCountries; }
 
@@ -81,6 +82,19 @@ public class SharedFragmentViewModel extends ViewModel {
 
     }
 
+    public static void showMessage(String title,String message, final FragmentActivity context){
+            try {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(title);
+                builder.setMessage(message);
+                builder.setPositiveButton("OK", null);
+                builder.show();
+            }
+            catch(Exception ex){
+                ex.printStackTrace();
+            }
+    }
+
     public static void showAlert(String message, final FragmentActivity context) {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -100,6 +114,17 @@ public class SharedFragmentViewModel extends ViewModel {
                 mProgressDialog.dismiss();
             }
         }
+    }
+
+    public void createFunFactDb(){
+
+        funFacts = new ArrayList<>();
+        funFacts.add("Did you know that there are 247 countries in the world");
+        funFacts.add("Did you know that China is the most populated country in the world");
+        funFacts.add("Did you know that India is the second most populous in the world");
+        funFacts.add("Did you know France has the most timezones in the world");
+        funFacts.add("Did you know that there are five regions in the world");
+        funFacts.add("Did you know that Nigeria is the most populated country in Africa");
     }
 
 }

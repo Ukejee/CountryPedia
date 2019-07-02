@@ -6,6 +6,7 @@ import com.example.ukeje.countrypedia.fragments.CountryListFragment;
 import com.example.ukeje.countrypedia.fragments.FavoriteFragment;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,6 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -112,6 +115,18 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
             }
         });
 
+        binding.bottomAppBar.replaceMenu(R.menu.bottomappbar_menu);
+
+        binding.bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                AboutDialog aboutDialog = new AboutDialog(MainActivity.this);
+                aboutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                aboutDialog.show();
+                return false;
+            }
+        });
 
         binding.bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

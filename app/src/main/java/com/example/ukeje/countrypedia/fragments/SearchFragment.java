@@ -149,17 +149,11 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
 
         countryRepository = new CountryRepository(getActivity());
 
-//        binding.bottomAppBar.replaceMenu(R.menu.bottomappbar_menu);
-
+        binding.countrySearchBox.getText().clear();
         binding.countrySearchBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onButtonPressed("SearchResult");
-//                searchResultFragment = new SearchResultFragment();
-//                FragmentManager fragmentManager = getFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(binding.placeholder.getId(), searchResultFragment);
-//                fragmentTransaction.commit();
             }
         });
 
@@ -187,6 +181,7 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
             }
         });
 
+
         binding.knowMoreField.setClickable(true);
         binding.knowMoreField.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,11 +200,18 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
         binding.searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(binding.countrySearchBox.getText() != null){
-                    callSearchApi();
+
+
+                if(!binding.countrySearchBox.getText().toString().equalsIgnoreCase("")){
+//                   callSearchApi();
+                    AppUtils.showMessage(getActivity(), binding.countrySearchBox.getText().toString());
                 }
                 else{
-                    viewModel.showAlert("Please Enter a Text", getActivity());
+                    viewModel.createFunFactDb();
+                    viewModel.showMessage("Search Failed",
+                            "Please enter a country name into text field", getActivity());
+
+                    //viewModel.showAlert("Please Enter a Text", getActivity());
                 }
 
             }
