@@ -125,6 +125,13 @@ public class SharedFragmentViewModel extends ViewModel {
         funFacts.add("Did you know France has the most timezones in the world");
         funFacts.add("Did you know that there are five regions in the world");
         funFacts.add("Did you know that Nigeria is the most populated country in Africa");
+        funFacts.add("Africa has 54 countries!");
+        funFacts.add("A third of world’s languages are spoken in Africa!");
+        funFacts.add("Over 200 languages are spoken in Europe!");
+        funFacts.add("The largest country in Europe is Russia!");
+        funFacts.add("The smallest country in Europe is Vatican!");
+        funFacts.add("The largest island in the world is Green Land!");
+        //funFacts.add("")
     }
 
 }
