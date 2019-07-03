@@ -183,7 +183,6 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
         });
 
 
-        binding.knowMoreField.setClickable(true);
         binding.knowMoreField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,25 +197,7 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
         }
         generateRandomCountry(ranNum);
 
-        binding.searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-
-                if(!binding.countrySearchBox.getText().toString().equalsIgnoreCase("")){
-//                   callSearchApi();
-                    AppUtils.showMessage(getActivity(), binding.countrySearchBox.getText().toString());
-                }
-                else{
-                    viewModel.createFunFactDb();
-                    viewModel.showMessage("Search Failed",
-                            "Please enter a country name into text field", getActivity());
-
-                    //viewModel.showAlert("Please Enter a Text", getActivity());
-                }
-
-            }
-        });
 
     }
 

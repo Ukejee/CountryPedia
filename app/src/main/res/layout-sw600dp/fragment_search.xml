@@ -120,39 +120,9 @@
                             android:paddingStart="20dp"
                             android:textColor="#787878"
                             android:textColorHint="#b3b3b3"
-                            android:textSize="25sp" />
+                            android:textSize="25sp"
+                            android:drawableStart="@drawable/search_icon"/>
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/search_btn"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5"
-                            android:clickable="true"
-                            android:background="@drawable/btn_pressed">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:src="@drawable/search_icon"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/textView2"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/textView2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Search"
-                                android:textColor="#858585"
-                                android:textSize="20sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.5"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                     </LinearLayout>
