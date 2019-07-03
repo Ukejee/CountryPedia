@@ -61,6 +61,7 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    View.OnClickListener listener;
 
     public View v;
     FragmentSearchBinding binding;
@@ -92,9 +93,9 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
         setHasOptionsMenu(true);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

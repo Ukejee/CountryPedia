@@ -104,8 +104,10 @@ public class CountryListFragment extends Fragment {
             public void onClick(View v) {
 
                 onClickCountryList(v);
+
             }
         }, v.getContext());
+
         layoutManager = new LinearLayoutManager(this.getActivity());
         binding.countryList.setLayoutManager(layoutManager);
         binding.countryList.setAdapter(mAdapter);
