@@ -1,57 +1,49 @@
 package com.example.ukeje.countrypedia;
 
-import com.example.ukeje.countrypedia.databinding.ActivityMainBinding;
-import com.example.ukeje.countrypedia.fragments.BottomNavigationDrawerFragment;
-import com.example.ukeje.countrypedia.fragments.CountryListFragment;
-import com.example.ukeje.countrypedia.fragments.FavoriteFragment;
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.VideoView;
-
+import com.example.ukeje.countrypedia.databinding.ActivityMainBinding;
+import com.example.ukeje.countrypedia.fragments.BottomNavigationDrawerFragment;
+import com.example.ukeje.countrypedia.fragments.CountryListFragment;
+import com.example.ukeje.countrypedia.fragments.FavoriteFragment;
 import com.example.ukeje.countrypedia.fragments.RegionFragment;
 import com.example.ukeje.countrypedia.fragments.ResultFragment;
 import com.example.ukeje.countrypedia.fragments.SearchFragment;
 import com.example.ukeje.countrypedia.fragments.SearchResultFragment;
-import com.example.ukeje.countrypedia.utils.AppUtils;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.Objects;
 
 import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity implements RegionFragment.OnFragmentInteractionListener,
-                                                                SearchFragment.OnFragmentInteractionListener,
-                                                                ResultFragment.OnFragmentInteractionListener,
-                                                                CountryListFragment.OnFragmentInteractionListener,
-                                                                FavoriteFragment.OnFragmentInteractionListener,
-                                                                SearchResultFragment.OnFragmentInteractionListener{
+        SearchFragment.OnFragmentInteractionListener,
+        ResultFragment.OnFragmentInteractionListener,
+        CountryListFragment.OnFragmentInteractionListener,
+        FavoriteFragment.OnFragmentInteractionListener,
+        SearchResultFragment.OnFragmentInteractionListener {
 
 
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-
-    RegionFragment regionFragment;
-    SearchFragment searchFragment;
-    ResultFragment resultFragment;
-    CountryListFragment countryListFragment;
-    FavoriteFragment favoriteFragment;
-    BottomNavigationDrawerFragment navMenu;
-    SearchResultFragment searchResultFragment;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private RegionFragment regionFragment;
+    private SearchFragment searchFragment;
+    private ResultFragment resultFragment;
+    private CountryListFragment countryListFragment;
+    private FavoriteFragment favoriteFragment;
+    private BottomNavigationDrawerFragment navMenu;
+    private SearchResultFragment searchResultFragment;
 
     ActivityMainBinding binding;
 
@@ -77,11 +69,11 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
             @SuppressLint("RestrictedApi")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
                     case R.id.region_menu_item:
-                        if(fragmentManager.getFragments().contains(regionFragment)){
-                            replaceFragment(regionFragment,"Region");
-                        }else{
+                        if (fragmentManager.getFragments().contains(regionFragment)) {
+                            replaceFragment(regionFragment, "Region");
+                        } else {
                             onFragmentInteraction("FAB");
                         }
                         //Suppressed something here not really sure what incase of error
@@ -90,10 +82,9 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
                         return true;
 
                     case R.id.home_menu_item:
-                        if(fragmentManager.getFragments().contains(searchFragment)){
+                        if (fragmentManager.getFragments().contains(searchFragment)) {
                             replaceFragment(searchFragment, "Home");
-                        }
-                        else{
+                        } else {
                             addFragment(searchFragment, "Home");
                         }
                         binding.exploreBtn.setVisibility(View.VISIBLE);
@@ -101,10 +92,9 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
                         return true;
 
                     case R.id.favorite_menu_item:
-                        if(fragmentManager.getFragments().contains(favoriteFragment)){
+                        if (fragmentManager.getFragments().contains(favoriteFragment)) {
                             replaceFragment(favoriteFragment, "Favorite");
-                        }
-                        else{
+                        } else {
                             addFragment(favoriteFragment, "Favorite");
                         }
                         binding.exploreBtn.setVisibility(GONE);
@@ -139,9 +129,9 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
             @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View v) {
-                if(fragmentManager.getFragments().contains(regionFragment)){
-                    replaceFragment(regionFragment,"Region");
-                }else{
+                if (fragmentManager.getFragments().contains(regionFragment)) {
+                    replaceFragment(regionFragment, "Region");
+                } else {
                     onFragmentInteraction("FAB");
                 }
                 //Suppressed something here not really sure what incase of error
@@ -159,23 +149,22 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-            if (fragmentManager.findFragmentById(R.id.your_placeholder) == searchFragment) {
-                if(getSupportFragmentManager().getFragments().contains(searchResultFragment)){
-                    fragmentManager.beginTransaction().remove(searchResultFragment).commit();
-                }
-                binding.bottomAppBar.setVisibility(View.VISIBLE);
-                binding.exploreBtn.setVisibility(View.VISIBLE);
+        if (fragmentManager.findFragmentById(R.id.your_placeholder) == searchFragment) {
+            if (getSupportFragmentManager().getFragments().contains(searchResultFragment)) {
+                fragmentManager.beginTransaction().remove(searchResultFragment).commit();
             }
-            else {
-                binding.bottomAppBar.setVisibility(View.VISIBLE);
-            }
+            binding.bottomAppBar.setVisibility(View.VISIBLE);
+            binding.exploreBtn.setVisibility(View.VISIBLE);
+        } else {
+            binding.bottomAppBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @SuppressLint("RestrictedApi")
-    public void toggleExploreButton(Fragment fragment){
+    public void toggleExploreButton(Fragment fragment) {
 
-        if(fragment != null){
-            if(fragmentManager.getPrimaryNavigationFragment().equals(fragment)){
+        if (fragment != null) {
+            if (fragmentManager.getPrimaryNavigationFragment().equals(fragment)) {
                 binding.exploreBtn.setVisibility(GONE);
             }
 
@@ -185,37 +174,36 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
 
     //METHOD THAT CONTROLS FRAGMENT NAVIGATION IN THE APP
     @SuppressLint("RestrictedApi")
-    public void onFragmentInteraction(String tag){
+    public void onFragmentInteraction(String tag) {
 
-        if(tag.equalsIgnoreCase("FAB")){
-           addFragment(regionFragment, "Region");
-           binding.bottomAppBar.setVisibility(View.VISIBLE);
+        if (tag.equalsIgnoreCase("FAB")) {
+            addFragment(regionFragment, "Region");
+            binding.bottomAppBar.setVisibility(View.VISIBLE);
         }
-        if(tag.equalsIgnoreCase("ET")){
+        if (tag.equalsIgnoreCase("ET")) {
 
-            if(fragmentManager.findFragmentById(R.id.your_placeholder ) == searchResultFragment){
-               fragmentTransaction = fragmentManager.beginTransaction();
-               fragmentTransaction.replace(R.id.your_placeholder, resultFragment);
-               fragmentTransaction.commit();
-            }
-            else{
+            if (fragmentManager.findFragmentById(R.id.your_placeholder) == searchResultFragment) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.your_placeholder, resultFragment);
+                fragmentTransaction.commit();
+            } else {
                 addFragment(resultFragment, "Result");
             }
             binding.bottomAppBar.setVisibility(GONE);
             binding.exploreBtn.setVisibility(GONE);
         }
-        if(tag.equalsIgnoreCase("CLF")){
+        if (tag.equalsIgnoreCase("CLF")) {
             binding.bottomAppBar.setVisibility(View.VISIBLE);
             addFragment(countryListFragment, "CountryListFragment");
         }
-        if(tag.equalsIgnoreCase("home")){
+        if (tag.equalsIgnoreCase("home")) {
             replaceFragment(searchFragment, "Home");
         }
-        if(tag.equalsIgnoreCase("favorite")){
+        if (tag.equalsIgnoreCase("favorite")) {
             addFragment(favoriteFragment, "Favorite");
             binding.bottomAppBar.setVisibility(View.VISIBLE);
         }
-        if(tag.equalsIgnoreCase("SearchResult")){
+        if (tag.equalsIgnoreCase("SearchResult")) {
             //addFragment(searchResultFragment, "SearchResult");
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.your_placeholder, searchResultFragment);
@@ -223,46 +211,44 @@ public class MainActivity extends AppCompatActivity implements RegionFragment.On
             fragmentTransaction.commit();
             binding.exploreBtn.setVisibility(GONE);
         }
-       if(tag.equalsIgnoreCase("back")){
+        if (tag.equalsIgnoreCase("back")) {
 
-           if(fragmentManager.getFragments().size() == 1){
-               fragmentTransaction = fragmentManager.beginTransaction();
-               fragmentTransaction.replace(R.id.your_placeholder, searchFragment);
-               fragmentTransaction.commit();
-               binding.bottomAppBar.setVisibility(View.VISIBLE);
-               binding.exploreBtn.setVisibility(View.VISIBLE);
+            if (fragmentManager.getFragments().size() == 1) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.your_placeholder, searchFragment);
+                fragmentTransaction.commit();
+                binding.bottomAppBar.setVisibility(View.VISIBLE);
+                binding.exploreBtn.setVisibility(View.VISIBLE);
 
-           }
-           else{
-               fragmentTransaction = fragmentManager.beginTransaction();
-               fragmentTransaction.replace(R.id.your_placeholder, fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 2));
-               fragmentTransaction.commit();
-               if (fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 2) == searchFragment) {
-                   if(getSupportFragmentManager().getFragments().contains(searchResultFragment)){
-                       fragmentManager.beginTransaction().remove(searchResultFragment);
-                   }
-                   binding.bottomAppBar.setVisibility(View.VISIBLE);
-                   binding.exploreBtn.setVisibility(View.VISIBLE);
-               }
-               else {
-                   binding.bottomAppBar.setVisibility(View.VISIBLE);
-               }
+            } else {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.your_placeholder, fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 2));
+                fragmentTransaction.commit();
+                if (fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 2) == searchFragment) {
+                    if (getSupportFragmentManager().getFragments().contains(searchResultFragment)) {
+                        fragmentManager.beginTransaction().remove(searchResultFragment);
+                    }
+                    binding.bottomAppBar.setVisibility(View.VISIBLE);
+                    binding.exploreBtn.setVisibility(View.VISIBLE);
+                } else {
+                    binding.bottomAppBar.setVisibility(View.VISIBLE);
+                }
 
-           }
+            }
 
-       }
+        }
 
 
     }
 
 
-    public void replaceFragment(Fragment  fragment, String tag){
+    public void replaceFragment(Fragment fragment, String tag) {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.your_placeholder, fragment, tag);
         fragmentTransaction.commit();
     }
 
-    public void addFragment(Fragment fragment, String tag){
+    public void addFragment(Fragment fragment, String tag) {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.your_placeholder, fragment, tag);
         fragmentTransaction.addToBackStack(null);

@@ -1,44 +1,30 @@
 package com.example.ukeje.countrypedia.fragments;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.ukeje.countrypedia.CountryRepository;
-import com.example.ukeje.countrypedia.MainActivity;
+import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.database.Country;
+import com.example.ukeje.countrypedia.databinding.FragmentSearchBinding;
 import com.example.ukeje.countrypedia.utils.AppUtils;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 
-import androidx.fragment.app.Fragment;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-
-import com.example.ukeje.countrypedia.R;
-import com.example.ukeje.countrypedia.SharedFragmentViewModel;
-import com.example.ukeje.countrypedia.databinding.FragmentSearchBinding;
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-
 import java.util.List;
 import java.util.Random;
 
-import kotlin.coroutines.RestrictsSuspension;
 
 
 public class SearchFragment extends Fragment implements SearchResultFragment.OnFragmentInteractionListener{
@@ -279,7 +265,7 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
             @Override
             protected void onPostExecute(List<Country> countryList){
                 dbCountries = countryList;
-                if(dbCountries.size() == 0){
+                if(dbCountries.isEmpty()){
                     String []countries = {"africa","asia","europe","americas","oceania"};
                     for(int i = 0; i < countries.length; i++){
                         AppUtils.showMessage(getActivity(),"PLEASE WAIT APP IS SETTING UP SOME THINGS");
@@ -315,6 +301,7 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
 
                 }
             }
+
         };
 
         task.execute(test);
@@ -345,5 +332,4 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
 
             task.execute(1);
     }
-
 }
