@@ -1,29 +1,21 @@
 package com.example.ukeje.countrypedia.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.adapters.CountryListAdapter;
 import com.example.ukeje.countrypedia.databinding.FragmentCountryListBinding;
-import com.example.ukeje.countrypedia.utils.AppUtils;
-import com.google.android.material.navigation.NavigationView;
 
 
-public class CountryListFragment extends Fragment {
+public class CountryListFragment extends BaseFragment {
 
     private OnFragmentInteractionListener mListener;
 
@@ -50,6 +42,11 @@ public class CountryListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public String getFragmentTag() {
+        return COUNTRY_LIST_FRAGMENT;
     }
 
     @Override

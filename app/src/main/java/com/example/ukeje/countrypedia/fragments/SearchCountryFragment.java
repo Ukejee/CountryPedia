@@ -1,29 +1,21 @@
 package com.example.ukeje.countrypedia.fragments;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
-import com.example.ukeje.countrypedia.R;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.adapters.SearchResultListAdapter;
 import com.example.ukeje.countrypedia.databinding.FragmentSearchResultBinding;
-import com.example.ukeje.countrypedia.utils.AppUtils;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
@@ -31,7 +23,7 @@ import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 import java.util.List;
 
 
-public class SearchResultFragment extends Fragment {
+public class SearchCountryFragment extends BaseFragment {
 
     private View v;
     private RecyclerView.LayoutManager linearLayoutManager;
@@ -44,10 +36,14 @@ public class SearchResultFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SearchResultFragment() {
+    public SearchCountryFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public String getFragmentTag() {
+        return SEARCH_COUNTRY_FRAGMENT;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +61,7 @@ public class SearchResultFragment extends Fragment {
 
         init();
         binding.editText.requestFocus();
-        AppUtils.openKeyboard(getActivity());
+        appUtils.openKeyboard();
         return v;
     }
 
@@ -142,7 +138,7 @@ public class SearchResultFragment extends Fragment {
                             public void onClick(View v) {
                                 viewModel.countryDetails = successResponse.get(binding.listView.getChildLayoutPosition(v));
                                 onButtonPressed("et");
-                                AppUtils.hideKeyboard(getActivity());
+                                appUtils.hideKeyboard();
                             }
                         });
                 binding.listView.setAdapter(searchResultListAdapter);

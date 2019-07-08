@@ -1,21 +1,15 @@
 package com.example.ukeje.countrypedia.fragments;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.ukeje.countrypedia.CountryRepository;
@@ -23,16 +17,12 @@ import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.database.Country;
 import com.example.ukeje.countrypedia.databinding.FragmentResultBinding;
-import com.example.ukeje.countrypedia.utils.AppUtils;
-import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
-import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 
-import java.util.List;
 import java.util.Objects;
 
 
-public class ResultFragment extends Fragment {
+public class CountyDetailsFragment extends BaseFragment {
     private FragmentResultBinding binding;
     private SharedFragmentViewModel sharedFragmentViewModel;
     private OnFragmentInteractionListener mListener;
@@ -41,7 +31,7 @@ public class ResultFragment extends Fragment {
     private Country favoriteCountry;
     public boolean isFavorite = false;
 
-    public ResultFragment() {
+    public CountyDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -51,6 +41,10 @@ public class ResultFragment extends Fragment {
         }
     }
 
+    @Override
+    public String getFragmentTag() {
+        return COUNTRY_DETAILS_FRAGMENT;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -216,12 +210,12 @@ public class ResultFragment extends Fragment {
                 if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_two){
                     favoriteCountry.setFavorite(true);
                     countryRepository.updateCountry(favoriteCountry);
-                    AppUtils.showMessage(getActivity(),"Country Added to favorite");
+                    appUtils.showMessage("Country Added to favorite");
                 }
                 if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_border){
                     favoriteCountry.setFavorite(false);
                     countryRepository.updateCountry(favoriteCountry);
-                    AppUtils.showMessage(getActivity(),"Country Has Been Removed From Favorites");
+                    appUtils.showMessage("Country Has Been Removed From Favorites");
 
                 }
 

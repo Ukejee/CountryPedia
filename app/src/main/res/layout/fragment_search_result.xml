@@ -15,7 +15,7 @@
         android:paddingEnd="20dp"
         android:paddingStart="20dp"
         android:paddingTop="20dp"
-        tools:context=".fragments.SearchResultFragment">
+        tools:context=".fragments.SearchCountryFragment">
 
         <EditText
             android:id="@+id/editText"

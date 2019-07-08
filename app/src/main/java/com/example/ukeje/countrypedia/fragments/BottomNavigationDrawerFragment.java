@@ -2,11 +2,8 @@ package com.example.ukeje.countrypedia.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
 
 import com.example.ukeje.countrypedia.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -42,6 +39,4 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
         super.onActivityCreated(savedInstanceState);
 
     }
-
-
 }

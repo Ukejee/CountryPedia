@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.ukeje.countrypedia.CountryRepository;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.database.Country;
 import com.example.ukeje.countrypedia.databinding.FragmentSearchBinding;
-import com.example.ukeje.countrypedia.utils.AppUtils;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
@@ -27,7 +25,7 @@ import java.util.Random;
 
 
 
-public class SearchFragment extends Fragment implements SearchResultFragment.OnFragmentInteractionListener{
+public class HomeFragment extends BaseFragment implements SearchCountryFragment.OnFragmentInteractionListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,16 +53,20 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
 
     //ViewModel for fragment
     private SharedFragmentViewModel viewModel;
-    public SearchResultFragment searchResultFragment;
+    public SearchCountryFragment searchCountryFragment;
 
-    public SearchFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public String getFragmentTag() {
+        return HOME_FRAGMENT;
+    }
 
     // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -268,7 +270,7 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
                 if(dbCountries.isEmpty()){
                     String []countries = {"africa","asia","europe","americas","oceania"};
                     for(int i = 0; i < countries.length; i++){
-                        AppUtils.showMessage(getActivity(),"PLEASE WAIT APP IS SETTING UP SOME THINGS");
+                        appUtils.showMessage("PLEASE WAIT APP IS SETTING UP SOME THINGS");
                         viewModel.setRegionSelected(countries[i]);
                         viewModel.loadCountryList(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
                             @Override
@@ -282,16 +284,16 @@ public class SearchFragment extends Fragment implements SearchResultFragment.OnF
                             @Override
                             public void onApiFailed(@Nullable ErrorResponse errorResponse) {
 
-                                AppUtils.showMessage(getActivity().getApplicationContext(), "DATABASE" +
+                                appUtils.showMessage("DATABASE" +
                                         "UPLOAD FALIED " + errorResponse.getMessage());
                             }
 
                             @Override
                             public void onNetworkFailure() {
 
-                                AppUtils.showMessage(getActivity().getApplicationContext(), "DATABASE" +
+                                appUtils.showMessage("DATABASE" +
                                         "UPLOAD FAILED" + "NETWORK ERROR");
-                                AppUtils.showMessage(getActivity(), "Please check netork connectivity" +
+                                appUtils.showMessage("Please check netork connectivity" +
                                         "and restart app");
 
                             }

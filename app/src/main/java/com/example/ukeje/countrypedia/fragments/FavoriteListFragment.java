@@ -1,25 +1,17 @@
 package com.example.ukeje.countrypedia.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.ukeje.countrypedia.CountryRepository;
-import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.adapters.FavoriteListAdapter;
 import com.example.ukeje.countrypedia.database.Country;
@@ -27,12 +19,11 @@ import com.example.ukeje.countrypedia.databinding.FragmentFavoriteBinding;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
 
-public class FavoriteFragment extends Fragment {
+public class FavoriteListFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,13 +53,18 @@ public class FavoriteFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FavoriteFragment() {
+    public FavoriteListFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public String getFragmentTag() {
+        return FAVORITE_LIST_FRAGMENT;
+    }
+
     // TODO: Rename and change types and number of parameters
-    public static FavoriteFragment newInstance(String param1, String param2) {
-        FavoriteFragment fragment = new FavoriteFragment();
+    public static FavoriteListFragment newInstance(String param1, String param2) {
+        FavoriteListFragment fragment = new FavoriteListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
