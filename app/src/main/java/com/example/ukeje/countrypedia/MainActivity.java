@@ -23,7 +23,11 @@ import com.example.ukeje.countrypedia.fragments.FavoriteListFragment;
 import com.example.ukeje.countrypedia.fragments.HomeFragment;
 import com.example.ukeje.countrypedia.fragments.RegionListFragment;
 import com.example.ukeje.countrypedia.fragments.SearchCountryFragment;
+import com.example.ukeje.countrypedia.utils.AppUtils;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.List;
+import java.util.Objects;
 
 import static android.view.View.GONE;
 import static com.example.ukeje.countrypedia.fragments.BaseFragment.BOTTOM_NAV_DRAWER_FRAGMENT;
@@ -146,9 +150,16 @@ public class MainActivity extends AppCompatActivity implements RegionListFragmen
     @SuppressLint("RestrictedApi")
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (fragmentManager.findFragmentById(R.id.your_placeholder) == homeFragment) {
-            if (getSupportFragmentManager().getFragments().contains(searchCountryFragment)) {
+        List<Fragment> backStackFragments = getSupportFragmentManager().getFragments();
+        AppUtils.debug("fragment list size**: {}", backStackFragments.size());
+
+        if (backStackFragments.size() == 1) {
+            finish();
+            return;
+        }
+
+        if (getCurrentFragment().getTag().equals(HOME_FRAGMENT)) {
+            if (backStackFragments.contains(searchCountryFragment)) {
                 fragmentManager.beginTransaction().remove(searchCountryFragment).commit();
             }
             binding.bottomAppBar.setVisibility(View.VISIBLE);
@@ -156,6 +167,9 @@ public class MainActivity extends AppCompatActivity implements RegionListFragmen
         } else {
             binding.bottomAppBar.setVisibility(View.VISIBLE);
         }
+
+        super.onBackPressed();
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -179,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements RegionListFragmen
 
             //getting current fragment
 //            if (getCurrentFragment() == searchCountryFragment) {
-            loadFragment(countyDetailsFragment, countyDetailsFragment.getFragmentTag(), getCurrentFragment() != searchCountryFragment);
+            loadFragment(countyDetailsFragment, countyDetailsFragment.getFragmentTag(),
+                    !Objects.equals(getCurrentFragment().getTag(), SEARCH_COUNTRY_FRAGMENT));
 //            } else {
 //                loadFragment(countyDetailsFragment, countyDetailsFragment.getFragmentTag(), true);
 //            }
@@ -222,19 +237,15 @@ public class MainActivity extends AppCompatActivity implements RegionListFragmen
         /* }else {
             replaceFragment(fragment, tag, true);
         }*/
+
+        AppUtils.debug("loadFragment: {}; addToBackStack: {}", tag, addToBackStack);
+        AppUtils.debug("fragment list size: {}", getSupportFragmentManager().getFragments().size());
     }
 
     public void replaceFragment(Fragment fragment, String tag, boolean addToBackStack) {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.your_placeholder, fragment, tag);
         if (addToBackStack) fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
-    public void addFragment(Fragment fragment, String tag) {
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.your_placeholder, fragment, tag);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }
