@@ -18,15 +18,16 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.ukeje.countrypedia.databinding.ActivityMainBinding;
 import com.example.ukeje.countrypedia.fragments.BottomNavigationDrawerFragment;
 import com.example.ukeje.countrypedia.fragments.CountryListFragment;
-import com.example.ukeje.countrypedia.fragments.FavoriteListFragment;
-import com.example.ukeje.countrypedia.fragments.RegionListFragment;
 import com.example.ukeje.countrypedia.fragments.CountyDetailsFragment;
+import com.example.ukeje.countrypedia.fragments.FavoriteListFragment;
 import com.example.ukeje.countrypedia.fragments.HomeFragment;
+import com.example.ukeje.countrypedia.fragments.RegionListFragment;
 import com.example.ukeje.countrypedia.fragments.SearchCountryFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import static android.view.View.GONE;
 import static com.example.ukeje.countrypedia.fragments.BaseFragment.BOTTOM_NAV_DRAWER_FRAGMENT;
+import static com.example.ukeje.countrypedia.fragments.BaseFragment.COUNTRY_DETAILS_FRAGMENT;
 import static com.example.ukeje.countrypedia.fragments.BaseFragment.COUNTRY_LIST_FRAGMENT;
 import static com.example.ukeje.countrypedia.fragments.BaseFragment.FAVORITE_LIST_FRAGMENT;
 import static com.example.ukeje.countrypedia.fragments.BaseFragment.HOME_FRAGMENT;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements RegionListFragmen
 
         fragmentManager = getSupportFragmentManager();
 
-        addFragment(homeFragment, homeFragment.getFragmentTag());
+        loadFragment(homeFragment, homeFragment.getFragmentTag(), true);
 
         navMenu = new BottomNavigationDrawerFragment(new NavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("RestrictedApi")
@@ -75,32 +76,26 @@ public class MainActivity extends AppCompatActivity implements RegionListFragmen
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.region_menu_item:
-                        if (fragmentManager.getFragments().contains(regionListFragment)) {
-                            replaceFragment(regionListFragment, regionListFragment.getFragmentTag());
-                        } else {
-                            addFragment(regionListFragment, regionListFragment.getFragmentTag());
-                        }
+
+                        loadFragment(regionListFragment, regionListFragment.getFragmentTag(), true);
+
                         //Suppressed something here not really sure what incase of error
                         binding.exploreBtn.setVisibility(GONE);
                         navMenu.dismiss();
                         return true;
 
                     case R.id.home_menu_item:
-                        if (fragmentManager.getFragments().contains(homeFragment)) {
-                            replaceFragment(homeFragment, homeFragment.getFragmentTag());
-                        } else {
-                            addFragment(homeFragment, homeFragment.getFragmentTag());
-                        }
+
+                        loadFragment(homeFragment, homeFragment.getFragmentTag(), true);
+
                         binding.exploreBtn.setVisibility(View.VISIBLE);
                         navMenu.dismiss();
                         return true;
 
                     case R.id.favorite_menu_item:
-                        if (fragmentManager.getFragments().contains(favoriteListFragment)) {
-                            replaceFragment(favoriteListFragment, favoriteListFragment.getFragmentTag());
-                        } else {
-                            addFragment(favoriteListFragment, favoriteListFragment.getFragmentTag());
-                        }
+
+                        loadFragment(favoriteListFragment, favoriteListFragment.getFragmentTag(), true);
+
                         binding.exploreBtn.setVisibility(GONE);
                         navMenu.dismiss();
                         return true;
@@ -133,11 +128,11 @@ public class MainActivity extends AppCompatActivity implements RegionListFragmen
             @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View v) {
-                if (fragmentManager.getFragments().contains(regionListFragment)) {
-                    replaceFragment(regionListFragment, regionListFragment.getFragmentTag());
-                } else {
-                    addFragment(regionListFragment, regionListFragment.getFragmentTag());
-                }
+//                if (fragmentManager.getFragments().contains(regionListFragment)) {
+                loadFragment(regionListFragment, regionListFragment.getFragmentTag(), true);
+//                } else {
+//                    addFragment(regionListFragment, regionListFragment.getFragmentTag());
+//                }
                 //Suppressed something here not really sure what in case of error
                 binding.exploreBtn.setVisibility(GONE);
             }
@@ -180,26 +175,26 @@ public class MainActivity extends AppCompatActivity implements RegionListFragmen
     @Override
     public void onFragmentInteraction(String tag) {
 
-        if (tag.equalsIgnoreCase(countyDetailsFragment.getFragmentTag())) {
+        if (tag.equalsIgnoreCase(COUNTRY_DETAILS_FRAGMENT)) {
 
             //getting current fragment
-            if (getCurrentFragment() == searchCountryFragment) {
-                replaceFragment(countyDetailsFragment, countyDetailsFragment.getFragmentTag());
-            } else {
-                addFragment(countyDetailsFragment, countyDetailsFragment.getFragmentTag());
-            }
+//            if (getCurrentFragment() == searchCountryFragment) {
+            loadFragment(countyDetailsFragment, countyDetailsFragment.getFragmentTag(), getCurrentFragment() != searchCountryFragment);
+//            } else {
+//                loadFragment(countyDetailsFragment, countyDetailsFragment.getFragmentTag(), true);
+//            }
             binding.bottomAppBar.setVisibility(GONE);
             binding.exploreBtn.setVisibility(GONE);
         }
         if (tag.equalsIgnoreCase(COUNTRY_LIST_FRAGMENT)) {
             binding.bottomAppBar.setVisibility(View.VISIBLE);
-            addFragment(countryListFragment, countryListFragment.getFragmentTag());
+            loadFragment(countryListFragment, countryListFragment.getFragmentTag(), true);
         }
         if (tag.equalsIgnoreCase(HOME_FRAGMENT)) {
-            replaceFragment(homeFragment, homeFragment.getFragmentTag());
+            loadFragment(homeFragment, homeFragment.getFragmentTag(), true);
         }
         if (tag.equalsIgnoreCase(FAVORITE_LIST_FRAGMENT)) {
-            addFragment(favoriteListFragment, favoriteListFragment.getFragmentTag());
+            loadFragment(favoriteListFragment, favoriteListFragment.getFragmentTag(), true);
             binding.bottomAppBar.setVisibility(View.VISIBLE);
         }
         if (tag.equalsIgnoreCase(SEARCH_COUNTRY_FRAGMENT)) {
@@ -210,46 +205,29 @@ public class MainActivity extends AppCompatActivity implements RegionListFragmen
             binding.exploreBtn.setVisibility(GONE);
         }
         if (tag.equalsIgnoreCase("back")) {
-
-            if (fragmentManager.getFragments().size() == 1) {
-                replaceFragment(homeFragment, homeFragment.getFragmentTag());
-                binding.bottomAppBar.setVisibility(View.VISIBLE);
-                binding.exploreBtn.setVisibility(View.VISIBLE);
-
-            } else {
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.your_placeholder, fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 2));
-                fragmentTransaction.commit();
-                if (fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 2) == homeFragment) {
-                    if (getSupportFragmentManager().getFragments().contains(searchCountryFragment)) {
-                        fragmentManager.beginTransaction().remove(searchCountryFragment);
-                    }
-                    binding.bottomAppBar.setVisibility(View.VISIBLE);
-                    binding.exploreBtn.setVisibility(View.VISIBLE);
-                } else {
-                    binding.bottomAppBar.setVisibility(View.VISIBLE);
-                }
-
-            }
-
+            onBackPressed();
         }
     }
 
-    public Fragment getCurrentFragment(){
-       return fragmentManager.findFragmentById(R.id.your_placeholder);
+    public Fragment getCurrentFragment() {
+        return fragmentManager.findFragmentById(R.id.your_placeholder);
     }
 
     /**
      * method to add and replace fragments
      */
-    public void loadFragment(Fragment fragment, String tag,boolean addToBackStack){
-
-
+    public void loadFragment(Fragment fragment, String tag, boolean addToBackStack) {
+//        if (fragmentManager.getFragments().contains(fragment)) {
+        replaceFragment(fragment, tag, addToBackStack);
+        /* }else {
+            replaceFragment(fragment, tag, true);
+        }*/
     }
 
-    public void replaceFragment(Fragment fragment, String tag) {
+    public void replaceFragment(Fragment fragment, String tag, boolean addToBackStack) {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.your_placeholder, fragment, tag);
+        if (addToBackStack) fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 

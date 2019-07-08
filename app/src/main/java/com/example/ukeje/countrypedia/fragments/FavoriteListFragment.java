@@ -24,10 +24,6 @@ import java.util.List;
 
 
 public class FavoriteListFragment extends BaseFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     private LinearLayoutManager linearLayoutManager;
     public FavoriteListAdapter myAdapter;
@@ -45,12 +41,6 @@ public class FavoriteListFragment extends BaseFragment {
 
     private CountryRepository countryRepository;
 
-    View v;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     public FavoriteListFragment() {
@@ -62,23 +52,10 @@ public class FavoriteListFragment extends BaseFragment {
         return FAVORITE_LIST_FRAGMENT;
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static FavoriteListFragment newInstance(String param1, String param2) {
-        FavoriteListFragment fragment = new FavoriteListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -86,10 +63,9 @@ public class FavoriteListFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentFavoriteBinding.inflate(getLayoutInflater(), container, false);
-        v = binding.getRoot();
-        viewModel = ViewModelProviders.of(this.getActivity()).get(SharedFragmentViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(SharedFragmentViewModel.class);
         init();
-        return v;
+        return binding.getRoot();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -161,7 +137,7 @@ public class FavoriteListFragment extends BaseFragment {
             public void onApiSuccessful(List<CountryResponse> successResponse) {
                 viewModel.countryDetails = successResponse.get(0);
                 viewModel.cancelProgressDialog();
-                onButtonPressed("ET");
+                onButtonPressed(SEARCH_COUNTRY_FRAGMENT);
             }
 
             @Override

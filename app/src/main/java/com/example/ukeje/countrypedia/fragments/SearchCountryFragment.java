@@ -137,7 +137,7 @@ public class SearchCountryFragment extends BaseFragment {
                             @Override
                             public void onClick(View v) {
                                 viewModel.countryDetails = successResponse.get(binding.listView.getChildLayoutPosition(v));
-                                onButtonPressed("et");
+                                onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
                                 appUtils.hideKeyboard();
                             }
                         });

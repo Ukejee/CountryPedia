@@ -26,10 +26,6 @@ import java.util.Random;
 
 
 public class HomeFragment extends BaseFragment implements SearchCountryFragment.OnFragmentInteractionListener{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     private  Country randomCountry;
     private List<Country> dbCountries;
@@ -40,14 +36,9 @@ public class HomeFragment extends BaseFragment implements SearchCountryFragment.
 
     private BottomNavigationDrawerFragment navMenu;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
     View.OnClickListener listener;
 
-    public View v;
     FragmentSearchBinding binding;
     public CountryRepository countryRepository;
 
@@ -64,24 +55,9 @@ public class HomeFragment extends BaseFragment implements SearchCountryFragment.
         return HOME_FRAGMENT;
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
         setHasOptionsMenu(true);
     }
 
@@ -91,11 +67,10 @@ public class HomeFragment extends BaseFragment implements SearchCountryFragment.
         // Inflate the layout for this fragment
 
         binding = FragmentSearchBinding.inflate(getLayoutInflater(), container, false);
-        v = binding.getRoot();
 
-        viewModel = ViewModelProviders.of(this.getActivity()).get(SharedFragmentViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(SharedFragmentViewModel.class);
         initView();
-        return  v;
+        return  binding.getRoot();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -142,7 +117,7 @@ public class HomeFragment extends BaseFragment implements SearchCountryFragment.
         binding.countrySearchBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onButtonPressed("SearchResult");
+                onButtonPressed(SEARCH_COUNTRY_FRAGMENT);
             }
         });
 
@@ -202,7 +177,7 @@ public class HomeFragment extends BaseFragment implements SearchCountryFragment.
                     viewModel.countryDetails = successResponse.get(0);
                 }
                 viewModel.cancelProgressDialog();
-                onButtonPressed("ET");
+                onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
             }
 
             @Override
@@ -233,7 +208,7 @@ public class HomeFragment extends BaseFragment implements SearchCountryFragment.
             public void onApiSuccessful(List<CountryResponse> successResponse) {
                 viewModel.countryDetails = successResponse.get(0);
                 viewModel.cancelProgressDialog();
-                onButtonPressed("ET");
+                onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
             }
 
             @Override
@@ -327,8 +302,6 @@ public class HomeFragment extends BaseFragment implements SearchCountryFragment.
                         binding.capitalName.setText(randomCountry.getCapital());
                         binding.knowMoreField.setText("Know more about " + randomCountry.getName());
                     }
-
-
                 }
             };
 

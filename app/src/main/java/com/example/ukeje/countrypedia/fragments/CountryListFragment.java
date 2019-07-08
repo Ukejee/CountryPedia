@@ -114,7 +114,7 @@ public class CountryListFragment extends BaseFragment {
     public void onClickCountryList(View view){
 
         viewModel.countryDetails = viewModel.countryList.get(binding.countryList.getChildLayoutPosition(view));
-        onButtonPressed("ET");
+        onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
     }
 
 

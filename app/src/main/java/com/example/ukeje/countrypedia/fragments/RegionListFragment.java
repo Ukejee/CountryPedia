@@ -49,14 +49,6 @@ public class RegionListFragment extends BaseFragment {
         return REGION_LIST_FRAGMENT;
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static RegionListFragment newInstance(String param1, String param2) {
-        RegionListFragment fragment = new RegionListFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +115,7 @@ public class RegionListFragment extends BaseFragment {
             public void onApiSuccessful(List<CountryResponse> successResponse) {
                 viewModel.countryList = successResponse;
                 viewModel.cancelProgressDialog();
-                onButtonPressed("CLF");
+                onButtonPressed(COUNTRY_LIST_FRAGMENT);
             }
 
             @Override
