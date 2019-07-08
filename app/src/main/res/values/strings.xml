@@ -11,4 +11,10 @@
     <string name="home_menu_item">Home</string>
     <string name="region_menu_item">Region</string>
     <string name="favorites_menu_item">Favorites</string>
+    <string name="app_version_no">Version 1.0</string>
+    <string name="developers_name">Ukeje Emeka</string>
+    <string name="app_build_year">2019</string>
+    <string name="rights_reserved_text">All Rights Reserved</string>
+    <string name="app_description">The CountryPedia mobile application searches through all countries of the world</string>
+    <string name="api_used">via REST COUNTRY API</string>
 </resources>
