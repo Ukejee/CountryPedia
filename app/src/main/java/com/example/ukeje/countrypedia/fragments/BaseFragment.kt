@@ -2,6 +2,7 @@ package com.example.ukeje.countrypedia.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.ukeje.countrypedia.MainActivity
 
 import com.example.ukeje.countrypedia.utils.AppUtils
 
@@ -16,9 +17,12 @@ abstract class BaseFragment : Fragment() {
 
     abstract val fragmentTag: String
 
+    lateinit var mainActivity: MainActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appUtils = AppUtils(requireActivity())
+        mainActivity = requireActivity() as MainActivity
 
     }
 

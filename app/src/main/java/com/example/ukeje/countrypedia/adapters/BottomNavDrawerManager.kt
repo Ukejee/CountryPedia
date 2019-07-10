@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.ukeje.countrypedia.dto.HomeNavItem
+import com.example.ukeje.countrypedia.dto.HomeNavItem.Companion.FAVORITE_POSITION
 import com.example.ukeje.countrypedia.dto.HomeNavItem.Companion.HOME_POSITION
+import com.example.ukeje.countrypedia.dto.HomeNavItem.Companion.REGION_POSITION
 import com.example.ukeje.countrypedia.fragments.BottomNavDrawerDialogFragment
 
 /**
@@ -57,16 +59,16 @@ class BottomNavDrawerManager(var menuList: List<HomeNavItem>) {
      */
     fun initView() {
         //sets initial selected layout
-        setLayoutSelection(selectedItemPosition)
+        setNavItemSelection(selectedItemPosition)
     }
 
     /**
-     * receives click from [BottomNavDrawerDialogFragment] class and calls [setLayoutSelection] method
+     * receives click from [BottomNavDrawerDialogFragment] class and calls [setNavItemSelection] method
      * and sets the position and also sets the [selectedItemId]
      * @param itemPosition: clicked position
      */
     fun onItemClick(itemPosition: Int) {
-        setLayoutSelection(itemPosition)
+        setNavItemSelection(itemPosition)
         this.selectedItemPosition = itemPosition
 
         selectedItemId = menuList[itemPosition].id
@@ -76,7 +78,7 @@ class BottomNavDrawerManager(var menuList: List<HomeNavItem>) {
      *this highlights the layout selected
      * @param selectedItemPosition: position selected
      */
-    private fun setLayoutSelection(selectedItemPosition: Int) {
+    private fun setNavItemSelection(selectedItemPosition: Int) {
         navItemLayoutList.forEach {
             it.isSelected = it === navItemLayoutList[selectedItemPosition]
         }
@@ -102,5 +104,17 @@ class BottomNavDrawerManager(var menuList: List<HomeNavItem>) {
             }
         }
         return result
+    }
+
+    fun goToHomeMenu() {
+        onItemClick(HOME_POSITION)
+    }
+
+    fun goToRegionMenu() {
+        onItemClick(REGION_POSITION)
+    }
+
+    fun goToFavoriteMenu() {
+        onItemClick(FAVORITE_POSITION)
     }
 }

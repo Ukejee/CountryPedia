@@ -68,6 +68,7 @@ public class HomeFragment extends BaseFragment {
 
     private void initView() {
 
+
         countryRepository = new CountryRepository(getActivity());
 
         binding.countrySearchBox.getText().clear();

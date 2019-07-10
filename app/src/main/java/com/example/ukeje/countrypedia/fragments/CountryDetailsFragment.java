@@ -70,7 +70,7 @@ public class CountryDetailsFragment extends BaseFragment {
 //                    onButtonPressed("back");
         });
 
-        binding.favoriteBtn.setClickable(true);
+       /* binding.favoriteBtn.setClickable(true);
         if(!sharedFragmentViewModel.getFavoriteCountries().contains(binding.countryName.getText())){
             binding.favoriteBtn.setTag(R.drawable.favorite_border);
             binding.favoriteBtn.setImageResource(R.drawable.favorite_border);
@@ -97,7 +97,7 @@ public class CountryDetailsFragment extends BaseFragment {
                 }
 
             }
-        });
+        });*/
 
     }
 

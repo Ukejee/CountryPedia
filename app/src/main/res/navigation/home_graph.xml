@@ -16,9 +16,6 @@
         <action
             android:id="@+id/action_homeFragment_to_searchCountryFragment"
             app:destination="@id/searchCountryFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_region_graph"
-            app:destination="@id/region_graph" />
     </fragment>
     <fragment
         android:id="@+id/countryDetailsFragment"
@@ -34,6 +31,5 @@
             android:id="@+id/action_searchCountryFragment_to_countryDetailsFragment"
             app:destination="@id/countryDetailsFragment" />
     </fragment>
-    <include app:graph="@navigation/region_graph" />
 
 </navigation>

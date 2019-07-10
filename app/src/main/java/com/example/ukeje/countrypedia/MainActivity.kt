@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.ukeje.countrypedia.databinding.ActivityMainBinding
@@ -16,7 +17,7 @@ import com.example.ukeje.countrypedia.fragments.BottomNavDrawerDialogFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private var currentNavController: LiveData<NavController>? = null
+    private var currentNavControllerLiveData: LiveData<NavController>? = null
 
     private lateinit var binding: ActivityMainBinding
     private var navDrawerDialogFragment: BottomNavDrawerDialogFragment? = null
@@ -82,19 +83,35 @@ class MainActivity : AppCompatActivity() {
         binding.bottomAppBar.setNavigationOnClickListener { navDrawerDialogFragment!!.show(supportFragmentManager.beginTransaction(), BOTTOM_NAV_DRAWER_FRAGMENT) }
 
 
-        val controller = navDrawerDialogFragment?.bottomNavDrawerManager?.setupWithNavDrawerMenuController(
-                navHostFragList = navHostList,
-                fragManager = supportFragmentManager,
+        val controllerLiveData = navDrawerDialogFragment?.bottomNavDrawerManager?.setupWithNavDrawerMenuController(
                 intent = intent,
-                itemClickListener = {
-
-                }
+                fragManager = supportFragmentManager,
+                navHostFragList = navHostList,
+                itemClickListener = {}
         )
 
-        currentNavController = controller
+        //listening on the controllerLiveData
+        controllerLiveData?.observe(this, Observer { navController ->
+
+            //listening on the controller for destination change
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                if (destination.id == R.id.homeFragment) {
+                    binding.exploreBtn.show()
+                } else {
+                    binding.exploreBtn.hide()
+                }
+            }
+
+        })
+
+        currentNavControllerLiveData = controllerLiveData
+
+        binding.exploreBtn.setOnClickListener {
+            navDrawerDialogFragment?.bottomNavDrawerManager!!.goToRegionMenu()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return currentNavController?.value?.navigateUp() ?: false
+        return currentNavControllerLiveData?.value?.navigateUp() ?: false
     }
 }
