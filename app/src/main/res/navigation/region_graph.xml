@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/region_graph"
+    app:startDestination="@id/countryListFragment2">
+
+    <fragment
+        android:id="@+id/countryDetailsFragment2"
+        android:name="com.example.ukeje.countrypedia.fragments.CountryDetailsFragment"
+        android:label="Country"
+        tools:layout="@layout/fragment_country_details" />
+    <fragment
+        android:id="@+id/regionListFragment2"
+        android:name="com.example.ukeje.countrypedia.fragments.RegionListFragment"
+        android:label="Regions"
+        tools:layout="@layout/fragment_region_list">
+        <action
+            android:id="@+id/action_regionListFragment2_to_countryListFragment2"
+            app:destination="@id/countryListFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/countryListFragment2"
+        android:name="com.example.ukeje.countrypedia.fragments.CountryListFragment"
+        android:label="Country List"
+        tools:layout="@layout/fragment_country_list">
+        <action
+            android:id="@+id/action_countryListFragment2_to_countryDetailsFragment2"
+            app:destination="@id/countryDetailsFragment2" />
+    </fragment>
+</navigation>

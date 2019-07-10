@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.ukeje.countrypedia.fragments.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_countryDetailsFragment2"
+            app:destination="@id/countryDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchCountryFragment"
+            app:destination="@id/searchCountryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_region_graph"
+            app:destination="@id/region_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/countryDetailsFragment"
+        android:name="com.example.ukeje.countrypedia.fragments.CountryDetailsFragment"
+        android:label="Country"
+        tools:layout="@layout/fragment_country_details" />
+    <fragment
+        android:id="@+id/searchCountryFragment"
+        android:name="com.example.ukeje.countrypedia.fragments.SearchCountryFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search_country">
+        <action
+            android:id="@+id/action_searchCountryFragment_to_countryDetailsFragment"
+            app:destination="@id/countryDetailsFragment" />
+    </fragment>
+    <include app:graph="@navigation/region_graph" />
+
+</navigation>

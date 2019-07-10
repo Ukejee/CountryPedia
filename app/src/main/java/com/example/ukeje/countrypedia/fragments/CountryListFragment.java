@@ -1,6 +1,5 @@
 package com.example.ukeje.countrypedia.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import com.example.ukeje.countrypedia.databinding.FragmentCountryListBinding;
 
 public class CountryListFragment extends BaseFragment {
 
-    private OnFragmentInteractionListener mListener;
 
     public CountryListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -60,50 +58,13 @@ public class CountryListFragment extends BaseFragment {
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(String tag) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(tag);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(String tag);
-    }
-
     public void init(){
 
         binding.regionTitle.setText(viewModel.getRegionSelected());
         layoutManager = new LinearLayoutManager(getActivity());
         binding.countryList.setLayoutManager(layoutManager);
 
-        mAdapter = new CountryListAdapter(viewModel.countryList, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                onClickCountryList(v);
-
-            }
-        }, v.getContext());
+        mAdapter = new CountryListAdapter(viewModel.countryList, v -> onClickCountryList(v), v.getContext());
 
         layoutManager = new LinearLayoutManager(this.getActivity());
         binding.countryList.setLayoutManager(layoutManager);
@@ -114,7 +75,7 @@ public class CountryListFragment extends BaseFragment {
     public void onClickCountryList(View view){
 
         viewModel.countryDetails = viewModel.countryList.get(binding.countryList.getChildLayoutPosition(view));
-        onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
+//        onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
     }
 
 

@@ -16,14 +16,14 @@ import com.example.ukeje.countrypedia.CountryRepository;
 import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.database.Country;
-import com.example.ukeje.countrypedia.databinding.FragmentResultBinding;
+import com.example.ukeje.countrypedia.databinding.FragmentCountryDetailsBinding;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 
 import java.util.Objects;
 
 
-public class CountyDetailsFragment extends BaseFragment {
-    private FragmentResultBinding binding;
+public class CountryDetailsFragment extends BaseFragment {
+    private FragmentCountryDetailsBinding binding;
     private SharedFragmentViewModel sharedFragmentViewModel;
     private OnFragmentInteractionListener mListener;
     private CountryRepository countryRepository;
@@ -31,7 +31,7 @@ public class CountyDetailsFragment extends BaseFragment {
     private Country favoriteCountry;
     public boolean isFavorite = false;
 
-    public CountyDetailsFragment() {
+    public CountryDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -63,7 +63,7 @@ public class CountyDetailsFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentResultBinding.inflate(getLayoutInflater(), container, false);
+        binding = FragmentCountryDetailsBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
     }
 

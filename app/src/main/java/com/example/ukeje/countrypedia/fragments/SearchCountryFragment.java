@@ -1,6 +1,5 @@
 package com.example.ukeje.countrypedia.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.adapters.SearchResultListAdapter;
-import com.example.ukeje.countrypedia.databinding.FragmentSearchResultBinding;
+import com.example.ukeje.countrypedia.databinding.FragmentSearchCountryBinding;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
@@ -32,9 +31,7 @@ public class SearchCountryFragment extends BaseFragment {
     private SharedFragmentViewModel viewModel;
 
     private List<CountryResponse> searchResultList;
-    private FragmentSearchResultBinding binding;
-
-    private OnFragmentInteractionListener mListener;
+    private FragmentSearchCountryBinding binding;
 
     public SearchCountryFragment() {
         // Required empty public constructor
@@ -55,7 +52,7 @@ public class SearchCountryFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentSearchResultBinding.inflate(getLayoutInflater(), container, false);
+        binding = FragmentSearchCountryBinding.inflate(getLayoutInflater(), container, false);
         v = binding.getRoot();
         viewModel = ViewModelProviders.of(getActivity()).get(SharedFragmentViewModel.class);
 
@@ -63,35 +60,6 @@ public class SearchCountryFragment extends BaseFragment {
         binding.editText.requestFocus();
         appUtils.openKeyboard();
         return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(String tag) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(tag);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(String tag);
     }
 
     private void init(){
@@ -137,7 +105,7 @@ public class SearchCountryFragment extends BaseFragment {
                             @Override
                             public void onClick(View v) {
                                 viewModel.countryDetails = successResponse.get(binding.listView.getChildLayoutPosition(v));
-                                onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
+//                                onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
                                 appUtils.hideKeyboard();
                             }
                         });

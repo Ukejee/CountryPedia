@@ -1,6 +1,5 @@
 package com.example.ukeje.countrypedia.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.adapters.RegionListAdapter;
-import com.example.ukeje.countrypedia.databinding.FragmentRegionBinding;
+import com.example.ukeje.countrypedia.databinding.FragmentRegionListBinding;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
@@ -27,12 +26,11 @@ public class RegionListFragment extends BaseFragment {
 
     View v;
     SharedFragmentViewModel viewModel;
-    FragmentRegionBinding binding;
-    BottomNavigationDrawerFragment navMenu;
+    FragmentRegionListBinding binding;
+    BottomNavDrawerDialogFragment navMenu;
     LinearLayoutManager linearLayoutManager;
     RegionListAdapter regionListAdapter;
     ArrayList<String> regionList = new ArrayList<>(Arrays.asList("Africa", "Americas", "Asia", "Europe", "Oceania"));
-    private OnFragmentInteractionListener mListener;
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -61,36 +59,12 @@ public class RegionListFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentRegionBinding.inflate(getLayoutInflater(), container, false);
+        binding = FragmentRegionListBinding.inflate(getLayoutInflater(), container, false);
         viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SharedFragmentViewModel.class);
         v = binding.getRoot();
         init();
 
         return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(String tag) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(tag);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     public void init() {
@@ -115,7 +89,7 @@ public class RegionListFragment extends BaseFragment {
             public void onApiSuccessful(List<CountryResponse> successResponse) {
                 viewModel.countryList = successResponse;
                 viewModel.cancelProgressDialog();
-                onButtonPressed(COUNTRY_LIST_FRAGMENT);
+//                onButtonPressed(COUNTRY_LIST_FRAGMENT);
             }
 
             @Override
@@ -133,8 +107,4 @@ public class RegionListFragment extends BaseFragment {
         });
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(String tag);
-    }
 }
