@@ -23,7 +23,7 @@ class BottomNavDrawerDialogFragment(private val homeNavItemList: ArrayList<HomeN
 
     private lateinit var uiBinding: FragmentBottomNavDrawerDialogBinding
 
-    var bottomNavDrawerAdapter = BottomNavDrawerManager(homeNavItemList)
+    var bottomNavDrawerManager = BottomNavDrawerManager(homeNavItemList)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -36,21 +36,28 @@ class BottomNavDrawerDialogFragment(private val homeNavItemList: ArrayList<HomeN
 
     private fun initUi() {
 
-        bottomNavDrawerAdapter.navItemLayoutList = mutableListOf(uiBinding.homeItemLayout, uiBinding.regionItemLayout, uiBinding.favoriteItemLayout)
-        bottomNavDrawerAdapter.initView()
+        //set navItemLayoutList in the bottomNavDrawerManager to manage the layouts
+        bottomNavDrawerManager.navItemLayoutList = mutableListOf(uiBinding.homeItemLayout, uiBinding.regionItemLayout, uiBinding.favoriteItemLayout)
+        bottomNavDrawerManager.initView()
 
+        //set item text
+        uiBinding.homeMenuItem.text = homeNavItemList[HOME_POSITION].name
+        uiBinding.regionMenuItem.text = homeNavItemList[REGION_POSITION].name
+        uiBinding.favoriteMenuItem.text = homeNavItemList[FAVORITE_POSITION].name
+
+        //listening for click actions from the ui
         uiBinding.homeItemLayout.setOnClickListener {
-            bottomNavDrawerAdapter.onItemClick(HOME_POSITION)
+            bottomNavDrawerManager.onItemClick(HOME_POSITION)
             dismiss()
         }
 
         uiBinding.regionItemLayout.setOnClickListener {
-            bottomNavDrawerAdapter.onItemClick(REGION_POSITION)
+            bottomNavDrawerManager.onItemClick(REGION_POSITION)
             dismiss()
         }
 
         uiBinding.favoriteItemLayout.setOnClickListener {
-            bottomNavDrawerAdapter.onItemClick(FAVORITE_POSITION)
+            bottomNavDrawerManager.onItemClick(FAVORITE_POSITION)
             dismiss()
         }
     }

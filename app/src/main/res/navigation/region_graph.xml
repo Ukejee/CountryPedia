@@ -28,4 +28,9 @@
             android:id="@+id/action_countryListFragment2_to_countryDetailsFragment2"
             app:destination="@id/countryDetailsFragment2" />
     </fragment>
+    <action
+        android:id="@+id/action_global_regionListFragment2"
+        app:destination="@id/regionListFragment2"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/regionListFragment2" />
 </navigation>

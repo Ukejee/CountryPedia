@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.ukeje.countrypedia.dto.HomeNavItem
+import com.example.ukeje.countrypedia.dto.HomeNavItem.Companion.HOME_POSITION
+import com.example.ukeje.countrypedia.fragments.BottomNavDrawerDialogFragment
 
 /**
  * @author .: Oriaghan Uyi
@@ -28,56 +30,73 @@ class BottomNavDrawerManager(var menuList: List<HomeNavItem>) {
 
     val selectedNavController = MutableLiveData<NavController>()
 
-    var firstFragmentGraphId = 0
+    var initialPosition = HOME_POSITION
 
-    var selectedItemPosition = 0
+    var firstFragmentGraphId = menuList[initialPosition].id
+
+    var selectedItemPosition = initialPosition
 
     var listener: ((HomeNavItem) -> Boolean)? = null
 
-    var selectedItemId = menuList[HomeNavItem.HOME_POSITION].id
+    var selectedItemId = firstFragmentGraphId
         set(value) {
+            //gets the HomeNavItem by the selectedId
             val navItem = getHomeNavItemById(value)
-            if (navItem != null)
+            //if navItem is not null call the listener closure method with navItem
+            navItem?.let {
                 listener?.let {
                     it(navItem)
                     selectedItemPosition = menuList.indexOf(navItem)
                 }
+            }
             field = value
         }
 
-    companion object {
-        val RAW_HOME_NAV_ITEMS_LIST = listOf(
-                HomeNavItem("HOME", HomeNavItem.HOME_POSITION),
-                HomeNavItem("REGION", HomeNavItem.REGION_POSITION),
-                HomeNavItem("FAVORITE", HomeNavItem.FAVORITE_POSITION)
-        )
-    }
-
+    /**
+     * initializes ui
+     */
     fun initView() {
+        //sets initial selected layout
         setLayoutSelection(selectedItemPosition)
-
     }
 
-    fun onItemClick(itemPosition: Int){
+    /**
+     * receives click from [BottomNavDrawerDialogFragment] class and calls [setLayoutSelection] method
+     * and sets the position and also sets the [selectedItemId]
+     * @param itemPosition: clicked position
+     */
+    fun onItemClick(itemPosition: Int) {
         setLayoutSelection(itemPosition)
         this.selectedItemPosition = itemPosition
+
         selectedItemId = menuList[itemPosition].id
     }
 
+    /**
+     *this highlights the layout selected
+     * @param selectedItemPosition: position selected
+     */
     private fun setLayoutSelection(selectedItemPosition: Int) {
-        for (i in navItemLayoutList.indices) {
-            navItemLayoutList[i].isSelected = navItemLayoutList[i] === navItemLayoutList[selectedItemPosition]
+        navItemLayoutList.forEach {
+            it.isSelected = it === navItemLayoutList[selectedItemPosition]
         }
     }
 
+    /**
+     * sets listener for item clicks
+     */
     fun setOnNavigationItemSelectedListener(listener: (HomeNavItem) -> Boolean) {
         this.listener = listener
     }
 
-    fun getHomeNavItemById(id: Int): HomeNavItem? {
+    /**
+     *gets the [HomeNavItem] to which the [homeNavItemId] belongs
+     */
+    private fun getHomeNavItemById(homeNavItemId: Int): HomeNavItem? {
         var result: HomeNavItem? = null
-        for (item: HomeNavItem in menuList) {
-            if (item.id == id) {
+
+        for (item in menuList) {
+            if (item.id == homeNavItemId) {
                 result = item
                 break
             }

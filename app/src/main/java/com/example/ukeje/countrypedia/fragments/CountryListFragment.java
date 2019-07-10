@@ -44,7 +44,7 @@ public class CountryListFragment extends BaseFragment {
 
     @Override
     public String getFragmentTag() {
-        return COUNTRY_LIST_FRAGMENT;
+        return Companion.getCOUNTRY_LIST_FRAGMENT();
     }
 
     @Override

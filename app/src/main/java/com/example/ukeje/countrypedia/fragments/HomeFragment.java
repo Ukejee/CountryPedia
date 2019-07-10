@@ -45,7 +45,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public String getFragmentTag() {
-        return HOME_FRAGMENT;
+        return Companion.getHOME_FRAGMENT();
     }
 
     @Override
@@ -126,6 +126,9 @@ public class HomeFragment extends BaseFragment {
             public void onApiSuccessful(List<CountryResponse> successResponse) {
                 viewModel.countryDetails = successResponse.get(0);
                 viewModel.cancelProgressDialog();
+
+                Navigation.findNavController(binding.getRoot()).navigate(R.id.action_homeFragment_to_countryDetailsFragment);
+
             }
 
             @Override
@@ -160,7 +163,7 @@ public class HomeFragment extends BaseFragment {
                 if (dbCountries.isEmpty()) {
                     String[] countries = {"africa", "asia", "europe", "americas", "oceania"};
                     for (int i = 0; i < countries.length; i++) {
-                        appUtils.showMessage("PLEASE WAIT APP IS SETTING UP SOME THINGS");
+                        getAppUtils().showMessage("PLEASE WAIT APP IS SETTING UP SOME THINGS");
                         viewModel.setRegionSelected(countries[i]);
                         viewModel.loadCountryList(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
                             @Override
@@ -174,16 +177,16 @@ public class HomeFragment extends BaseFragment {
                             @Override
                             public void onApiFailed(@Nullable ErrorResponse errorResponse) {
 
-                                appUtils.showMessage("DATABASE" +
+                                getAppUtils().showMessage("DATABASE" +
                                         "UPLOAD FALIED " + errorResponse.getMessage());
                             }
 
                             @Override
                             public void onNetworkFailure() {
 
-                                appUtils.showMessage("DATABASE" +
+                                getAppUtils().showMessage("DATABASE" +
                                         "UPLOAD FAILED" + "NETWORK ERROR");
-                                appUtils.showMessage("Please check netork connectivity" +
+                                getAppUtils().showMessage("Please check netork connectivity" +
                                         "and restart app");
 
                             }

@@ -46,10 +46,11 @@
                         tools:ignore="ContentDescription" />
 
                     <TextView
+                        android:id="@+id/home_menu_item"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/home_menu_item"
+                        tools:text="@string/home_menu_item"
                         android:textColor="@color/appGrey"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -76,10 +77,11 @@
                         tools:ignore="ContentDescription" />
 
                     <TextView
+                        android:id="@+id/region_menu_item"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/region_menu_item"
+                        tools:text="@string/region_menu_item"
                         android:textColor="@color/appGrey"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -108,10 +110,11 @@
                         tools:ignore="ContentDescription" />
 
                     <TextView
+                        android:id="@+id/favorite_menu_item"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/favorites_menu_item"
+                        tools:text="@string/favorites_menu_item"
                         android:textColor="@color/appGrey"
                         android:textSize="18sp"
                         android:textStyle="bold" />

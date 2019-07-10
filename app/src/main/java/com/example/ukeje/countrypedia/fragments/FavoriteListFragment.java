@@ -42,7 +42,7 @@ public class FavoriteListFragment extends BaseFragment {
 
     @Override
     public String getFragmentTag() {
-        return FAVORITE_LIST_FRAGMENT;
+        return Companion.getFAVORITE_LIST_FRAGMENT();
     }
 
     @Override

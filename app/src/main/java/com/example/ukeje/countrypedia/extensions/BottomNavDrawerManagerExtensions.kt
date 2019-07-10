@@ -49,10 +49,6 @@ fun BottomNavDrawerManager.setupWithNavDrawerMenuController(
         // Obtain its id
         val graphId = navHostFragment.navController.graph.id
 
-        if (index == 0) {
-            firstFragmentGraphId = graphId
-        }
-
         // Save to the map
         graphIdToTagMap[graphId] = fragmentTag
 
@@ -86,7 +82,7 @@ fun BottomNavDrawerManager.setupWithNavDrawerMenuController(
 
                 fragmentManager.popBackStack(
                         firstFragmentTag,
-                        androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
                 )
                 selectedNavHostFragment = fragmentManager.findFragmentByTag(newlySelectedItemTag) as NavHostFragment
 
@@ -188,19 +184,21 @@ private fun attachNavHostFragment(
 
 fun obtainNavHostFragment(
         fragmentManager: FragmentManager,
-        fragmentTag: String,
+        fragmentHostTag: String,
         navGraphId: Int,
         containerId: Int
 ): NavHostFragment {
     // If the Nav Host fragment exists, return it
-    val existingFragment = fragmentManager.findFragmentByTag(fragmentTag) as NavHostFragment?
+    val existingFragment = fragmentManager.findFragmentByTag(fragmentHostTag) as NavHostFragment?
     existingFragment?.let { return it }
 
     // Otherwise, create it and return it.
     val navHostFragment = NavHostFragment.create(navGraphId)
+
     fragmentManager.beginTransaction()
-            .add(containerId, navHostFragment, fragmentTag)
+            .add(containerId, navHostFragment, fragmentHostTag)
             .commitNow()
+
     return navHostFragment
 }
 

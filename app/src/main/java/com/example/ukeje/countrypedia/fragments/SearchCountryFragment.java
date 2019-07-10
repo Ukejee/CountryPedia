@@ -39,7 +39,7 @@ public class SearchCountryFragment extends BaseFragment {
 
     @Override
     public String getFragmentTag() {
-        return SEARCH_COUNTRY_FRAGMENT;
+        return Companion.getSEARCH_COUNTRY_FRAGMENT();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class SearchCountryFragment extends BaseFragment {
 
         init();
         binding.editText.requestFocus();
-        appUtils.openKeyboard();
+        getAppUtils().openKeyboard();
         return v;
     }
 
@@ -106,7 +106,7 @@ public class SearchCountryFragment extends BaseFragment {
                             public void onClick(View v) {
                                 viewModel.countryDetails = successResponse.get(binding.listView.getChildLayoutPosition(v));
 //                                onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
-                                appUtils.hideKeyboard();
+                                getAppUtils().hideKeyboard();
                             }
                         });
                 binding.listView.setAdapter(searchResultListAdapter);

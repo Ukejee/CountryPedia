@@ -1,6 +1,5 @@
 package com.example.ukeje.countrypedia.fragments;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -25,7 +24,6 @@ import java.util.Objects;
 public class CountryDetailsFragment extends BaseFragment {
     private FragmentCountryDetailsBinding binding;
     private SharedFragmentViewModel sharedFragmentViewModel;
-    private OnFragmentInteractionListener mListener;
     private CountryRepository countryRepository;
     public int countryDbId;
     private Country favoriteCountry;
@@ -35,15 +33,9 @@ public class CountryDetailsFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    public void onButtonPressed(String tag) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(tag);
-        }
-    }
-
     @Override
     public String getFragmentTag() {
-        return COUNTRY_DETAILS_FRAGMENT;
+        return Companion.getCOUNTRY_DETAILS_FRAGMENT();
     }
 
     @Override
@@ -67,22 +59,6 @@ public class CountryDetailsFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     public void init() {
         updateUI(sharedFragmentViewModel.countryDetails);
@@ -90,11 +66,8 @@ public class CountryDetailsFragment extends BaseFragment {
         countryRepository = new CountryRepository(getActivity());
 
         binding.backBtn.setClickable(true);
-        binding.backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    onButtonPressed("back");
-            }
+        binding.backBtn.setOnClickListener(v -> {
+//                    onButtonPressed("back");
         });
 
         binding.favoriteBtn.setClickable(true);
@@ -210,12 +183,12 @@ public class CountryDetailsFragment extends BaseFragment {
                 if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_two){
                     favoriteCountry.setFavorite(true);
                     countryRepository.updateCountry(favoriteCountry);
-                    appUtils.showMessage("Country Added to favorite");
+                    getAppUtils().showMessage("Country Added to favorite");
                 }
                 if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_border){
                     favoriteCountry.setFavorite(false);
                     countryRepository.updateCountry(favoriteCountry);
-                    appUtils.showMessage("Country Has Been Removed From Favorites");
+                    getAppUtils().showMessage("Country Has Been Removed From Favorites");
 
                 }
 
@@ -223,11 +196,6 @@ public class CountryDetailsFragment extends BaseFragment {
         }.execute();
 
 
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String tag);
     }
 
     public  void setCountryId(){
