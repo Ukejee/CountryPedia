@@ -1,6 +1,11 @@
 package com.example.ukeje.countrypedia
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
@@ -34,22 +39,27 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        setUpDb()
+
         setUpUi()
 
     }
 
     private fun setUpUi() {
 
-        //adds menu icon to bottom appbar
-        binding.bottomAppBar.replaceMenu(R.menu.bottom_appbar_menu)
+        setSupportActionBar(binding.bottomAppBar)
 
         setUpNav()
+    }
+
+    private fun setUpDb(){
+
     }
 
     /**
      * sets up bottom navigation items and multiple back stack management
      */
-    fun setUpNav() {
+    private fun setUpNav() {
         //create a list of nav graph ids
         val navGraphIds = listOf(
                 R.navigation.home_graph,
@@ -95,6 +105,12 @@ class MainActivity : AppCompatActivity() {
 
             //listening on the controller for destination change
             navController.addOnDestinationChangedListener { _, destination, _ ->
+                if (destination.id == R.id.countryDetailsFragment) {
+                    binding.bottomAppBar.replaceMenu(R.menu.appbar_fav_unselected_menu)
+                }else{
+                    binding.bottomAppBar.replaceMenu(R.menu.appbar_about_menu)
+                }
+
                 if (destination.id == R.id.homeFragment) {
                     binding.exploreBtn.show()
                 } else {
@@ -111,7 +127,54 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.appbar_about_menu, menu)
+        return true
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.about_menu_item -> {
+            showAboutDialog()
+            true
+        }
+
+        R.id.favorite_unselected_menu_item -> {
+            // perform action to make country a favourite
+
+            true
+        }
+
+        R.id.favorite_selected_menu_item -> {
+            // perform action to remove country from favourite list
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return currentNavControllerLiveData?.value?.navigateUp() ?: false
+    }
+
+
+
+    private fun showAboutDialog(){
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        val viewGroup = findViewById<ViewGroup>(android.R.id.content)
+        //then we will inflate the custom alert dialog xml that we created
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.about_dialog, viewGroup, false)
+        //Now we need an AlertDialog.Builder object
+        val builder = AlertDialog.Builder(this)
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView)
+        //finally creating the alert dialog and displaying it
+        val alertDialog = builder.create()
+        alertDialog.show()
+
     }
 }
