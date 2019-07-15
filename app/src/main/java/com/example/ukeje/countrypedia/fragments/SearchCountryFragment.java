@@ -1,29 +1,20 @@
 package com.example.ukeje.countrypedia.fragments;
 
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
-import com.example.ukeje.countrypedia.R;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.adapters.SearchResultListAdapter;
-import com.example.ukeje.countrypedia.databinding.FragmentSearchResultBinding;
-import com.example.ukeje.countrypedia.utils.AppUtils;
+import com.example.ukeje.countrypedia.databinding.FragmentSearchCountryBinding;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
@@ -31,7 +22,7 @@ import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 import java.util.List;
 
 
-public class SearchResultFragment extends Fragment {
+public class SearchCountryFragment extends BaseFragment {
 
     private View v;
     private RecyclerView.LayoutManager linearLayoutManager;
@@ -40,14 +31,16 @@ public class SearchResultFragment extends Fragment {
     private SharedFragmentViewModel viewModel;
 
     private List<CountryResponse> searchResultList;
-    private FragmentSearchResultBinding binding;
+    private FragmentSearchCountryBinding binding;
 
-    private OnFragmentInteractionListener mListener;
-
-    public SearchResultFragment() {
+    public SearchCountryFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public String getFragmentTag() {
+        return Companion.getSEARCH_COUNTRY_FRAGMENT();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,43 +52,14 @@ public class SearchResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentSearchResultBinding.inflate(getLayoutInflater(), container, false);
+        binding = FragmentSearchCountryBinding.inflate(getLayoutInflater(), container, false);
         v = binding.getRoot();
         viewModel = ViewModelProviders.of(getActivity()).get(SharedFragmentViewModel.class);
 
         init();
         binding.editText.requestFocus();
-        AppUtils.openKeyboard(getActivity());
+        getAppUtils().openKeyboard();
         return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(String tag) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(tag);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(String tag);
     }
 
     private void init(){
@@ -141,8 +105,8 @@ public class SearchResultFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 viewModel.countryDetails = successResponse.get(binding.listView.getChildLayoutPosition(v));
-                                onButtonPressed("et");
-                                AppUtils.hideKeyboard(getActivity());
+//                                onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
+                                getAppUtils().hideKeyboard();
                             }
                         });
                 binding.listView.setAdapter(searchResultListAdapter);

@@ -1,56 +1,42 @@
 package com.example.ukeje.countrypedia.fragments;
 
-import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.ukeje.countrypedia.CountryRepository;
 import com.example.ukeje.countrypedia.R;
 import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.database.Country;
-import com.example.ukeje.countrypedia.databinding.FragmentResultBinding;
-import com.example.ukeje.countrypedia.utils.AppUtils;
-import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
+import com.example.ukeje.countrypedia.databinding.FragmentCountryDetailsBinding;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
-import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 
-import java.util.List;
 import java.util.Objects;
 
 
-public class ResultFragment extends Fragment {
-    private FragmentResultBinding binding;
+public class CountryDetailsFragment extends BaseFragment {
+    private FragmentCountryDetailsBinding binding;
     private SharedFragmentViewModel sharedFragmentViewModel;
-    private OnFragmentInteractionListener mListener;
     private CountryRepository countryRepository;
     public int countryDbId;
     private Country favoriteCountry;
     public boolean isFavorite = false;
 
-    public ResultFragment() {
+    public CountryDetailsFragment() {
         // Required empty public constructor
     }
 
-    public void onButtonPressed(String tag) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(tag);
-        }
+    @Override
+    public String getFragmentTag() {
+        return Companion.getCOUNTRY_DETAILS_FRAGMENT();
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,26 +55,10 @@ public class ResultFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentResultBinding.inflate(getLayoutInflater(), container, false);
+        binding = FragmentCountryDetailsBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     public void init() {
         updateUI(sharedFragmentViewModel.countryDetails);
@@ -96,14 +66,11 @@ public class ResultFragment extends Fragment {
         countryRepository = new CountryRepository(getActivity());
 
         binding.backBtn.setClickable(true);
-        binding.backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    onButtonPressed("back");
-            }
+        binding.backBtn.setOnClickListener(v -> {
+//                    onButtonPressed("back");
         });
 
-        binding.favoriteBtn.setClickable(true);
+       /* binding.favoriteBtn.setClickable(true);
         if(!sharedFragmentViewModel.getFavoriteCountries().contains(binding.countryName.getText())){
             binding.favoriteBtn.setTag(R.drawable.favorite_border);
             binding.favoriteBtn.setImageResource(R.drawable.favorite_border);
@@ -130,7 +97,7 @@ public class ResultFragment extends Fragment {
                 }
 
             }
-        });
+        });*/
 
     }
 
@@ -216,12 +183,12 @@ public class ResultFragment extends Fragment {
                 if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_two){
                     favoriteCountry.setFavorite(true);
                     countryRepository.updateCountry(favoriteCountry);
-                    AppUtils.showMessage(getActivity(),"Country Added to favorite");
+                    getAppUtils().showMessage("Country Added to favorite");
                 }
                 if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_border){
                     favoriteCountry.setFavorite(false);
                     countryRepository.updateCountry(favoriteCountry);
-                    AppUtils.showMessage(getActivity(),"Country Has Been Removed From Favorites");
+                    getAppUtils().showMessage("Country Has Been Removed From Favorites");
 
                 }
 
@@ -229,11 +196,6 @@ public class ResultFragment extends Fragment {
         }.execute();
 
 
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String tag);
     }
 
     public  void setCountryId(){

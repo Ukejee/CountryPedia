@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/favorite_graph"
+    app:startDestination="@id/favoriteListFragment">
+
+    <fragment
+        android:id="@+id/favoriteListFragment"
+        android:name="com.example.ukeje.countrypedia.fragments.FavoriteListFragment"
+        android:label="Favourite"
+        tools:layout="@layout/fragment_favorite_list">
+        <action
+            android:id="@+id/action_favoriteListFragment_to_countryDetailsFragment"
+            app:destination="@id/countryDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/countryDetailsFragment"
+        android:name="com.example.ukeje.countrypedia.fragments.CountryDetailsFragment"
+        android:label="Country"
+        tools:layout="@layout/fragment_country_details" />
+</navigation>

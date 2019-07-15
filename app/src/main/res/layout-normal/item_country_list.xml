@@ -10,7 +10,7 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/appWhite"
         app:cardCornerRadius="5dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"

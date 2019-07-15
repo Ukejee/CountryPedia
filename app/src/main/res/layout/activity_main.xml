@@ -3,17 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
-
-
-
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_gravity="bottom"
@@ -25,12 +18,14 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <FrameLayout
-                android:id="@+id/your_placeholder"
+                android:id="@+id/nav_host_fragment_layout"
+                android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
-                app:layout_constraintTop_toTopOf="parent"></FrameLayout>
-
+                android:visibility="visible"
+                app:defaultNavHost="true"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottomAppBar"
@@ -39,20 +34,17 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
                 app:backgroundTint="#266876"
-                app:navigationIcon="@drawable/menu_icon">
-
-            </com.google.android.material.bottomappbar.BottomAppBar>
+                app:navigationIcon="@drawable/menu_icon" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/explore_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/globe_icon"
+                app:srcCompat="@drawable/globe_icon"
                 app:backgroundTint="#000000"
                 app:fabSize="normal"
-                app:layout_anchor="@id/bottomAppBar" />
+                app:layout_anchor="@id/bottomAppBar"/>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

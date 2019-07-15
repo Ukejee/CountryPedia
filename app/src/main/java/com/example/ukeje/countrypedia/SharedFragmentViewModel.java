@@ -22,7 +22,7 @@ public class SharedFragmentViewModel extends ViewModel {
     private String searchedCountry;
     private String regionSelected;
     public CountryResponse countryDetails;
-    public List<CountryResponse> countryList;
+    public List<CountryResponse> countryList = new ArrayList<>();
     private static Dialog mProgressDialog;
     private CountryRepository countryRepository = new CountryRepository();
     public ArrayList<String> favoriteCountries = new ArrayList<>();
