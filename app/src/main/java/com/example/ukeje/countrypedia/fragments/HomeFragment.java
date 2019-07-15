@@ -29,7 +29,7 @@ public class HomeFragment extends BaseFragment {
     public SearchCountryFragment searchCountryFragment;
     View.OnClickListener listener;
     FragmentHomeBinding binding;
-    private Country randomCountry;
+    private Country randomCountry = new Country();
     private List<Country> dbCountries;
     private Random random = new Random();
     private int ranNum = random.nextInt(246) + 1;
@@ -71,11 +71,16 @@ public class HomeFragment extends BaseFragment {
 
         countryRepository = new CountryRepository(getActivity());
 
+
+        //set default random country
+        randomCountry.setName("Nigeria");
+        randomCountry.setCapital("Abuja");
+
         binding.countrySearchBox.getText().clear();
         binding.countrySearchBox.setOnClickListener(v ->
                 Navigation.findNavController(binding.getRoot()).navigate(R.id.action_homeFragment_to_searchCountryFragment));
 
-        binding.knowMoreField.setOnClickListener(v -> callSearchApi(binding.countryTitle.getText().toString()));
+        binding.knowMoreField.setOnClickListener(v -> callSearchApi(randomCountry.getName()));
 
         populateDatabase();
 

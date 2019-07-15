@@ -15,6 +15,6 @@
     <string name="developers_name">Ukeje Emeka</string>
     <string name="app_build_year">2019</string>
     <string name="rights_reserved_text">All Rights Reserved</string>
-    <string name="app_description">The CountryPedia mobile application searches through all countries of the world</string>
+    <string name="app_description">The CountryPedia mobile application searches through all countries of the world via REST COUNTRY API</string>
     <string name="api_used">via REST COUNTRY API</string>
 </resources>

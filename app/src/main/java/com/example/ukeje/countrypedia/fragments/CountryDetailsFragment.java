@@ -27,7 +27,6 @@ public class CountryDetailsFragment extends BaseFragment {
     private CountryRepository countryRepository;
     public int countryDbId;
     private Country favoriteCountry;
-    public boolean isFavorite = false;
 
     public CountryDetailsFragment() {
         // Required empty public constructor
@@ -70,10 +69,10 @@ public class CountryDetailsFragment extends BaseFragment {
 //                    onButtonPressed("back");
         });
 
-       /* binding.favoriteBtn.setClickable(true);
+        binding.favoriteBtn.setClickable(true);
         if(!sharedFragmentViewModel.getFavoriteCountries().contains(binding.countryName.getText())){
-            binding.favoriteBtn.setTag(R.drawable.favorite_border);
-            binding.favoriteBtn.setImageResource(R.drawable.favorite_border);
+            binding.favoriteBtn.setTag(R.drawable.favorite_icon_unselected);
+            binding.favoriteBtn.setImageResource(R.drawable.favorite_icon_unselected);
         }
         else{
             binding.favoriteBtn.setImageResource(R.drawable.favorite_two);
@@ -83,21 +82,21 @@ public class CountryDetailsFragment extends BaseFragment {
         binding.favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_border){
+                if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_icon_unselected){
                     binding.favoriteBtn.setImageResource(R.drawable.favorite_two);
                     binding.favoriteBtn.setTag(R.drawable.favorite_two);
                     sharedFragmentViewModel.favoriteCountries.add(binding.countryName.getText().toString());
                     setCountryId();
                 }
                 else {
-                    binding.favoriteBtn.setImageResource(R.drawable.favorite_border);
-                    binding.favoriteBtn.setTag(R.drawable.favorite_border);
+                    binding.favoriteBtn.setImageResource(R.drawable.favorite_icon_unselected);
+                    binding.favoriteBtn.setTag(R.drawable.favorite_icon_unselected);
                     sharedFragmentViewModel.favoriteCountries.remove(binding.countryName.getText().toString());
                     setCountryId();
                 }
 
             }
-        });*/
+        });
 
     }
 
@@ -170,7 +169,7 @@ public class CountryDetailsFragment extends BaseFragment {
 
     //THIS METHOD UPDATES THE VALUE OF THE FAVORITE COLUMN IN THE DATABASE
     public void setFavoriteCountry(){
-        new AsyncTask<Void, Void, Country>() {
+        /*new AsyncTask<Void, Void, Country>() {
             @Override
             protected Country doInBackground(Void...voids) {
                 return countryRepository.getCountry(countryDbId);
@@ -185,7 +184,7 @@ public class CountryDetailsFragment extends BaseFragment {
                     countryRepository.updateCountry(favoriteCountry);
                     getAppUtils().showMessage("Country Added to favorite");
                 }
-                if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_border){
+                if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_icon_unselected){
                     favoriteCountry.setFavorite(false);
                     countryRepository.updateCountry(favoriteCountry);
                     getAppUtils().showMessage("Country Has Been Removed From Favorites");
@@ -194,7 +193,7 @@ public class CountryDetailsFragment extends BaseFragment {
 
             }
         }.execute();
-
+*/
 
     }
 

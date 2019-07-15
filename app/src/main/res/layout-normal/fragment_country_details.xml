@@ -442,7 +442,7 @@
                 android:layout_height="match_parent"
                 android:padding="15dp"
                 android:background="@drawable/ripple"
-                app:srcCompat="@drawable/favorite_border"
+                app:srcCompat="@drawable/favorite_icon_unselected"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
