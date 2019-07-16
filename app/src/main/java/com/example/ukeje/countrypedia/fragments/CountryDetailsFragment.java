@@ -172,7 +172,7 @@ public class CountryDetailsFragment extends BaseFragment {
         /*new AsyncTask<Void, Void, Country>() {
             @Override
             protected Country doInBackground(Void...voids) {
-                return countryRepository.getCountry(countryDbId);
+                return countryRepository.getCountryDetails(countryDbId);
             }
 
             @Override

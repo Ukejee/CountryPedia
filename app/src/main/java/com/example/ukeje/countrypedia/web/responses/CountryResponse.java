@@ -13,7 +13,7 @@ public class CountryResponse implements Serializable {
 
     @SerializedName("name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("topLevelDomain")
     @Expose
     private List<String> topLevelDomain = null;

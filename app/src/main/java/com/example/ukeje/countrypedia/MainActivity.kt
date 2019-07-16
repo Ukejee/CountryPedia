@@ -12,6 +12,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.room.Room
+import com.example.ukeje.countrypedia.database.CountryPediaDatabase
 import com.example.ukeje.countrypedia.databinding.ActivityMainBinding
 import com.example.ukeje.countrypedia.dto.HomeNavItem
 import com.example.ukeje.countrypedia.extensions.getFragmentTag
@@ -22,6 +24,7 @@ import com.example.ukeje.countrypedia.fragments.BottomNavDrawerDialogFragment
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var countryPediaDatabase: CountryPediaDatabase
     private var currentNavControllerLiveData: LiveData<NavController>? = null
 
     private lateinit var binding: ActivityMainBinding
@@ -32,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         val NAV_ITEM_NAMES = listOf("Home", "Region", "Favourites")
+        val COUNTRY_PEDIA_DB_NAME = "country_pedia_db"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +57,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpDb(){
+        countryPediaDatabase = Room.databaseBuilder(this, CountryPediaDatabase::class.java, COUNTRY_PEDIA_DB_NAME).build()
 
+
+        //test insert
+
+
+        //test query
     }
 
     /**
