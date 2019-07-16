@@ -8,8 +8,11 @@ import android.view.Window;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.ukeje.countrypedia.database.Country;
+import com.example.ukeje.countrypedia.web.helper.ApiResponse;
 import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
@@ -27,6 +30,32 @@ public class SharedFragmentViewModel extends ViewModel {
     private CountryRepository countryRepository = new CountryRepository();
     public ArrayList<String> favoriteCountries = new ArrayList<>();
     public ArrayList<String> funFacts;
+
+    public Country initialCountryOnUI = new Country("Nigeria", "Abuja", 566);
+
+    public void setCountryRepository(CountryRepository countryRepository){
+        this.countryRepository = countryRepository;
+    }
+
+    public LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> callGetCountryDetailsApi(String countryName) {
+       return countryRepository.getCountryDetails(countryName, null);
+    }
+
+    public LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> callGetCountryListApi(String regionName) {
+       return countryRepository.getCountryDetails(regionName, null);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public ArrayList<String> getFavoriteCountries(){ return favoriteCountries; }
 
@@ -56,7 +85,7 @@ public class SharedFragmentViewModel extends ViewModel {
     }
 
     public void loadCountryDetails(ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener){
-        countryRepository.getCountry(getSearchedCountry(), apiResponseListener);
+        countryRepository.getCountryDetails(getSearchedCountry(), apiResponseListener);
 
     }
 
