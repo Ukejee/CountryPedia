@@ -21,6 +21,7 @@ import com.example.ukeje.countrypedia.extensions.obtainNavHostFragment
 import com.example.ukeje.countrypedia.extensions.setupWithNavDrawerMenuController
 import com.example.ukeje.countrypedia.fragments.BaseFragment.Companion.BOTTOM_NAV_DRAWER_FRAGMENT
 import com.example.ukeje.countrypedia.fragments.BottomNavDrawerDialogFragment
+import com.example.ukeje.countrypedia.utils.AppUtils
 
 class MainActivity : AppCompatActivity() {
 

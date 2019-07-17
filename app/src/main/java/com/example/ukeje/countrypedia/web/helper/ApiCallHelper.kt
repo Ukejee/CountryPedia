@@ -97,6 +97,7 @@ abstract class ApiCallHelper<S, E, T>(baseUrl: String, private val errorResponse
                 ApiResponse(ResponseType.ERROR, null, errorResponse.newInstance())
             }
         } else {
+            //displays generic error message
             apiResponse = ApiResponse(ResponseType.ERROR, null, errorResponse.newInstance())
         }
 
