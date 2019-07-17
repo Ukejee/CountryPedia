@@ -24,6 +24,6 @@ interface FavouriteDao {
     fun fetchAllFavourites(): List<Favourite>
 
     @Query("SELECT * FROM Favourite WHERE numericCode =:numericCode")
-    fun fetchFavouriteByNumericCode(numericCode: Int): Country
+    fun fetchFavouriteByNumericCode(numericCode: Int): Favourite
 
 }

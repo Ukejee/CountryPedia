@@ -9,11 +9,9 @@ import androidx.room.Room;
 
 import com.example.ukeje.countrypedia.database.Country;
 import com.example.ukeje.countrypedia.database.CountryPediaDatabase;
-import com.example.ukeje.countrypedia.utils.AppUtils;
 import com.example.ukeje.countrypedia.web.CountryPediaApiService;
 import com.example.ukeje.countrypedia.web.helper.ApiCallHelper;
 import com.example.ukeje.countrypedia.web.helper.ApiResponse;
-import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
 import com.example.ukeje.countrypedia.web.responses.CountryResponse;
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
 
@@ -32,12 +30,59 @@ public class CountryRepository {
     public CountryRepository() {
     }
 
-    ;
-
     public CountryRepository(CountryPediaDatabase countryPedeiaDatabase) {
 
         this.countryPedeiaDatabase = countryPedeiaDatabase;
     }
+
+    //API REQUEST METHODS
+    LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> getCountryDetails(final String countryName) {
+
+        return new ApiCallHelper<List<CountryResponse>, ErrorResponse, CountryPediaApiService>
+                (CountryRepository.BASE_URL, ErrorResponse.class, CountryPediaApiService.class) {
+
+            @NonNull
+            @Override
+            public Call<List<CountryResponse>> createApiServiceCall(CountryPediaApiService apiService) {
+                return apiService.getCountryDetails(countryName);
+            }
+
+        }.makeApiCall();
+    }
+
+    LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> getCountryList(final String regionName) {
+
+        return  new ApiCallHelper<List<CountryResponse>, ErrorResponse, CountryPediaApiService>
+                (CountryRepository.BASE_URL, ErrorResponse.class, CountryPediaApiService.class) {
+
+            @NonNull
+            @Override
+            public Call<List<CountryResponse>> createApiServiceCall(CountryPediaApiService apiService) {
+                return apiService.getCountryList(regionName);
+            }
+        }.makeApiCall();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public CountryRepository(Context context) {
 
@@ -59,7 +104,7 @@ public class CountryRepository {
 
     public static void updateCountry(final Country country) {
 
-        country.setModifiedAt(AppUtils.getCurrentDateTime());
+//        country.setModifiedAt(AppUtils.getCurrentDateTime());
 
         new AsyncTask<Void, Void, Void>() {
 
@@ -100,9 +145,9 @@ public class CountryRepository {
         }.execute();
     }
 
-    public static int getCountryId(final String countryName) {
-        return countryDatabase.countryDao().fetchCountryIdByName(countryName);
-    }
+//    public static int getCountryId(final String countryName) {
+//        return countryDatabase.countryDao().fetchCountryIdByName(countryName);
+//    }
 
     public static Country getCountryDetails(int id) {
         return new Country();
@@ -130,36 +175,9 @@ public class CountryRepository {
         country.setName(name);
         country.setCapital(capital);
 //        country.setFavorite(favorite);
-        country.setCreatedAt(AppUtils.getCurrentDateTime());
-        country.setModifiedAt(AppUtils.getCurrentDateTime());
+//        country.setCreatedAt(AppUtils.getCurrentDateTime());
+//        country.setModifiedAt(AppUtils.getCurrentDateTime());
         insertCountry(country);
-    }
-
-    //API REQUEST METHODS
-    LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> getCountryDetails(final String countryName, final ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener) {
-
-       return new ApiCallHelper<List<CountryResponse>, ErrorResponse, CountryPediaApiService>
-                (CountryRepository.BASE_URL, ErrorResponse.class, CountryPediaApiService.class) {
-
-            @NonNull
-            @Override
-            public Call<List<CountryResponse>> createApiServiceCall(CountryPediaApiService apiService) {
-                return apiService.getCountryDetails(countryName);
-            }
-
-        }.makeApiCall(apiResponseListener);
-    }
-
-    LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> getCountryList(final String regionName, final ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener) {
-
-      return  new ApiCallHelper<List<CountryResponse>, ErrorResponse, CountryPediaApiService>
-                (CountryRepository.BASE_URL, ErrorResponse.class, CountryPediaApiService.class) {
-
-            @Override
-            public Call<List<CountryResponse>> createApiServiceCall(CountryPediaApiService apiService) {
-                return apiService.getCountryList(regionName);
-            }
-        }.makeApiCall(apiResponseListener);
     }
 
 }

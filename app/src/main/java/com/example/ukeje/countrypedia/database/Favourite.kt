@@ -3,9 +3,6 @@ package com.example.ukeje.countrypedia.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.example.ukeje.countrypedia.utils.TimestampConverter
-import lombok.Data
 import java.io.Serializable
 import java.util.*
 
@@ -15,36 +12,18 @@ import java.util.*
  * @created : 6/11/19
  */
 
-@Data
 @Entity
-class Favourite : Serializable {
+data class Favourite(var name: String?, var numericCode: Int?,
+                     @PrimaryKey
+                     @ColumnInfo(name = "country_id")
+                     val id: String = UUID.randomUUID().toString()) : Serializable {
 
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-        set(id) {
-            field = this.id
-        }
+    constructor() : this("", 0)
 
-    var name: String? = null
-        set(name) {
-            field = this.name
+    companion object {
+        fun buildFavouriteWithCountry(country: Country): Favourite {
+            return Favourite(country.name, country.numericCode)
         }
-    var numericCode: Int? = null
-        set(numericCode) {
-            field = this.numericCode
-        }
+    }
 
-    @ColumnInfo(name = "created_at")
-    @TypeConverters(TimestampConverter::class)
-    var createdAt: Date? = null
-        set(createdAt) {
-            field = this.createdAt
-        }
-
-    @ColumnInfo(name = "modified_at")
-    @TypeConverters(TimestampConverter::class)
-    var modifiedAt: Date? = null
-        set(modifiedAt) {
-            field = this.modifiedAt
-        }
 }
