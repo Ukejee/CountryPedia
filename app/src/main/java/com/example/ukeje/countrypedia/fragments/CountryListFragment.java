@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ukeje.countrypedia.SharedFragmentViewModel;
+import com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.adapters.CountryListAdapter;
 import com.example.ukeje.countrypedia.databinding.FragmentCountryListBinding;
 
@@ -60,11 +60,11 @@ public class CountryListFragment extends BaseFragment {
 
     public void init(){
 
-        binding.regionTitle.setText(viewModel.getRegionSelected());
+//        binding.regionTitle.setText(viewModel.getRegionSelected());
         layoutManager = new LinearLayoutManager(getActivity());
         binding.countryList.setLayoutManager(layoutManager);
 
-        mAdapter = new CountryListAdapter(viewModel.countryList, v -> onClickCountryList(v), v.getContext());
+        mAdapter = new CountryListAdapter(viewModel.getCountryList(), v -> onClickCountryList(v), v.getContext());
 
         layoutManager = new LinearLayoutManager(this.getActivity());
         binding.countryList.setLayoutManager(layoutManager);
@@ -74,7 +74,7 @@ public class CountryListFragment extends BaseFragment {
 
     public void onClickCountryList(View view){
 
-        viewModel.countryDetails = viewModel.countryList.get(binding.countryList.getChildLayoutPosition(view));
+//        viewModel.setCountryDetails(viewModel.getCountryList().get(binding.countryList.getChildLayoutPosition(view)));
 //        onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
     }
 

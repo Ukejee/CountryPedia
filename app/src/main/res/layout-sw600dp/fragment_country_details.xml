@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.example.ukeje.countrypedia.SharedFragmentViewModel" />
+            type="com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel" />
     </data>
 
 

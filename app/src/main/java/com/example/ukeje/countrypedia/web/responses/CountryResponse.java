@@ -1,6 +1,5 @@
 package com.example.ukeje.countrypedia.web.responses;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -12,75 +11,75 @@ import lombok.Data;
 public class CountryResponse implements Serializable {
 
     @SerializedName("name")
-    @Expose
     public String name;
+
     @SerializedName("topLevelDomain")
-    @Expose
-    private List<String> topLevelDomain = null;
+    public List<String> topLevelDomain = null;
+
     @SerializedName("alpha2Code")
-    @Expose
-    private String alpha2Code;
+
+    public String alpha2Code;
     @SerializedName("alpha3Code")
-    @Expose
-    private String alpha3Code;
+
+    public String alpha3Code;
     @SerializedName("callingCodes")
-    @Expose
-    private List<String> callingCodes = null;
+
+    public List<String> callingCodes = null;
     @SerializedName("capital")
-    @Expose
-    private String capital;
+
+    public String capital;
     @SerializedName("altSpellings")
-    @Expose
-    private List<String> altSpellings = null;
+
+    public List<String> altSpellings = null;
     @SerializedName("region")
-    @Expose
-    private String region;
+
+    public String region;
     @SerializedName("subregion")
-    @Expose
-    private String subregion;
+
+    public String subregion;
     @SerializedName("population")
-    @Expose
-    private Integer population;
+
+    public Integer population;
     @SerializedName("latlng")
-    @Expose
-    private List<Float> latlng = null;
+
+    public List<Float> latlng = null;
     @SerializedName("demonym")
-    @Expose
-    private String demonym;
+
+    public String demonym;
     @SerializedName("area")
-    @Expose
-    private Float area;
+
+    public Float area;
     @SerializedName("gini")
-    @Expose
-    private Object gini;
+
+    public Object gini;
     @SerializedName("timezones")
-    @Expose
-    private List<String> timezones = null;
+
+    public List<String> timezones = null;
     @SerializedName("borders")
-    @Expose
-    private List<String> borders = null;
+
+    public List<String> borders = null;
     @SerializedName("nativeName")
-    @Expose
-    private String nativeName;
+
+    public String nativeName;
     @SerializedName("numericCode")
-    @Expose
-    private String numericCode;
+
+    public String numericCode;
     @SerializedName("currencies")
-    @Expose
-    private List<CurrencyResponse> currencies = null;
+
+    public List<CurrencyResponse> currencies = null;
     @SerializedName("languages")
-    @Expose
-    private List<LanguageResponse> languages = null;
+
+    public List<LanguageResponse> languages = null;
     @SerializedName("translations")
-    @Expose
-    private TranslationsResponse translations;
+
+    public TranslationsResponse translations;
     @SerializedName("flag")
-    @Expose
-    private String flag;
+
+    public String flag;
     @SerializedName("regionalBlocs")
-    @Expose
-    private List<RegionalBlocResponse> regionalBlocs = null;
+
+    public List<RegionalBlocResponse> regionalBlocs = null;
     @SerializedName("cioc")
-    @Expose
-    private String cioc;
+
+    public String cioc;
 }

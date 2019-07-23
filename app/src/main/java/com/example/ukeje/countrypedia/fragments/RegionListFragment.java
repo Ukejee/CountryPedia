@@ -5,20 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.ukeje.countrypedia.SharedFragmentViewModel;
 import com.example.ukeje.countrypedia.adapters.RegionListAdapter;
 import com.example.ukeje.countrypedia.databinding.FragmentRegionListBinding;
-import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
-import com.example.ukeje.countrypedia.web.responses.CountryResponse;
-import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
+import com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -34,7 +29,7 @@ public class RegionListFragment extends BaseFragment {
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            onClickRegion(v);
+//            onClickRegion(v);
         }
     };
 
@@ -76,35 +71,35 @@ public class RegionListFragment extends BaseFragment {
 
     }
 
-    public void onClickRegion(View view) {
-        callSearchApi(regionList.get(binding.regionList.getChildLayoutPosition(view)).toLowerCase());
-        viewModel.setRegionSelected(regionList.get(binding.regionList.getChildLayoutPosition(view)));
-    }
+//    public void onClickRegion(View view) {
+//        callSearchApi(regionList.get(binding.regionList.getChildLayoutPosition(view)).toLowerCase());
+//        viewModel.setRegionSelected(regionList.get(binding.regionList.getChildLayoutPosition(view)));
+//    }
 
-    public void callSearchApi(String region) {
-        viewModel.setRegionSelected(region);
-        viewModel.showProgressDialog(getActivity());
-        viewModel.loadCountryList(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
-            @Override
-            public void onApiSuccessful(List<CountryResponse> successResponse) {
-                viewModel.countryList = successResponse;
-                viewModel.cancelProgressDialog();
-//                onButtonPressed(COUNTRY_LIST_FRAGMENT);
-            }
-
-            @Override
-            public void onApiFailed(@Nullable ErrorResponse errorResponse) {
-                viewModel.showAlert(errorResponse.getMessage(), getActivity());
-                viewModel.cancelProgressDialog();
-            }
-
-            @Override
-            public void onNetworkFailure() {
-                viewModel.showAlert("NETWORK FAILURE", getActivity());
-                viewModel.cancelProgressDialog();
-
-            }
-        });
-    }
+//    public void callSearchApi(String region) {
+//        viewModel.setRegionSelected(region);
+//        viewModel.showProgressDialog(getActivity());
+//        viewModel.loadCountryList(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
+//            @Override
+//            public void onApiSuccessful(List<CountryResponse> successResponse) {
+//                viewModel.countryList = successResponse;
+//                viewModel.cancelProgressDialog();
+////                onButtonPressed(COUNTRY_LIST_FRAGMENT);
+//            }
+//
+//            @Override
+//            public void onApiFailed(@Nullable ErrorResponse errorResponse) {
+//                viewModel.showAlert(errorResponse.getMessage(), getActivity());
+//                viewModel.cancelProgressDialog();
+//            }
+//
+//            @Override
+//            public void onNetworkFailure() {
+//                viewModel.showAlert("NETWORK FAILURE", getActivity());
+//                viewModel.cancelProgressDialog();
+//
+//            }
+//        });
+//    }
 
 }

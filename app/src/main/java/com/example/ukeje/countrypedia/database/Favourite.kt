@@ -13,12 +13,12 @@ import java.util.*
  */
 
 @Entity
-data class Favourite(var name: String?, var numericCode: Int?,
+data class Favourite(var name: String?, var numericCode: String?,
                      @PrimaryKey
                      @ColumnInfo(name = "country_id")
                      val id: String = UUID.randomUUID().toString()) : Serializable {
 
-    constructor() : this("", 0)
+    constructor() : this("", "0")
 
     companion object {
         fun buildFavouriteWithCountry(country: Country): Favourite {
