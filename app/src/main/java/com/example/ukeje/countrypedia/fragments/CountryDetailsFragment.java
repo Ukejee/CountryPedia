@@ -1,6 +1,5 @@
 package com.example.ukeje.countrypedia.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,10 +21,10 @@ import java.util.Objects;
 
 
 public class CountryDetailsFragment extends BaseFragment {
+    public int countryDbId;
     private FragmentCountryDetailsBinding binding;
     private SharedFragmentViewModel sharedFragmentViewModel;
     private CountryRepository countryRepository;
-    public int countryDbId;
     private Country favoriteCountry;
 
     public CountryDetailsFragment() {
@@ -70,11 +69,10 @@ public class CountryDetailsFragment extends BaseFragment {
         });
 
         binding.favoriteBtn.setClickable(true);
-        if(!sharedFragmentViewModel.getFavoriteCountries().contains(binding.countryName.getText())){
+        if (!sharedFragmentViewModel.getFavoriteCountries().contains(binding.countryName.getText())) {
             binding.favoriteBtn.setTag(R.drawable.favorite_icon_unselected);
             binding.favoriteBtn.setImageResource(R.drawable.favorite_icon_unselected);
-        }
-        else{
+        } else {
             binding.favoriteBtn.setImageResource(R.drawable.favorite_two);
             binding.favoriteBtn.setTag(R.drawable.favorite_two);
         }
@@ -82,17 +80,16 @@ public class CountryDetailsFragment extends BaseFragment {
         binding.favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((int)binding.favoriteBtn.getTag() == R.drawable.favorite_icon_unselected){
+                if ((int) binding.favoriteBtn.getTag() == R.drawable.favorite_icon_unselected) {
                     binding.favoriteBtn.setImageResource(R.drawable.favorite_two);
                     binding.favoriteBtn.setTag(R.drawable.favorite_two);
                     sharedFragmentViewModel.favoriteCountries.add(binding.countryName.getText().toString());
-                    setCountryId();
-                }
-                else {
+//                    setCountryId();
+                } else {
                     binding.favoriteBtn.setImageResource(R.drawable.favorite_icon_unselected);
                     binding.favoriteBtn.setTag(R.drawable.favorite_icon_unselected);
                     sharedFragmentViewModel.favoriteCountries.remove(binding.countryName.getText().toString());
-                    setCountryId();
+//                    setCountryId();
                 }
 
             }
@@ -101,7 +98,7 @@ public class CountryDetailsFragment extends BaseFragment {
     }
 
     //DISPLAY THE RESULTS FROM THE API TO THE UI
-    public void updateUI(CountryResponse cr){
+    public void updateUI(CountryResponse cr) {
 
         binding.countryName.setText(cr.getName());
         binding.capitalName.setText("It's capital is " + cr.getCapital());
@@ -113,62 +110,61 @@ public class CountryDetailsFragment extends BaseFragment {
         binding.countryPopulation.setText(cr.getPopulation().toString());
         binding.countryLanguage.setText(cr.getLanguages().get(0).getName());
 
-        if(cr.getLanguages().size() >= 1){
+        if (!cr.getLanguages().isEmpty()) {
 
-            for(int i = 1; i < cr.getLanguages().size(); i++){
+            for (int i = 1; i < cr.getLanguages().size(); i++) {
                 binding.countryLanguage.append(", ");
                 binding.countryLanguage.append(cr.getLanguages().get(i).getName());
             }
         }
 
 
-        if(cr.getAltSpellings().size() != 0){
+        if (!cr.getAltSpellings().isEmpty()) {
             binding.countryAltSpelling.setText(cr.getAltSpellings().get(0));
         }
 
-        for(int i = 1; i < cr.getAltSpellings().size(); i++){
+        for (int i = 1; i < cr.getAltSpellings().size(); i++) {
             binding.countryAltSpelling.append(", ");
             binding.countryAltSpelling.append(cr.getAltSpellings().get(i));
-            if( i > cr.getAltSpellings().size()){
+            if (i > cr.getAltSpellings().size()) {
                 binding.countryLanguage.append(", ");
             }
         }
 
-        if(cr.getLatlng().size() >= 2) {
-            binding.countryCoordinates.setText(cr.getLatlng().get(0).toString() + "(Lat) " + cr.getLatlng().get(1).toString()
-                    + "(Long)");
+        if (cr.getLatlng().size() >= 2) {
+            binding.countryCoordinates.setText(String.format("%s(Lat)%s(Long)", cr.getLatlng().get(0).toString(), cr.getLatlng().get(1).toString()));
+
         }
 
         //THERE'S A BUG HERE; USE SWITCH STATEMENTS TO FIX
         binding.countryTimeZones.setText(cr.getTimezones().get(0));
 
 
-        if(cr.getTimezones().size() <= 6){
+        if (cr.getTimezones().size() <= 6) {
             binding.countryTimeZones.setGravity(Gravity.CENTER);
             binding.timezoneSepartingLine.setVisibility(View.GONE);
-            for(int i = 1; i < cr.getTimezones().size(); i++){
+            for (int i = 1; i < cr.getTimezones().size(); i++) {
                 binding.countryTimeZones.append("\n");
                 binding.countryTimeZones.append(cr.getTimezones().get(i));
             }
         }
 
-        if(cr.getTimezones().size() > 6){
-            for(int i = 1; i < 6; i++){
+        if (cr.getTimezones().size() > 6) {
+            for (int i = 1; i < 6; i++) {
                 binding.countryTimeZones.append("\n");
                 binding.countryTimeZones.append(cr.getTimezones().get(i));
             }
-            for(int i = 6; i < cr.getTimezones().size(); i++){
+            for (int i = 6; i < cr.getTimezones().size(); i++) {
                 binding.countryTimeZoneTwo.append(cr.getTimezones().get(i));
                 binding.countryTimeZoneTwo.append("\n");
             }
         }
 
 
-
     }
 
     //THIS METHOD UPDATES THE VALUE OF THE FAVORITE COLUMN IN THE DATABASE
-    public void setFavoriteCountry(){
+    public void setFavoriteCountry() {
         /*new AsyncTask<Void, Void, Country>() {
             @Override
             protected Country doInBackground(Void...voids) {
@@ -197,23 +193,23 @@ public class CountryDetailsFragment extends BaseFragment {
 
     }
 
-    public  void setCountryId(){
-
-        AsyncTask<Void, Void, Integer> task = new AsyncTask<Void, Void, Integer>() {
-
-            @Override
-            protected Integer doInBackground(Void...voids) {
-                return countryRepository.getCountryId(binding.countryName.getText().toString());
-            }
-
-            @Override
-            protected void onPostExecute(Integer countryId) {
-                countryDbId = countryId.intValue();
-                setFavoriteCountry();
-            }
-
-        };
-
-        task.execute();
-    }
+//    public void setCountryId() {
+//
+//        AsyncTask<Void, Void, Integer> task = new AsyncTask<Void, Void, Integer>() {
+//
+//            @Override
+//            protected Integer doInBackground(Void... voids) {
+//                return countryRepository.getCountryId(binding.countryName.getText().toString());
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Integer countryId) {
+//                countryDbId = countryId.intValue();
+//                setFavoriteCountry();
+//            }
+//
+//        };
+//
+//        task.execute();
+//    }
 }

@@ -1,6 +1,8 @@
 package com.example.ukeje.countrypedia.database
 
 import androidx.room.*
+import io.reactivex.Completable
+import io.reactivex.Flowable
 
 /**
  * @author .: Ukeje Emeka
@@ -11,25 +13,22 @@ import androidx.room.*
 @Dao
 interface CountryDao {
 
-    @Insert
-    fun insertCountry(country: Country): Long?
-
-    @Query("SELECT * FROM Country ORDER BY created_at desc")
-    fun fetchAllCountries(): List<Country>
-
-    @Query("SELECT * FROM Country WHERE id =:countryId")
-    fun fetchCountryById(countryId: Int): Country
-
-    @Query("SELECT * FROM Country WHERE name =:countryName")
-    fun fetchCountryByName(countryName: String): Country
-
-    @Query("SELECT id FROM Country WHERE name =:countryName")
-    fun fetchCountryIdByName(countryName: String): Int
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCountry(country: Country) : Completable
 
     @Update
-    fun updateCountry(country: Country)
+    fun updateCountry(country: Country) : Completable
 
     @Delete
-    fun deleteCountry(country: Country)
+    fun deleteCountry(country: Country) : Completable
+
+    @Query("SELECT * FROM Country")
+    fun fetchAllCountries(): Flowable<List<Country>>
+
+    @Query("SELECT * FROM Country WHERE numericCode =:countryNumericCode")
+    fun fetchCountryByNumericCode(countryNumericCode: Int): Flowable<Country>
+
+    @Query("SELECT * FROM Country WHERE name =:countryName")
+    fun fetchCountryByName(countryName: String): Flowable<Country>
 
 }

@@ -31,18 +31,18 @@ public class SharedFragmentViewModel extends ViewModel {
     public ArrayList<String> favoriteCountries = new ArrayList<>();
     public ArrayList<String> funFacts;
 
-    public Country initialCountryOnUI = new Country("Nigeria", "Abuja", 566);
+    public Country initialCountryOnUI = new Country("Nigeria", "Abuja", 566, "123798");
 
     public void setCountryRepository(CountryRepository countryRepository){
         this.countryRepository = countryRepository;
     }
 
     public LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> callGetCountryDetailsApi(String countryName) {
-       return countryRepository.getCountryDetails(countryName, null);
+       return countryRepository.getCountryDetails(countryName);
     }
 
     public LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> callGetCountryListApi(String regionName) {
-       return countryRepository.getCountryDetails(regionName, null);
+       return countryRepository.getCountryDetails(regionName);
     }
 
 
@@ -85,12 +85,12 @@ public class SharedFragmentViewModel extends ViewModel {
     }
 
     public void loadCountryDetails(ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener){
-        countryRepository.getCountryDetails(getSearchedCountry(), apiResponseListener);
+        countryRepository.getCountryDetails(getSearchedCountry());
 
     }
 
     public void loadCountryList(ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener){
-        countryRepository.getCountryList(getRegionSelected(), apiResponseListener);
+        countryRepository.getCountryList(getRegionSelected());
     }
 
     public static void showProgressDialog(final Activity activity) {
