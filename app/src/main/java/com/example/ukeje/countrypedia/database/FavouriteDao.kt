@@ -1,6 +1,8 @@
 package com.example.ukeje.countrypedia.database
 
 import androidx.room.*
+import io.reactivex.Completable
+import io.reactivex.Flowable
 
 /**
  * @author .: Ukeje Emeka
@@ -12,18 +14,15 @@ import androidx.room.*
 interface FavouriteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFavourite(favourite: Favourite): Long?
-
-    @Update
-    fun updateFavourite(favourite: Favourite)
+    fun insertFavourite(favourite: Favourite): Completable
 
     @Delete
-    fun deleteFavourite(favourite: Favourite)
+    fun deleteFavourite(favourite: Favourite) : Completable
 
     @Query("SELECT * FROM Favourite")
-    fun fetchAllFavourites(): List<Favourite>
+    fun fetchAllFavourites(): Flowable<List<Favourite>>
 
     @Query("SELECT * FROM Favourite WHERE numericCode =:numericCode")
-    fun fetchFavouriteByNumericCode(numericCode: Int): Country
+    fun fetchFavouriteByNumericCode(numericCode: Int): Flowable<Favourite>
 
 }

@@ -1,63 +1,58 @@
-package com.example.ukeje.countrypedia;
+package com.example.ukeje.countrypedia.viewmodel
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.view.Window;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.ukeje.countrypedia.database.Country
+import com.example.ukeje.countrypedia.repository.CountryPediaRepository
+import com.example.ukeje.countrypedia.web.helper.ApiResponse
+import com.example.ukeje.countrypedia.web.responses.CountryResponse
+import com.example.ukeje.countrypedia.web.responses.ErrorResponse
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.util.*
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
+class SharedFragmentViewModel : ViewModel() {
 
-import com.example.ukeje.countrypedia.database.Country;
-import com.example.ukeje.countrypedia.web.helper.ApiResponse;
-import com.example.ukeje.countrypedia.web.helper.ApiResponseListener;
-import com.example.ukeje.countrypedia.web.responses.CountryResponse;
-import com.example.ukeje.countrypedia.web.responses.ErrorResponse;
+    private val searchedCountry: String? = null
+    private val regionSelected: String? = null
+    var countryDetails: CountryResponse? = null
+    var countryList: List<CountryResponse> = ArrayList()
+    var countryPediaRepository: CountryPediaRepository? = null
+    var favoriteCountries = ArrayList<String>()
+    var funFacts: ArrayList<String>? = null
 
-import java.util.ArrayList;
-import java.util.List;
+    var randomCountryLiveData = MutableLiveData<Country>()
 
-public class SharedFragmentViewModel extends ViewModel {
-
-    private String searchedCountry;
-    private String regionSelected;
-    public CountryResponse countryDetails;
-    public List<CountryResponse> countryList = new ArrayList<>();
-    private static Dialog mProgressDialog;
-    private CountryRepository countryRepository = new CountryRepository();
-    public ArrayList<String> favoriteCountries = new ArrayList<>();
-    public ArrayList<String> funFacts;
-
-    public Country initialCountryOnUI = new Country("Nigeria", "Abuja", 566);
-
-    public void setCountryRepository(CountryRepository countryRepository){
-        this.countryRepository = countryRepository;
+    fun callGetCountryDetailsApi(countryName: String): LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> {
+        return countryPediaRepository!!.getCountryDetailsFromApi(countryName)
     }
 
-    public LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> callGetCountryDetailsApi(String countryName) {
-       return countryRepository.getCountryDetails(countryName, null);
+    fun callGetCountryListApi(regionName: String): LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> {
+        return countryPediaRepository!!.getCountryDetailsFromApi(regionName)
     }
 
-    public LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> callGetCountryListApi(String regionName) {
-       return countryRepository.getCountryDetails(regionName, null);
+    fun initializingCountryListIntoDb(): LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> {
+        return countryPediaRepository!!.initializingCountryListIntoDb()
+    }
+
+    fun setRandomCountry() {
+        //get country list from db
+        countryPediaRepository!!.compositeDisposable.add(countryPediaRepository!!.getAllCountriesFromDb()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    //generate random number
+                    val ranNum = Random().nextInt(it.size - 1) + 1
+                    randomCountryLiveData.value = it[ranNum]
+                }, { throwable ->
+                    randomCountryLiveData.value = Country("Nigeria", "Abuja", "566")
+                }))
+
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-    public ArrayList<String> getFavoriteCountries(){ return favoriteCountries; }
+    /*public ArrayList<String> getFavoriteCountries(){ return favoriteCountries; }
 
 
     public List<CountryResponse> getCountryList() {
@@ -85,12 +80,12 @@ public class SharedFragmentViewModel extends ViewModel {
     }
 
     public void loadCountryDetails(ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener){
-        countryRepository.getCountryDetails(getSearchedCountry(), apiResponseListener);
+        countryPediaRepository.getCountryDetailsFromApi(getSearchedCountry());
 
     }
 
     public void loadCountryList(ApiResponseListener<List<CountryResponse>, ErrorResponse> apiResponseListener){
-        countryRepository.getCountryList(getRegionSelected(), apiResponseListener);
+        countryPediaRepository.getCountryListFromApi(getRegionSelected());
     }
 
     public static void showProgressDialog(final Activity activity) {
@@ -161,6 +156,6 @@ public class SharedFragmentViewModel extends ViewModel {
         funFacts.add("The smallest country in Europe is Vatican!");
         funFacts.add("The largest island in the world is Green Land!");
         //funFacts.add("")
-    }
+    }*/
 
 }

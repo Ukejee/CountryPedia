@@ -42,13 +42,14 @@ abstract class ApiCallHelper<S, E, T>(baseUrl: String, private val errorResponse
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
+
                 .build()
 
     }
 
     abstract fun createApiServiceCall(apiService: T): Call<S>
 
-    fun makeApiCall(apiResponseListener: ApiResponseListener<S, E>?): LiveData<ApiResponse<S, E>> {
+    fun makeApiCall(): LiveData<ApiResponse<S, E>> {
 
         val apiResponseLiveData = MutableLiveData<ApiResponse<S, E>>()
         //push initial api response with loading

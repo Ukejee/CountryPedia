@@ -6,38 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation.findNavController
-import com.example.ukeje.countrypedia.CountryRepository
+import androidx.navigation.fragment.findNavController
 import com.example.ukeje.countrypedia.R
-import com.example.ukeje.countrypedia.SharedFragmentViewModel
-import com.example.ukeje.countrypedia.database.Country
 import com.example.ukeje.countrypedia.databinding.FragmentHomeBinding
+import com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel
 import com.example.ukeje.countrypedia.web.helper.ResponseType
 import java.util.*
 
 
 class HomeFragment : BaseFragment() {
 
-    private lateinit var countryRepository: CountryRepository
-    var searchCountryFragment: SearchCountryFragment? = null
     internal var listener: View.OnClickListener? = null
     lateinit var binding: FragmentHomeBinding
-    private val randomCountry = Country()
-    private val dbCountries: List<Country>? = null
-    private val random = Random()
-    private val ranNum = random.nextInt(246) + 1
-    private val dbSize: Int = 0
-    private val navMenu: BottomNavDrawerDialogFragment? = null
     //ViewModel for fragment
     private lateinit var viewModel: SharedFragmentViewModel
 
     override val fragmentTag: String
         get() = HOME_FRAGMENT
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -51,20 +36,20 @@ class HomeFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        //initialize CountryRepository with countryPediaDatabase from the mainActivity
-        countryRepository = CountryRepository(Objects.requireNonNull(mainActivity).countryPediaDatabase)
-
         //initialize view model
         viewModel = ViewModelProviders.of(mainActivity).get(SharedFragmentViewModel::class.java)
-        viewModel.setCountryRepository(countryRepository)
+        viewModel.countryPediaRepository = Objects.requireNonNull(mainActivity).countryPediaRepository
         binding.viewModel = viewModel
 
         initView()
     }
 
     private fun initView() {
+
+        viewModel.setRandomCountry()
+
         binding.knowMoreField.setOnClickListener {
-            val countryDetailsLiveData = viewModel.callGetCountryDetailsApi(viewModel.initialCountryOnUI.name)
+            val countryDetailsLiveData = viewModel.callGetCountryDetailsApi(viewModel.randomCountryLiveData.value!!.name!!)
             countryDetailsLiveData.observe(viewLifecycleOwner, Observer {
                 when {
                     it.responseType == ResponseType.LOADING -> {
@@ -73,10 +58,10 @@ class HomeFragment : BaseFragment() {
                     it.responseType == ResponseType.SUCCESS -> {
                         viewModel.countryDetails = it.successObject!![0]
                         cancelProgressDialog()
-                        findNavController(binding.root).navigate(R.id.action_homeFragment_to_countryDetailsFragment)
+                        findNavController().navigate(R.id.action_homeFragment_to_countryDetailsFragment)
                     }
                     it.responseType == ResponseType.ERROR -> {
-                        showAlert(it.errorObject?.message?:"An Error occurred try again")
+                        showAlert(it.errorObject?.message ?: "An Error occurred try again")
                     }
                     it.responseType == ResponseType.NETWORK_FAILURE -> {
                         showAlert("Network Unavailable")
@@ -89,18 +74,6 @@ class HomeFragment : BaseFragment() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /* private void initView() {
 
 
@@ -108,14 +81,14 @@ class HomeFragment : BaseFragment() {
 
 
      //set default random country
-     randomCountry.setName("Nigeria");
-     randomCountry.setCapital("Abuja");
+     randomCountryLiveData.setName("Nigeria");
+     randomCountryLiveData.setCapital("Abuja");
 
      binding.countrySearchBox.getText().clear();
      binding.countrySearchBox.setOnClickListener(v ->
              Navigation.findNavController(binding.getRoot()).navigate(R.id.action_homeFragment_to_searchCountryFragment));
 
-     binding.knowMoreField.setOnClickListener(v -> callSearchApi(randomCountry.getName()));
+     binding.knowMoreField.setOnClickListener(v -> callSearchApi(randomCountryLiveData.getName()));
 
      populateDatabase();
 
@@ -249,17 +222,17 @@ class HomeFragment : BaseFragment() {
          @Override
          protected Country doInBackground(Integer... ints) {
 
-             Country country = countryRepository.getCountryDetails(randomNo);
+             Country country = countryRepository.getCountryDetailsFromApi(randomNo);
              return country;
          }
 
          @Override
          protected void onPostExecute(Country country) {
-             randomCountry = country;
-             if (randomCountry != null) {
-                 binding.countryTitle.setText(randomCountry.getName());
-                 binding.capitalName.setText(randomCountry.getCapital());
-                 binding.knowMoreField.setText("Know more about " + randomCountry.getName());
+             randomCountryLiveData = country;
+             if (randomCountryLiveData != null) {
+                 binding.countryTitle.setText(randomCountryLiveData.getName());
+                 binding.capitalName.setText(randomCountryLiveData.getCapital());
+                 binding.knowMoreField.setText("Know more about " + randomCountryLiveData.getName());
              }
          }
      };

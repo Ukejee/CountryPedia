@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.ukeje.countrypedia.SharedFragmentViewModel" />
+            type="com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel" />
 
     </data>
 
@@ -38,7 +38,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="40dp"
                     android:layout_marginEnd="8dp"
-                    android:text="@{viewModel.initialCountryOnUI.name}"
+                    android:text="@{viewModel.randomCountryLiveData.name}"
                     android:textAlignment="center"
                     android:textColor="#5A5A5A"
                     android:textSize="30sp"
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@{viewModel.initialCountryOnUI.capital}"
+                    android:text="@{viewModel.randomCountryLiveData.capital}"
                     android:textColor="#5A5A5A"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toTopOf="@+id/know_more_field"
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:padding="5dp"
-                    android:text="@{@string/know_more_text(viewModel.initialCountryOnUI.name)}"
+                    android:text="@{@string/know_more_text(viewModel.randomCountryLiveData.name)}"
                     android:textColor="@color/home_know_more_color_selector"
                     android:textSize="13sp"
                     android:clickable="true"
