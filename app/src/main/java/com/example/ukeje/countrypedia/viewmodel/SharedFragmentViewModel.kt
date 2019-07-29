@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ukeje.countrypedia.database.Country
 import com.example.ukeje.countrypedia.repository.CountryPediaRepository
+import com.example.ukeje.countrypedia.utils.AppUtils
 import com.example.ukeje.countrypedia.web.helper.ApiResponse
 import com.example.ukeje.countrypedia.web.responses.CountryResponse
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse
@@ -56,7 +57,10 @@ class SharedFragmentViewModel : ViewModel() {
                     val ranNum = Random().nextInt(it.size - 1) + 1
                     randomCountryLiveData.value = it[ranNum]
                 }, { throwable ->
-                    randomCountryLiveData.value = Country("Nigeria", "Abuja", "566")
+                    val country = Country("Nigeria", "Abuja", "566")
+                    AppUtils.error("unable to get random country. error: ${throwable.message}.\n showing default country: ${country}")
+
+                    randomCountryLiveData.value = country
                 }))
 
     }

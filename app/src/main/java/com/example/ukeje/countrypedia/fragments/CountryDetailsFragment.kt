@@ -39,7 +39,9 @@ class CountryDetailsFragment : BaseFragment() {
 
     private fun initView() {
         AppUtils.debug("country details: ${viewModel.countryDetails}")
-        viewModel.splitList(viewModel.countryDetails?.timezones as List<String>)
+        viewModel.splitList(viewModel.countryDetails?.timezones?.filter {
+            !it.isNullOrBlank()
+        } as List<String>)
         viewModel.formattedLanguages = viewModel.formatLanguageResponse(viewModel.countryDetails?.languages)
         viewModel.formattedAltSpelling = viewModel.formatList(viewModel.countryDetails?.altSpellings as List<String>, ", ")
         //empty
