@@ -16,11 +16,8 @@ interface FavouriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavourite(favourite: Favourite): Completable
 
-    @Update
-    fun updateFavourite(favourite: Favourite): Completable
-
     @Delete
-    fun deleteFavourite(favourite: Favourite): Completable
+    fun deleteFavourite(favourite: Favourite) : Completable
 
     @Query("SELECT * FROM Favourite")
     fun fetchAllFavourites(): Flowable<List<Favourite>>

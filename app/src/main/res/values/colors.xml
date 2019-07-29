@@ -6,9 +6,11 @@
     <color name="appWhite">#FFFFFF</color>
     <color name="appBarNavItemSelected">#C2C2C2</color>
     <color name="appBlack">#000</color>
+    <color name="appTextBlack">#404040</color>
     <color name="appGrey">#383838</color>
     <color name="subtitle_color">#5F6769</color>
     <color name="info_colors">#266876</color>
     <color name="home_know_more_color">#20889F</color>
     <color name="home_know_more_color_pressed">#245A66</color>
+
 </resources>

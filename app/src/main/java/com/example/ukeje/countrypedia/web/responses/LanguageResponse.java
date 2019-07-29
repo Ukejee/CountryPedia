@@ -17,7 +17,7 @@ public class LanguageResponse {
     private String iso6392;
     @SerializedName("name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("nativeName")
     @Expose
     private String nativeName;

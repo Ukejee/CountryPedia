@@ -42,6 +42,7 @@ abstract class ApiCallHelper<S, E, T>(baseUrl: String, private val errorResponse
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
+
                 .build()
 
     }

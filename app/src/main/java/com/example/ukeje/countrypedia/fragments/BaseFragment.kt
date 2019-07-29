@@ -8,8 +8,8 @@ import android.view.Window
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.example.ukeje.countrypedia.MainActivity
 import com.example.ukeje.countrypedia.R
+import com.example.ukeje.countrypedia.activity.MainActivity
 import com.example.ukeje.countrypedia.utils.AppUtils
 
 /**
@@ -45,6 +45,7 @@ abstract class BaseFragment : Fragment() {
         var COUNTRY_DETAILS_FRAGMENT = "country.details.fragment"
         var FAVORITE_LIST_FRAGMENT = "favorite.list.fragment"
         var HOME_FRAGMENT = "home.fragment"
+        var SPLASH_FRAGMENT = "splash.fragment"
         var REGION_LIST_FRAGMENT = "region.list.fragment"
         var SEARCH_COUNTRY_FRAGMENT = "search.country.fragment"
         var BOTTOM_NAV_DRAWER_FRAGMENT = "bottom.navigation.drawer.fragment"

@@ -17,4 +17,18 @@
     <string name="rights_reserved_text">All Rights Reserved</string>
     <string name="app_description">The CountryPedia mobile application searches through all countries of the world via REST COUNTRY API</string>
     <string name="api_used">via REST COUNTRY API</string>
+    <string name="splash_screen_loading_text">Setting up CountryPedia…</string>
+    <string name="app_logo">app logo</string>
+    <string name="capital_is_text">It\'s capital is %s</string>
+    <string name="region_title">Region</string>
+    <string name="country_code_title">Country Code</string>
+    <string name="currency_title">Currency</string>
+    <string name="plus_sign">+ %s</string>
+    <string name="time_zones_title">Time Zones</string>
+    <string name="more_information_title">More Information</string>
+    <string name="population_title">Population:</string>
+    <string name="languages_title">Languages:</string>
+    <string name="alt_spelling_title">Alt. Spelling:</string>
+    <string name="coordinates_title">Coordinates:</string>
+    <string name="long_and_lat">%s(Lat)%s(Long)</string>
 </resources>

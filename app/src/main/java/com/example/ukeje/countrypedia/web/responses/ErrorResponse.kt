@@ -11,4 +11,10 @@ import java.io.Serializable
 @Builder
 data class ErrorResponse(var status: String, var message: String = "") : Serializable {
     constructor() : this("","An Error Occurred")
+
+    companion object{
+        fun buildWitMessage(message: String) : ErrorResponse{
+            return ErrorResponse("", message)
+        }
+    }
 }

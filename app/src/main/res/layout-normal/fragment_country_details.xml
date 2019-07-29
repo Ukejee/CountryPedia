@@ -6,12 +6,13 @@
 
     <data>
         <variable
-            name="viewmodel"
-            type="com.example.ukeje.countrypedia.SharedFragmentViewModel" />
+            name="viewModel"
+            type="com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel" />
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout6"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#CECECE">
@@ -22,11 +23,12 @@
             android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout"
@@ -44,8 +46,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:text="Algeria"
                         android:gravity="center"
+                        android:text="@{viewModel.countryDetails.name}"
                         android:textColor="#266876"
                         android:textSize="30sp"
                         android:textStyle="bold"
@@ -54,21 +56,23 @@
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="Algeria" />
 
                     <TextView
                         android:id="@+id/capital_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="It's capital is Algerie"
+                        android:text="@{@string/capital_is_text(viewModel.countryDetails.capital)}"
                         android:textColor="#438391"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/country_name" />
+                        app:layout_constraintTop_toBottomOf="@+id/country_name"
+                        tools:text="It's capital is Algerie" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -77,12 +81,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="30dp"
-                    android:text="Region"
+                    android:text="@string/region_title"
                     android:textColor="@color/subtitle_color"
                     android:textSize="@dimen/subtitles_dimen"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                    tools:text="Region" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout2"
@@ -104,12 +109,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="17dp"
-                        android:text="Northen Africa"
+                        android:text="@{viewModel.countryDetails.subregion}"
                         android:textColor="@color/info_colors"
                         android:textSize="22sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="Northen Africa" />
 
                     <TextView
                         android:id="@+id/region_name"
@@ -118,13 +124,14 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
-                        android:text="Africa"
+                        android:text="@{viewModel.countryDetails.region}"
                         android:textColor="@color/info_colors"
                         android:textSize="17sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/subregion_name"
-                        app:layout_constraintVertical_bias="1.0" />
+                        app:layout_constraintVertical_bias="1.0"
+                        tools:text="Africa" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -133,12 +140,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="25dp"
-                    android:text="Country Code"
+                    android:text="@string/country_code_title"
                     android:textColor="@color/subtitle_color"
                     android:textSize="@dimen/subtitles_dimen"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+                    tools:text="Country Code" />
 
                 <TextView
                     android:id="@+id/currency_title"
@@ -147,13 +155,14 @@
                     android:layout_marginStart="70dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="100dp"
-                    android:text="Currency"
+                    android:text="@string/currency_title"
                     android:textColor="@color/subtitle_color"
                     android:textSize="@dimen/subtitles_dimen"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/country_code_title"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+                    tools:text="Currency" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout3"
@@ -170,14 +179,15 @@
                         android:id="@+id/country_code"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+234"
+                        android:text="@{@string/plus_sign(viewModel.countryDetails.callingCodes.get(0))}"
                         android:textColor="@color/info_colors"
                         android:textSize="32sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="+234" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -200,12 +210,13 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
                         android:paddingEnd="24dp"
-                        android:text="DZD"
+                        android:text="@{viewModel.countryDetails.currencies.get(0).getCode()}"
                         android:textColor="@color/info_colors"
                         android:textSize="28sp"
                         app:layout_constraintBottom_toTopOf="@+id/currency_name"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="DZD" />
 
                     <TextView
                         android:id="@+id/currency_name"
@@ -215,11 +226,12 @@
                         android:layout_marginTop="3dp"
                         android:layout_marginBottom="10dp"
                         android:paddingEnd="24dp"
-                        android:text="Algerian Dinah"
+                        android:text="@{viewModel.countryDetails.currencies.get(0).getName()}"
                         android:textColor="@color/info_colors"
                         android:textSize="13sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/currency_code" />
+                        app:layout_constraintTop_toBottomOf="@+id/currency_code"
+                        tools:text="Algerian Dinah" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -228,72 +240,82 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="25dp"
-                    android:text="Time Zones"
+                    android:text="@string/time_zones_title"
                     android:textColor="@color/subtitle_color"
                     android:textSize="@dimen/subtitles_dimen"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+                    tools:text="Time Zones" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:id="@+id/constraintLayout4"
                     android:layout_width="0dp"
-                    android:layout_height="129dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
                     android:background="#F5F5F5"
                     android:elevation="@dimen/result_page_elevation"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView15">
 
 
-                    <View
-                        android:id="@+id/timezone_separting_line"
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="@color/info_colors"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:layout_editor_absoluteY="5dp" />
-
                     <TextView
                         android:id="@+id/country_time_zones"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="30dp"
                         android:layout_marginBottom="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="TextView"
+                        android:text="@{viewModel.splitListFirstHalve}"
                         android:textColor="@color/info_colors"
                         android:textSize="17sp"
                         app:layout_constraintEnd_toStartOf="@+id/timezone_separting_line"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="TextView" />
+
+                    <View
+                        android:id="@+id/timezone_separting_line"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/info_colors"
+                        android:visibility="@{viewModel.checkViewVisibilty(viewModel.countryDetails.timezones)}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_editor_absoluteY="5dp" />
 
                     <TextView
                         android:id="@+id/country_time_zone_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="10dp"
                         android:paddingBottom="10dp"
-                        android:text=""
+                        android:text="@{viewModel.splitListSecondHalve}"
                         android:textColor="@color/info_colors"
                         android:textSize="17sp"
+                        android:visibility="@{viewModel.checkViewVisibilty(viewModel.countryDetails.timezones)}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/timezone_separting_line"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="TextView2" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textView16"
@@ -301,12 +323,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="25dp"
-                    android:text="More Information"
+                    android:text="@string/more_information_title"
                     android:textColor="@color/subtitle_color"
                     android:textSize="@dimen/subtitles_dimen"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+                    tools:text="More Information" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
@@ -329,44 +352,48 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="35dp"
                         android:layout_marginTop="30dp"
-                        android:text="Population:"
+                        android:text="@string/population_title"
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Population:" />
 
                     <TextView
                         android:id="@+id/languages_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="Languages:"
+                        android:text="@string/languages_title"
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="@+id/population_title"
-                        app:layout_constraintTop_toBottomOf="@+id/population_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/population_title"
+                        tools:text="Languages:" />
 
                     <TextView
                         android:id="@+id/alt_spelling_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="Alt. Spelling:"
+                        android:text="@string/alt_spelling_title"
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="@+id/languages_title"
-                        app:layout_constraintTop_toBottomOf="@+id/languages_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/languages_title"
+                        tools:text="Alt. Spelling:" />
 
                     <TextView
                         android:id="@+id/coordinate_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="Coordinates:"
+                        android:layout_marginTop="25dp"
+                        android:text="@string/coordinates_title"
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="@+id/alt_spelling_title"
-                        app:layout_constraintTop_toBottomOf="@+id/alt_spelling_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/country_alt_spelling"
+                        tools:text="Coordinates:" />
 
                     <TextView
                         android:id="@+id/country_population"
@@ -374,37 +401,45 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="28dp"
-                        android:text="6,000,0000"
+                        android:text="@{viewModel.countryDetails.population.toString()}"
                         android:textColor="@color/info_colors"
                         android:textSize="16sp"
                         app:layout_constraintStart_toEndOf="@+id/population_title"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="6,000,0000" />
 
                     <TextView
                         android:id="@+id/country_language"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="12dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="3dp"
                         android:padding="3dp"
-                        android:text="Ar"
+                        android:text="@{viewModel.formattedLanguages}"
                         android:textColor="@color/info_colors"
-                        android:textSize="16sp"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/languages_title"
-                        app:layout_constraintTop_toBottomOf="@+id/country_population" />
+                        app:layout_constraintTop_toBottomOf="@+id/country_population"
+                        tools:text="Ar" />
 
                     <TextView
                         android:id="@+id/country_alt_spelling"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
+                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="3dp"
-                        android:text="DZ, Dzayer, Algerie"
                         android:textColor="@color/info_colors"
                         android:textSize="16sp"
+                        android:text="@{viewModel.formattedAltSpelling}"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/alt_spelling_title"
-                        app:layout_constraintTop_toBottomOf="@+id/country_language" />
+                        app:layout_constraintTop_toBottomOf="@+id/country_language"
+                        tools:text="DZ, Dzayer, Algerie" />
 
                     <TextView
                         android:id="@+id/country_coordinates"
@@ -413,12 +448,13 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="26dp"
                         android:layout_marginEnd="8dp"
-                        android:text="28.00(Lat),3.00(Long)"
                         android:textColor="@color/info_colors"
                         android:textSize="16sp"
+                        android:text="@{@string/long_and_lat(viewModel.countryDetails.latlng.get(0).toString(), viewModel.countryDetails.latlng.get(1).toString())}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/coordinate_title"
-                        app:layout_constraintTop_toBottomOf="@+id/country_alt_spelling" />
+                        app:layout_constraintTop_toBottomOf="@+id/country_alt_spelling"
+                        tools:text="28.00(Lat),3.00(Long)" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -440,23 +476,23 @@
                 android:id="@+id/favorite_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="15dp"
                 android:background="@drawable/ripple"
-                app:srcCompat="@drawable/favorite_icon_unselected"
+                android:padding="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/favorite_icon_unselected" />
 
             <ImageView
                 android:id="@+id/back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="15dp"
                 android:background="@drawable/ripple"
-                app:srcCompat="@drawable/back_icon"
+                android:padding="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/back_icon" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
