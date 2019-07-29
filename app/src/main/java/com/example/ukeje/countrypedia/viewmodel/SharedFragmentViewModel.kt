@@ -27,16 +27,45 @@ class SharedFragmentViewModel : ViewModel() {
     /**
      * The list of timeZones of the splitTimeZones
      */
-    var  splitListFirstHalve: String? = null
+    var splitListFirstHalve: String? = null
     var splitListSecondHalve: String? = null
 
-    var formattedLanguages: String? = null
-    var formattedAltSpelling: String? = null
+    var formattedLanguages = " - "
+        get() {
+            field = formatLanguageResponse(countryDetails?.languages)
+            return field
+        }
+
+
+    var formattedAltSpelling = " - "
+        get() {
+            field = formatList(countryDetails?.altSpellings as List<String>, ", ")
+            return field
+        }
+
+    var countryCallingCode = " - "
+        get() {
+            val callingCode = countryDetails!!.callingCodes[0]
+            field = if (callingCode.isNullOrBlank()) " - " else "+$callingCode"
+            return field
+        }
 
     var randomCountryLiveData = MutableLiveData<Country>()
 
+    var timeZoneSplitSeparatorVisibility = false
+        /*get() {
+            field = countryDetails?.timezones?.size!! > 1
+            return field
+        }*/
+
+    fun setUpUITimeZones() {
+        splitList(countryDetails?.timezones?.filter {
+            !it.isNullOrBlank()
+        } as List<String>)
+    }
+
     fun callGetCountryDetailsApi(countryName: String): LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> {
-        return countryPediaRepository!!.getCountryDetailsFromApi(countryName)
+        return countryPediaRepository!!.getCountryDetailsFromApi("french polynesia")
     }
 
     fun callGetCountryListApi(regionName: String): LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> {
@@ -70,15 +99,15 @@ class SharedFragmentViewModel : ViewModel() {
      * This method is used to split a list of strings into two equal halves
      * and pass them into two variables
      */
-    fun splitList(list: List<String>){
+    fun splitList(list: List<String>) {
 
-        val midPoint = Math.floor((list.size/2).toDouble())
+        val midPoint = Math.floor((list.size / 2).toDouble())
         val firstList = mutableListOf<String>()
         val secondList = mutableListOf<String>()
         val splitList = mutableListOf<String>()
 
-        if(list.size > 1) {
-            if(list.size % 2 == 0){
+        if (list.size > 1) {
+            if (list.size % 2 == 0) {
                 for (i in 0 until (midPoint.toInt())) {
                     firstList.add(list[i])
                 }
@@ -86,7 +115,7 @@ class SharedFragmentViewModel : ViewModel() {
                 for (i in (midPoint.toInt()) until list.size) {
                     secondList.add(list[i])
                 }
-            }else {
+            } else {
                 for (i in 0 until (midPoint.toInt() + 1)) {
                     firstList.add(list[i])
                 }
@@ -95,8 +124,7 @@ class SharedFragmentViewModel : ViewModel() {
                     secondList.add(list[i])
                 }
             }
-        }
-        else{
+        } else {
             firstList.add(list[0])
         }
 
@@ -111,19 +139,20 @@ class SharedFragmentViewModel : ViewModel() {
      * This method takes a list of strings and formats
      * for each value to appear on a new line in form of a String
      */
-    fun formatList(list: List<String>?, separator: String): String{
+    fun formatList(list: List<String>?, separator: String): String {
 
         val formattedString = StringBuilder()
 
-        if(list?.size == 1){
+        if (list?.size == 1) {
             formattedString.append(list[0])
-        }
-        else{
+        } else {
             list?.forEach {
                 formattedString.append(it)
                 formattedString.append(separator)
             }
-            if(formattedString.isNotEmpty()){formattedString.delete(formattedString.lastIndex - 1,formattedString.lastIndex)}
+            if (formattedString.isNotEmpty()) {
+                formattedString.delete(formattedString.lastIndex - 1, formattedString.lastIndex)
+            }
 
         }
 
@@ -136,19 +165,18 @@ class SharedFragmentViewModel : ViewModel() {
      * This method formats the elements of the list and
      * returns a String to be displayed on the UI
      */
-    fun formatLanguageResponse(list: List<LanguageResponse>?): String{
+    fun formatLanguageResponse(list: List<LanguageResponse>?): String {
 
         val formattedString = StringBuilder()
 
-        if(list?.size == 1){
+        if (list?.size == 1) {
             formattedString.append(list[0].name)
-        }
-        else{
+        } else {
             list?.forEach {
                 formattedString.append(it.name)
                 formattedString.append(", ")
             }
-            formattedString.delete(formattedString.lastIndex - 1,formattedString.lastIndex)
+            formattedString.delete(formattedString.lastIndex - 1, formattedString.lastIndex)
         }
 
         return formattedString.toString()
@@ -159,9 +187,7 @@ class SharedFragmentViewModel : ViewModel() {
      * @param: a list of String and two View Visibilty Constants
      * checks the size of a list and decides if it would need an extra view to display content
      */
-    fun checkViewVisibilty(list: List<String>): Int = if(list.size == 1) 8 else 0
-
-
+    fun checkViewVisibility(list: List<String>) = list.size > 1
 
 
     /*public ArrayList<String> getFavoriteCountries(){ return favoriteCountries; }

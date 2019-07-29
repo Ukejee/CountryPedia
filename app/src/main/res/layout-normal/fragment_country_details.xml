@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".fragments.CountryDetailsFragment">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel" />
     </data>
 
+
+    <!--android:text="@{viewModel.countryDetails.currencies.get(0).code}"-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout6"
@@ -38,7 +43,9 @@
                     android:elevation="@dimen/result_page_elevation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:targetApi="lollipop"
+                    tools:visibility="gone">
 
                     <TextView
                         android:id="@+id/country_name"
@@ -46,9 +53,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif-light"
                         android:gravity="center"
                         android:text="@{viewModel.countryDetails.name}"
                         android:textColor="#266876"
+                        android:textIsSelectable="true"
                         android:textSize="30sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/capital_name"
@@ -63,7 +72,7 @@
                         android:id="@+id/capital_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif-light"
                         android:text="@{@string/capital_is_text(viewModel.countryDetails.capital)}"
                         android:textColor="#438391"
                         android:textSize="15sp"
@@ -72,20 +81,21 @@
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/country_name"
-                        tools:text="It's capital is Algerie" />
+                        tools:text="t's capital is Algerie" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/regionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/region_title"
                     android:textColor="@color/subtitle_color"
                     android:textSize="@dimen/subtitles_dimen"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
                     tools:text="Region" />
 
@@ -93,25 +103,26 @@
                     android:id="@+id/constraintLayout2"
                     android:layout_width="0dp"
                     android:layout_height="86dp"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="#F5F5F5"
+                    android:background="@drawable/country_details_items_bg"
                     android:elevation="@dimen/result_page_elevation"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/regionTitle">
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@+id/regionTitle"
+                    tools:targetApi="lollipop">
 
                     <TextView
                         android:id="@+id/subregion_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="17dp"
+                        android:layout_marginEnd="20dp"
+                        android:fontFamily="sans-serif-light"
                         android:text="@{viewModel.countryDetails.subregion}"
                         android:textColor="@color/info_colors"
                         android:textSize="22sp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed"
@@ -119,15 +130,18 @@
 
                     <TextView
                         android:id="@+id/region_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_marginBottom="16dp"
+                        android:fontFamily="sans-serif-light"
                         android:text="@{viewModel.countryDetails.region}"
                         android:textColor="@color/info_colors"
-                        android:textSize="17sp"
+                        android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/subregion_name"
                         app:layout_constraintVertical_bias="1.0"
@@ -138,13 +152,14 @@
                     android:id="@+id/country_code_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/country_code_title"
                     android:textColor="@color/subtitle_color"
                     android:textSize="@dimen/subtitles_dimen"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
                     tools:text="Country Code" />
 
@@ -152,83 +167,95 @@
                     android:id="@+id/currency_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="70dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="25dp"
-                    android:layout_marginEnd="100dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/currency_title"
                     android:textColor="@color/subtitle_color"
                     android:textSize="@dimen/subtitles_dimen"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/country_code_title"
+                    app:layout_constraintStart_toStartOf="@+id/constraintLayout7"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
                     tools:text="Currency" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout3"
-                    android:layout_width="128dp"
-                    android:layout_height="77dp"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#F5F5F5"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/country_details_items_bg"
                     android:elevation="@dimen/result_page_elevation"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/country_code_title">
+                    app:layout_constraintBottom_toBottomOf="@id/constraintLayout7"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toTopOf="@id/constraintLayout7"
+                    tools:targetApi="lollipop">
 
                     <TextView
                         android:id="@+id/country_code"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/plus_sign(viewModel.countryDetails.callingCodes.get(0))}"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@{viewModel.countryCallingCode}"
+                        android:textAlignment="center"
                         android:textColor="@color/info_colors"
-                        android:textSize="32sp"
+                        android:textSize="30sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="+234" />
+                        tools:text="fasd" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="77dp"
-                    android:layout_marginStart="40dp"
+                    android:id="@+id/constraintLayout7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="46dp"
-                    android:background="#F5F5F5"
+                    android:background="@drawable/country_details_items_bg"
                     android:elevation="@dimen/result_page_elevation"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
-                    app:layout_constraintTop_toBottomOf="@+id/currency_title">
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/guideline2"
+                    app:layout_constraintTop_toBottomOf="@id/currency_title"
+                    tools:targetApi="lollipop">
 
                     <TextView
                         android:id="@+id/currency_code"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:paddingEnd="24dp"
-                        android:text="@{viewModel.countryDetails.currencies.get(0).getCode()}"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@{viewModel.countryDetails.currencies[0].code}"
                         android:textColor="@color/info_colors"
-                        android:textSize="28sp"
+                        android:textSize="24sp"
                         app:layout_constraintBottom_toTopOf="@+id/currency_name"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed"
                         tools:text="DZD" />
 
                     <TextView
                         android:id="@+id/currency_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
                         android:layout_marginBottom="10dp"
-                        android:paddingEnd="24dp"
-                        android:text="@{viewModel.countryDetails.currencies.get(0).getName()}"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@{viewModel.countryDetails.currencies[0].name}"
                         android:textColor="@color/info_colors"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/currency_code"
                         tools:text="Algerian Dinah" />
@@ -238,13 +265,14 @@
                     android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/time_zones_title"
                     android:textColor="@color/subtitle_color"
                     android:textSize="@dimen/subtitles_dimen"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
                     tools:text="Time Zones" />
 
@@ -252,66 +280,57 @@
                     android:id="@+id/constraintLayout4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="#F5F5F5"
+                    android:background="@drawable/country_details_items_bg"
                     android:elevation="@dimen/result_page_elevation"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView15">
-
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@+id/textView15"
+                    tools:targetApi="lollipop">
 
                     <TextView
                         android:id="@+id/country_time_zones"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="30dp"
                         android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
                         android:text="@{viewModel.splitListFirstHalve}"
                         android:textColor="@color/info_colors"
                         android:textSize="17sp"
-                        app:layout_constraintEnd_toStartOf="@+id/timezone_separting_line"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="TextView" />
 
                     <View
                         android:id="@+id/timezone_separting_line"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/info_colors"
-                        android:visibility="@{viewModel.checkViewVisibilty(viewModel.countryDetails.timezones)}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:layout_editor_absoluteY="5dp" />
+                        android:alpha="0.3"
+                        android:background="@color/info_colors" />
 
                     <TextView
                         android:id="@+id/country_time_zone_two"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
                         android:text="@{viewModel.splitListSecondHalve}"
                         android:textColor="@color/info_colors"
                         android:textSize="17sp"
-                        android:visibility="@{viewModel.checkViewVisibilty(viewModel.countryDetails.timezones)}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/timezone_separting_line"
-                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="TextView2" />
 
                 </LinearLayout>
@@ -320,182 +339,223 @@
                     android:id="@+id/textView16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="25dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/more_information_title"
                     android:textColor="@color/subtitle_color"
                     android:textSize="@dimen/subtitles_dimen"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
                     tools:text="More Information" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout8"
                     android:layout_width="0dp"
-                    android:layout_height="240dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginBottom="55dp"
-                    android:background="#F5F5F5"
+                    android:background="@drawable/country_details_items_bg"
                     android:elevation="@dimen/result_page_elevation"
                     android:isScrollContainer="true"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16">
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@+id/textView16"
+                    tools:targetApi="lollipop">
 
                     <TextView
                         android:id="@+id/population_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="35dp"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif-light"
                         android:text="@string/population_title"
+                        android:textAlignment="viewEnd"
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/country_population"
+                        app:layout_constraintEnd_toEndOf="@+id/barrier"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/guideline3"
+                        app:layout_constraintTop_toTopOf="@+id/country_population"
+                        app:layout_constraintVertical_bias="0.0"
                         tools:text="Population:" />
 
                     <TextView
                         android:id="@+id/languages_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif-light"
                         android:text="@string/languages_title"
+                        android:textAlignment="viewEnd"
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="@+id/population_title"
-                        app:layout_constraintTop_toBottomOf="@+id/population_title"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/country_language"
+                        app:layout_constraintEnd_toEndOf="@+id/barrier"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/guideline3"
+                        app:layout_constraintTop_toTopOf="@+id/country_language"
+                        app:layout_constraintVertical_bias="0.0"
                         tools:text="Languages:" />
 
                     <TextView
                         android:id="@+id/alt_spelling_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif-light"
                         android:text="@string/alt_spelling_title"
+                        android:textAlignment="viewEnd"
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="@+id/languages_title"
-                        app:layout_constraintTop_toBottomOf="@+id/languages_title"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/country_alt_spelling"
+                        app:layout_constraintEnd_toEndOf="@+id/barrier"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/guideline3"
+                        app:layout_constraintTop_toTopOf="@+id/country_alt_spelling"
+                        app:layout_constraintVertical_bias="0.0"
                         tools:text="Alt. Spelling:" />
 
                     <TextView
                         android:id="@+id/coordinate_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif-light"
                         android:text="@string/coordinates_title"
+                        android:textAlignment="viewEnd"
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="@+id/alt_spelling_title"
-                        app:layout_constraintTop_toBottomOf="@+id/country_alt_spelling"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/country_coordinates"
+                        app:layout_constraintEnd_toEndOf="@+id/barrier"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/guideline3"
+                        app:layout_constraintTop_toTopOf="@+id/country_coordinates"
+                        app:layout_constraintVertical_bias="0.060000002"
                         tools:text="Coordinates:" />
 
                     <TextView
                         android:id="@+id/country_population"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="28dp"
-                        android:text="@{viewModel.countryDetails.population.toString()}"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@{String.valueOf(viewModel.countryDetails.population)}"
                         android:textColor="@color/info_colors"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toEndOf="@+id/population_title"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintStart_toEndOf="@+id/barrier"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="6,000,0000" />
+                        tools:text="300" />
 
                     <TextView
                         android:id="@+id/country_language"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="3dp"
+                        android:fontFamily="sans-serif-light"
                         android:padding="3dp"
                         android:text="@{viewModel.formattedLanguages}"
                         android:textColor="@color/info_colors"
                         android:textSize="15sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/languages_title"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintStart_toEndOf="@+id/barrier"
                         app:layout_constraintTop_toBottomOf="@+id/country_population"
-                        tools:text="Ar" />
+                        tools:text="sdfasdfsdfasdfsdfasdf sdfasdf sdfasdf" />
 
                     <TextView
                         android:id="@+id/country_alt_spelling"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="3dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@{viewModel.formattedAltSpelling}"
                         android:textColor="@color/info_colors"
                         android:textSize="16sp"
-                        android:text="@{viewModel.formattedAltSpelling}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/alt_spelling_title"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintHorizontal_bias="0.50"
+                        app:layout_constraintStart_toEndOf="@+id/barrier"
                         app:layout_constraintTop_toBottomOf="@+id/country_language"
-                        tools:text="DZ, Dzayer, Algerie" />
+                        tools:text="DZ, Dzayer, AlgerieDZ, Dzayer, AlgerieDZ, Dzayer, AlgerieDZ, Dzayer, Algerie" />
 
                     <TextView
                         android:id="@+id/country_coordinates"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="26dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@{@string/long_and_lat(viewModel.countryDetails.latlng.get(0).toString(), viewModel.countryDetails.latlng.get(1).toString())}"
                         android:textColor="@color/info_colors"
                         android:textSize="16sp"
-                        android:text="@{@string/long_and_lat(viewModel.countryDetails.latlng.get(0).toString(), viewModel.countryDetails.latlng.get(1).toString())}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/coordinate_title"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintStart_toEndOf="@+id/barrier"
                         app:layout_constraintTop_toBottomOf="@+id/country_alt_spelling"
-                        tools:text="28.00(Lat),3.00(Long)" />
+                        tools:text="sdfadfa asdfa dfasd fadsdfadfa asdfa dfasd fadsdfadfa asdfa dfasd fad" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="16dp" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="16dp" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/barrier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="end"
+                        app:constraint_referenced_ids="population_title,languages_title,alt_spelling_title,coordinate_title,guideline3"
+                        tools:layout_editor_absoluteX="391dp" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="32dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="32dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/info_colors"
-            android:elevation="5dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                android:id="@+id/favorite_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple"
-                android:padding="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/favorite_icon_unselected" />
-
-            <ImageView
-                android:id="@+id/back_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple"
-                android:padding="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/back_icon" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </layout>
 
