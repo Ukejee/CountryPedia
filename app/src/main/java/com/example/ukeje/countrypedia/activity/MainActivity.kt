@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import androidx.room.Room
 import com.example.ukeje.countrypedia.R
 import com.example.ukeje.countrypedia.database.CountryPediaDatabase
@@ -20,6 +24,7 @@ import com.example.ukeje.countrypedia.extensions.setupWithNavDrawerMenuControlle
 import com.example.ukeje.countrypedia.fragments.BaseFragment.Companion.BOTTOM_NAV_DRAWER_FRAGMENT
 import com.example.ukeje.countrypedia.fragments.BottomNavDrawerDialogFragment
 import com.example.ukeje.countrypedia.repository.CountryPediaRepository
+import com.example.ukeje.countrypedia.utils.AppUtils
 import com.example.ukeje.countrypedia.viewmodel.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -106,8 +111,18 @@ class MainActivity : AppCompatActivity() {
                 itemClickListener = {}
         )
 
+        //list of root fragments ids
+        val rootFragmentsIds = listOf(R.id.homeFragment, R.id.favoriteListFragment, R.id.regionListFragment)
+
         //listening on the controllerLiveData
         controllerLiveData?.observe(this, Observer { navController ->
+
+            val appBarConfiguration = AppBarConfiguration(navController.graph)
+
+            //initialize toolbar
+            navController?.let {
+                binding.bottomAppBar.setupWithNavController(navController, appBarConfiguration)
+            }
 
             //listening on the controller for destination change
             navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -129,6 +144,21 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomAppBar.visibility = View.VISIBLE
 
                 }
+
+                AppUtils.debug("current fragment: {}", navController.currentDestination?.label)
+
+                if (rootFragmentsIds.contains(navController.currentDestination?.id)) {
+                    AppUtils.debug("we are in a in root fragment")
+                    binding.bottomAppBar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.menu_icon)
+                    binding.bottomAppBar.setNavigationOnClickListener { navDrawerDialogFragment!!.show(supportFragmentManager.beginTransaction(), BOTTOM_NAV_DRAWER_FRAGMENT) }
+
+                } else {
+                    AppUtils.debug("we are not in a root fragment")
+                    binding.bottomAppBar.setNavigationOnClickListener {
+                        NavigationUI.navigateUp(navController, appBarConfiguration)
+                    }
+                }
+
             }
 
         })
