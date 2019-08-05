@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/region_graph"
-    app:startDestination="@id/countryListFragment">
+    app:startDestination="@id/regionListFragment">
 
     <fragment
         android:id="@+id/countryDetailsFragment"
