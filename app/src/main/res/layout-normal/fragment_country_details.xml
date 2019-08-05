@@ -296,16 +296,15 @@
                         android:id="@+id/country_time_zones"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-light"
                         android:gravity="center"
-                        android:text="@{viewModel.splitListFirstHalve}"
+                        android:text="@{viewModel.timeZonesFirstHalf}"
                         android:textColor="@color/info_colors"
                         android:textSize="17sp"
-                        tools:text="TextView" />
+                        tools:text="TextView\nasdfasd\nadsfasd" />
 
                     <View
                         android:id="@+id/timezone_separting_line"
@@ -316,22 +315,23 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
                         android:alpha="0.3"
-                        android:background="@color/info_colors" />
+                        android:background="@color/info_colors"
+                        android:visibility="@{safeUnbox(viewModel.splitTimeZones? View.VISIBLE : View.GONE)}" />
 
                     <TextView
                         android:id="@+id/country_time_zone_two"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-light"
                         android:gravity="center"
-                        android:text="@{viewModel.splitListSecondHalve}"
+                        android:text="@{viewModel.timeZonesSecondHalf}"
                         android:textColor="@color/info_colors"
                         android:textSize="17sp"
-                        tools:text="TextView2" />
+                        tools:text="TextView"
+                        android:visibility="@{safeUnbox(viewModel.splitTimeZones? View.VISIBLE : View.GONE)}"/>
 
                 </LinearLayout>
 
@@ -376,12 +376,10 @@
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/country_population"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/country_population"
                         app:layout_constraintEnd_toEndOf="@+id/barrier"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="@+id/guideline3"
-                        app:layout_constraintTop_toTopOf="@+id/country_population"
-                        app:layout_constraintVertical_bias="0.0"
                         tools:text="Population:" />
 
                     <TextView
@@ -395,12 +393,10 @@
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/country_language"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/country_language"
                         app:layout_constraintEnd_toEndOf="@+id/barrier"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="@+id/guideline3"
-                        app:layout_constraintTop_toTopOf="@+id/country_language"
-                        app:layout_constraintVertical_bias="0.0"
                         tools:text="Languages:" />
 
                     <TextView
@@ -414,12 +410,10 @@
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/country_alt_spelling"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/country_alt_spelling"
                         app:layout_constraintEnd_toEndOf="@+id/barrier"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="@+id/guideline3"
-                        app:layout_constraintTop_toTopOf="@+id/country_alt_spelling"
-                        app:layout_constraintVertical_bias="0.0"
                         tools:text="Alt. Spelling:" />
 
                     <TextView
@@ -433,12 +427,10 @@
                         android:textColor="@color/info_colors"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/country_coordinates"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/country_coordinates"
                         app:layout_constraintEnd_toEndOf="@+id/barrier"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="@+id/guideline3"
-                        app:layout_constraintTop_toTopOf="@+id/country_coordinates"
-                        app:layout_constraintVertical_bias="0.060000002"
                         tools:text="Coordinates:" />
 
                     <TextView

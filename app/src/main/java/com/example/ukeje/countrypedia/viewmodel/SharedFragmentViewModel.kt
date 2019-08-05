@@ -9,10 +9,11 @@ import com.example.ukeje.countrypedia.utils.AppUtils
 import com.example.ukeje.countrypedia.web.helper.ApiResponse
 import com.example.ukeje.countrypedia.web.responses.CountryResponse
 import com.example.ukeje.countrypedia.web.responses.ErrorResponse
-import com.example.ukeje.countrypedia.web.responses.LanguageResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 class SharedFragmentViewModel : ViewModel() {
 
@@ -24,48 +25,54 @@ class SharedFragmentViewModel : ViewModel() {
     var favoriteCountries = ArrayList<String>()
     var funFacts: ArrayList<String>? = null
 
-    /**
-     * The list of timeZones of the splitTimeZones
-     */
-    var splitListFirstHalve: String? = null
-    var splitListSecondHalve: String? = null
+    var splitTimeZones = MutableLiveData<Boolean>()
+        get() {
+            field.value = countryDetails?.timezones?.size!! > 1
+            return field
+        }
+
+    var timeZonesFirstHalf = MutableLiveData<String>()
+        get() {
+            val halfIndex = ceil((countryDetails?.timezones!!.size.toDouble() / 2))
+            field.value = formatStringListIntoString(countryDetails?.timezones!!.subList(0, halfIndex.roundToInt()), "\n")
+            return field
+        }
+
+    var timeZonesSecondHalf = MutableLiveData<String>()
+        get() {
+            val halfIndex = ceil((countryDetails?.timezones!!.size.toDouble() / 2))
+            field.value = formatStringListIntoString(countryDetails?.timezones!!.subList(halfIndex.roundToInt() - 1, countryDetails?.timezones!!.lastIndex), "\n")
+            return field
+        }
 
     var formattedLanguages = " - "
         get() {
-            field = formatLanguageResponse(countryDetails?.languages)
+            field = formatStringListIntoString(countryDetails?.languages!!.map { it.name }, ", ")
             return field
         }
 
 
     var formattedAltSpelling = " - "
         get() {
-            field = formatList(countryDetails?.altSpellings as List<String>, ", ")
+            field = formatStringListIntoString(countryDetails?.altSpellings as List<String>, ", ")
             return field
         }
 
     var countryCallingCode = " - "
         get() {
             val callingCode = countryDetails!!.callingCodes[0]
-            field = if (callingCode.isNullOrBlank()) " - " else "+$callingCode"
+            field = if (callingCode.isBlank()) " - " else "+$callingCode"
             return field
         }
 
     var randomCountryLiveData = MutableLiveData<Country>()
 
-    var timeZoneSplitSeparatorVisibility = false
-        /*get() {
-            field = countryDetails?.timezones?.size!! > 1
-            return field
-        }*/
-
     fun setUpUITimeZones() {
-        splitList(countryDetails?.timezones?.filter {
-            !it.isNullOrBlank()
-        } as List<String>)
+//        splitTimeZonesIntoHalves()
     }
 
     fun callGetCountryDetailsApi(countryName: String): LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> {
-        return countryPediaRepository!!.getCountryDetailsFromApi("french polynesia")
+        return countryPediaRepository!!.getCountryDetailsFromApi(countryName)
     }
 
     fun callGetCountryListApi(regionName: String): LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> {
@@ -95,100 +102,25 @@ class SharedFragmentViewModel : ViewModel() {
     }
 
     /**
-     * @param: A list of strings
-     * This method is used to split a list of strings into two equal halves
-     * and pass them into two variables
-     */
-    fun splitList(list: List<String>) {
-
-        val midPoint = Math.floor((list.size / 2).toDouble())
-        val firstList = mutableListOf<String>()
-        val secondList = mutableListOf<String>()
-        val splitList = mutableListOf<String>()
-
-        if (list.size > 1) {
-            if (list.size % 2 == 0) {
-                for (i in 0 until (midPoint.toInt())) {
-                    firstList.add(list[i])
-                }
-
-                for (i in (midPoint.toInt()) until list.size) {
-                    secondList.add(list[i])
-                }
-            } else {
-                for (i in 0 until (midPoint.toInt() + 1)) {
-                    firstList.add(list[i])
-                }
-
-                for (i in (midPoint.toInt() + 1) until list.size) {
-                    secondList.add(list[i])
-                }
-            }
-        } else {
-            firstList.add(list[0])
-        }
-
-        splitListFirstHalve = formatList(firstList, "\n")
-        splitListSecondHalve = formatList(secondList, "\n")
-
-    }
-
-
-    /**
-     * @param: a list of Strings, a seperator format
-     * This method takes a list of strings and formats
-     * for each value to appear on a new line in form of a String
-     */
-    fun formatList(list: List<String>?, separator: String): String {
-
-        val formattedString = StringBuilder()
-
-        if (list?.size == 1) {
-            formattedString.append(list[0])
-        } else {
-            list?.forEach {
-                formattedString.append(it)
-                formattedString.append(separator)
-            }
-            if (formattedString.isNotEmpty()) {
-                formattedString.delete(formattedString.lastIndex - 1, formattedString.lastIndex)
-            }
-
-        }
-
-        return formattedString.toString()
-    }
-
-
-    /**
      * @param: a list of LanguageResponse
      * This method formats the elements of the list and
      * returns a String to be displayed on the UI
      */
-    fun formatLanguageResponse(list: List<LanguageResponse>?): String {
+    private fun formatStringListIntoString(list: List<String>?, separator: String): String {
 
         val formattedString = StringBuilder()
 
-        if (list?.size == 1) {
-            formattedString.append(list[0].name)
-        } else {
-            list?.forEach {
-                formattedString.append(it.name)
-                formattedString.append(", ")
-            }
-            formattedString.delete(formattedString.lastIndex - 1, formattedString.lastIndex)
+        list?.forEachIndexed { index, string ->
+
+            formattedString.append(string)
+
+            if (list.size > 1 && index < list.lastIndex)
+                formattedString.append(separator)
+
         }
 
         return formattedString.toString()
     }
-
-
-    /**
-     * @param: a list of String and two View Visibilty Constants
-     * checks the size of a list and decides if it would need an extra view to display content
-     */
-    fun checkViewVisibility(list: List<String>) = list.size > 1
-
 
     /*public ArrayList<String> getFavoriteCountries(){ return favoriteCountries; }
 
