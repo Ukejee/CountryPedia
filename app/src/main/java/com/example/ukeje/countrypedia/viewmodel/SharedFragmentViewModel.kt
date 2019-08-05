@@ -65,7 +65,7 @@ class SharedFragmentViewModel : ViewModel() {
     }
 
     fun callGetCountryDetailsApi(countryName: String): LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> {
-        return countryPediaRepository!!.getCountryDetailsFromApi("french polynesia")
+        return countryPediaRepository!!.getCountryDetailsFromApi(countryName)
     }
 
     fun callGetCountryListApi(regionName: String): LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> {
