@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -24,13 +25,14 @@ import com.example.ukeje.countrypedia.extensions.setupWithNavDrawerMenuControlle
 import com.example.ukeje.countrypedia.fragments.BaseFragment.Companion.BOTTOM_NAV_DRAWER_FRAGMENT
 import com.example.ukeje.countrypedia.fragments.BottomNavDrawerDialogFragment
 import com.example.ukeje.countrypedia.repository.CountryPediaRepository
-import com.example.ukeje.countrypedia.utils.AppUtils
 import com.example.ukeje.countrypedia.viewmodel.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var countryPediaDatabase: CountryPediaDatabase
     private var currentNavControllerLiveData: LiveData<NavController>? = null
+    private var currentNavController: NavController? = null
 
     private lateinit var binding: ActivityMainBinding
     private var navDrawerDialogFragment: BottomNavDrawerDialogFragment? = null
@@ -90,6 +92,7 @@ class MainActivity : AppCompatActivity() {
                     navGraphId,
                     R.id.nav_host_fragment_layout
             )
+
             navHostList.add(navHostFragment)
 
             //creates HomeNavItem and add to a list of homeNavItems
@@ -104,20 +107,26 @@ class MainActivity : AppCompatActivity() {
         binding.bottomAppBar.setNavigationOnClickListener { navDrawerDialogFragment!!.show(supportFragmentManager.beginTransaction(), BOTTOM_NAV_DRAWER_FRAGMENT) }
 
 
-        val controllerLiveData = navDrawerDialogFragment?.bottomNavDrawerManager?.setupWithNavDrawerMenuController(
+        currentNavControllerLiveData = navDrawerDialogFragment?.bottomNavDrawerManager?.setupWithNavDrawerMenuController(
                 intent = intent,
                 fragManager = supportFragmentManager,
                 navHostFragList = navHostList,
                 itemClickListener = {}
         )
 
-        //list of root fragments ids
-        val rootFragmentsIds = listOf(R.id.homeFragment, R.id.favoriteListFragment, R.id.regionListFragment)
+        listenOnNavControllerLiveData()
+
+        binding.exploreBtn.setOnClickListener {
+            navDrawerDialogFragment?.bottomNavDrawerManager!!.goToRegionMenu()
+        }
+    }
+
+    private fun listenOnNavControllerLiveData() {
 
         //listening on the controllerLiveData
-        controllerLiveData?.observe(this, Observer { navController ->
+        currentNavControllerLiveData?.observe(this, Observer { navController ->
 
-            val appBarConfiguration = AppBarConfiguration(navController.graph)
+            appBarConfiguration = AppBarConfiguration(navController.graph)
 
             //initialize toolbar
             navController?.let {
@@ -126,18 +135,17 @@ class MainActivity : AppCompatActivity() {
 
             //listening on the controller for destination change
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                if (destination.id == R.id.countryDetailsFragment) {
-                    binding.bottomAppBar.replaceMenu(R.menu.appbar_fav_unselected_menu)
-                } else {
-                    binding.bottomAppBar.replaceMenu(R.menu.appbar_about_menu)
-                }
 
+                changeMenuOnDestinationChange(destination)
+
+                //checks for when to show the explore button
                 if (destination.id == R.id.homeFragment) {
                     binding.exploreBtn.show()
                 } else {
                     binding.exploreBtn.hide()
                 }
 
+                //checks for when to show or hide the bottom app bar
                 if (destination.id == R.id.splashScreenFragment) {
                     binding.bottomAppBar.visibility = View.GONE
                 } else {
@@ -145,28 +153,36 @@ class MainActivity : AppCompatActivity() {
 
                 }
 
-                AppUtils.debug("current fragment: {}", navController.currentDestination?.label)
-
-                if (rootFragmentsIds.contains(navController.currentDestination?.id)) {
-                    AppUtils.debug("we are in a in root fragment")
-                    binding.bottomAppBar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.menu_icon)
-                    binding.bottomAppBar.setNavigationOnClickListener { navDrawerDialogFragment!!.show(supportFragmentManager.beginTransaction(), BOTTOM_NAV_DRAWER_FRAGMENT) }
-
-                } else {
-                    AppUtils.debug("we are not in a root fragment")
-                    binding.bottomAppBar.setNavigationOnClickListener {
-                        NavigationUI.navigateUp(navController, appBarConfiguration)
-                    }
-                }
-
             }
-
+            currentNavController = navController
         })
+    }
 
-        currentNavControllerLiveData = controllerLiveData
+    private fun changeMenuOnDestinationChange(destination: NavDestination) {
 
-        binding.exploreBtn.setOnClickListener {
-            navDrawerDialogFragment?.bottomNavDrawerManager!!.goToRegionMenu()
+        //checks for when to replace the about menu with favourite menu
+        if (destination.id == R.id.countryDetailsFragment) {
+            //TODO: check if country is favourite and set the right menu(selected or unselected)
+            binding.bottomAppBar.replaceMenu(R.menu.appbar_fav_unselected_menu)
+        } else {
+            binding.bottomAppBar.replaceMenu(R.menu.appbar_about_menu)
+        }
+
+        //list of root fragments ids
+        val rootFragmentsIds = listOf(R.id.homeFragment, R.id.favoriteListFragment, R.id.regionListFragment)
+
+        //checks if currentNavController is null
+        currentNavController?.let { navController ->
+            //checks for when to show the drawer menu
+            if (rootFragmentsIds.contains(navController.currentDestination?.id)) {
+                binding.bottomAppBar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.menu_icon)
+                binding.bottomAppBar.setNavigationOnClickListener { navDrawerDialogFragment!!.show(supportFragmentManager.beginTransaction(), BOTTOM_NAV_DRAWER_FRAGMENT) }
+
+            } else {
+                binding.bottomAppBar.setNavigationOnClickListener {
+                    NavigationUI.navigateUp(navController, appBarConfiguration)
+                }
+            }
         }
     }
 
@@ -203,7 +219,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return currentNavControllerLiveData?.value?.navigateUp() ?: false
     }
-
 
     private fun showAboutDialog() {
         //before inflating the custom alert dialog layout, we will get the current activity viewgroup

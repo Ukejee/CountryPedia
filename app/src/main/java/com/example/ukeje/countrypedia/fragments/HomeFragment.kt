@@ -70,6 +70,9 @@ class HomeFragment : BaseFragment() {
             })
         }
 
+        binding.countrySearchBox.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchCountryFragment)
+        }
     }
 }
 

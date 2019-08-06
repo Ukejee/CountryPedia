@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.ukeje.countrypedia.R
 import com.example.ukeje.countrypedia.databinding.FragmentSplashScreenBinding
@@ -57,13 +56,7 @@ class SplashScreenFragment : BaseFragment() {
                 }
                 it.responseType == ResponseType.SUCCESS -> {
                     binding.loadingGroup.visibility = View.GONE
-                    findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment,
-                            null,
-                            NavOptions.Builder()
-                                    .setPopUpTo(
-                                            R.id.splashScreenFragment,
-                                            true
-                                    ).build())
+                    findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
                 }
                 it.responseType == ResponseType.ERROR || it.responseType == ResponseType.NETWORK_FAILURE -> {
                     binding.loadingGroup.visibility = View.GONE

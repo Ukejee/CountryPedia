@@ -13,9 +13,6 @@
             type="com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel" />
     </data>
 
-
-    <!--android:text="@{viewModel.countryDetails.currencies.get(0).code}"-->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout6"
         android:layout_width="match_parent"
@@ -44,15 +41,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:targetApi="lollipop"
-                    tools:visibility="gone">
+                    tools:targetApi="lollipop">
 
                     <TextView
                         android:id="@+id/country_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
                         android:fontFamily="sans-serif-light"
                         android:gravity="center"
                         android:text="@{viewModel.countryDetails.name}"
@@ -70,10 +66,13 @@
 
                     <TextView
                         android:id="@+id/capital_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginEnd="50dp"
                         android:fontFamily="sans-serif-light"
                         android:text="@{@string/capital_is_text(viewModel.countryDetails.capital)}"
+                        android:textAlignment="center"
                         android:textColor="#438391"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +80,7 @@
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/country_name"
-                        tools:text="t's capital is Algerie" />
+                        tools:text="t's capital is Algeriet's capital is Algeriet's capital is Algeriet's capital is Algerie" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
