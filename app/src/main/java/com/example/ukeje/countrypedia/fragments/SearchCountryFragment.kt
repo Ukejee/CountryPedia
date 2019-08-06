@@ -16,7 +16,6 @@ import com.example.ukeje.countrypedia.adapters.SearchResultListAdapter
 import com.example.ukeje.countrypedia.databinding.FragmentSearchCountryBinding
 import com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel
 import com.example.ukeje.countrypedia.web.helper.ResponseType
-import com.example.ukeje.countrypedia.web.responses.CountryResponse
 
 
 class SearchCountryFragment : BaseFragment() {
@@ -27,28 +26,21 @@ class SearchCountryFragment : BaseFragment() {
 
     private lateinit var viewModel: SharedFragmentViewModel
 
-    private val searchResultList: List<CountryResponse>? = null
     private lateinit var binding: FragmentSearchCountryBinding
 
     override val fragmentTag: String
         get() = SEARCH_COUNTRY_FRAGMENT
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         binding = FragmentSearchCountryBinding.inflate(layoutInflater, container, false)
-        v = binding.root
         viewModel = ViewModelProviders.of(activity!!).get(SharedFragmentViewModel::class.java)
 
         init()
         binding.editText.requestFocus()
         appUtils.openKeyboard()
-        return v
+        return binding.root
     }
 
     private fun init() {
@@ -57,7 +49,7 @@ class SearchCountryFragment : BaseFragment() {
         binding.listView.layoutManager = linearLayoutManager
 
         //initialize adapter
-        searchResultListAdapter = SearchResultListAdapter(requireContext(), listOf()) {
+        searchResultListAdapter = SearchResultListAdapter(listOf()) {
             viewModel.countryDetails = it
             appUtils.hideKeyboard()
             findNavController().navigate(R.id.action_searchCountryFragment_to_countryDetailsFragment)
@@ -85,68 +77,26 @@ class SearchCountryFragment : BaseFragment() {
         countryDetailsLiveData.observe(viewLifecycleOwner, Observer {
             when {
                 it.responseType == ResponseType.LOADING -> {
-//                    showProgressDialog()
+                    //empty
                 }
                 it.responseType == ResponseType.SUCCESS -> {
                     binding.listView.visibility = View.VISIBLE
                     binding.errorMessage.visibility = View.INVISIBLE
-                    searchResultListAdapter.refreshList(it.successObject)
+                    searchResultListAdapter.refreshList(it.successObject!!)
 
                 }
                 it.responseType == ResponseType.ERROR -> {
                     binding.listView.visibility = View.GONE
                     binding.errorMessage.visibility = View.VISIBLE
-                    binding.errorMessage.text = "Search Result Not Found"
+                    binding.errorMessage.text = getString(R.string.search_result_not_found)
                 }
                 it.responseType == ResponseType.NETWORK_FAILURE -> {
                     binding.listView.visibility = View.GONE
                     binding.errorMessage.visibility = View.VISIBLE
-                    binding.errorMessage.text = "No Internet Connection"
+                    binding.errorMessage.text = getString(R.string.no_internet_connection)
                 }
             }
         })
 
     }
-
-    //    public void callSearchApi(final String countryName){
-    //
-    //        viewModel.setSearchedCountry(countryName);
-    //        viewModel.loadCountryDetails(new ApiResponseListener<List<CountryResponse>, ErrorResponse>() {
-    //            @Override
-    //            public void onApiSuccessful(final List<CountryResponse> successResponse) {
-    //
-    //                if(binding.errorMessage != null){
-    //                    binding.errorMessage.setVisibility(View.GONE);
-    //                }
-    //                binding.listView.setVisibility(View.VISIBLE);
-    //                searchResultList = successResponse;
-    //                searchResultListAdapter = new SearchResultListAdapter(getActivity(), searchResultList,
-    //                        new View.OnClickListener() {
-    //                            @Override
-    //                            public void onClick(View v) {
-    //                                viewModel.countryDetails = successResponse.get(binding.listView.getChildLayoutPosition(v));
-    ////                                onButtonPressed(COUNTRY_DETAILS_FRAGMENT);
-    //                                getAppUtils().hideKeyboard();
-    //                            }
-    //                        });
-    //                binding.listView.setAdapter(searchResultListAdapter);
-    //            }
-    //
-    //            @Override
-    //            public void onApiFailed(@Nullable ErrorResponse errorResponse) {
-    //                binding.listView.setVisibility(View.GONE);
-    //                binding.errorMessage.setVisibility(View.VISIBLE);
-    //            }
-    //
-    //            @Override
-    //            public void onNetworkFailure() {
-    //                binding.listView.setVisibility(View.GONE);
-    //                binding.errorMessage.setVisibility(View.VISIBLE);
-    //                binding.errorMessage.setText("No Internet Connection");
-    //            }
-    //        });
-    //
-    //    }
-
-
-}// Required empty public constructor
+}
