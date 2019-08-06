@@ -71,7 +71,7 @@ class SearchCountryFragment : BaseFragment() {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                //empty
+                callSearchApi(s.toString())
             }
 
             override fun afterTextChanged(s: Editable) {
