@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import com.example.ukeje.countrypedia.R
 import com.example.ukeje.countrypedia.activity.MainActivity
 import com.example.ukeje.countrypedia.utils.AppUtils
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * @author .: Oriaghan Uyi
@@ -27,10 +28,12 @@ abstract class BaseFragment : Fragment() {
 
     private lateinit var mProgressDialog: Dialog
 
+    protected lateinit var compositeDisposable: CompositeDisposable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appUtils = AppUtils(requireActivity())
-
+        compositeDisposable = CompositeDisposable()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

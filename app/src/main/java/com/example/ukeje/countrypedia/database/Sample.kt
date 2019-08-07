@@ -132,7 +132,7 @@ class Sample (private val countryPediaDatabase: CountryPediaDatabase) {
 
         Handler().postDelayed({
 
-            favouriteCountry.name = "Togooo"
+//            favouriteCountry.name = "Togooo"
 
             compositeDisposable.add(countryPediaDatabase.favoriteDao().insertFavourite(favouriteCountry)
                     .subscribeOn(Schedulers.io())

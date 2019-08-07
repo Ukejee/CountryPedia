@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainActivityViewModel
     lateinit var countryPediaRepository: CountryPediaRepository
 
+    var onFavoriteSelectionListener: ((becomeFavourite: Boolean) -> Unit)? = null
+
     companion object {
         val NAV_ITEM_NAMES = listOf("Home", "Region", "Favourites")
         val COUNTRY_PEDIA_DB_NAME = "country_pedia_db"
@@ -162,7 +164,6 @@ class MainActivity : AppCompatActivity() {
 
         //checks for when to replace the about menu with favourite menu
         if (destination.id == R.id.countryDetailsFragment) {
-            //TODO: check if country is favourite and set the right menu(selected or unselected)
             binding.bottomAppBar.replaceMenu(R.menu.appbar_fav_unselected_menu)
         } else {
             binding.bottomAppBar.replaceMenu(R.menu.appbar_about_menu)
@@ -174,7 +175,7 @@ class MainActivity : AppCompatActivity() {
         //checks if currentNavController is null
         currentNavController?.let { navController ->
             //checks for when to show the drawer menu
-            if (rootFragmentsIds.contains(navController.currentDestination?.id)) {
+            if (rootFragmentsIds.contains(destination.id)) {
                 binding.bottomAppBar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.menu_icon)
                 binding.bottomAppBar.setNavigationOnClickListener { navDrawerDialogFragment!!.show(supportFragmentManager.beginTransaction(), BOTTOM_NAV_DRAWER_FRAGMENT) }
 
@@ -200,12 +201,17 @@ class MainActivity : AppCompatActivity() {
 
         R.id.favorite_unselected_menu_item -> {
             // perform action to make country a favourite
-
+            onFavoriteSelectionListener?.let {
+                it(true)
+            }
             true
         }
 
         R.id.favorite_selected_menu_item -> {
             // perform action to remove country from favourite list
+            onFavoriteSelectionListener?.let {
+                it(false)
+            }
             true
         }
 
@@ -232,6 +238,17 @@ class MainActivity : AppCompatActivity() {
         //finally creating the alert dialog and displaying it
         val alertDialog = builder.create()
         alertDialog.show()
+
+    }
+
+    fun makeFavoriteMenuSelected(selected: Boolean = true) {
+
+        binding.bottomAppBar.replaceMenu(
+                if (selected)
+                    R.menu.appbar_fav_selected_menu
+                else
+                    R.menu.appbar_fav_unselected_menu
+        )
 
     }
 }
