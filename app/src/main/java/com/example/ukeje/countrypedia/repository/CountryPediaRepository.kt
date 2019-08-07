@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.example.ukeje.countrypedia.database.Country
 import com.example.ukeje.countrypedia.database.CountryPediaDatabase
+import com.example.ukeje.countrypedia.database.Favourite
 import com.example.ukeje.countrypedia.utils.AppUtils
 import com.example.ukeje.countrypedia.web.CountryPediaApiService
 import com.example.ukeje.countrypedia.web.helper.ApiCallHelper
@@ -134,11 +135,13 @@ class CountryPediaRepository(val countryPedeiaDatabase: CountryPediaDatabase) {
 
     fun clearDisposable() = compositeDisposable.clear()
 
-     fun getAllCountriesFromDb() =  countryPedeiaDatabase.countryDao().fetchAllCountries()
+    fun getAllCountriesFromDb() = countryPedeiaDatabase.countryDao().fetchAllCountries()
 
+    fun fetchFavouriteByNumericCode(numericCode: String) = countryPedeiaDatabase.favoriteDao().fetchFavouriteByNumericCode(numericCode)
 
+    fun deleteFavouriteByNumericCode(numericCode: String) = countryPedeiaDatabase.favoriteDao().deleteFavouriteByNumericCode(numericCode)
 
-
+    fun insertFavourite(favourite: Favourite) = countryPedeiaDatabase.favoriteDao().insertFavourite(favourite)
 
 
     /**

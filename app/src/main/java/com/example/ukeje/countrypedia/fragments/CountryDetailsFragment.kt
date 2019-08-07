@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.ukeje.countrypedia.databinding.FragmentCountryDetailsBinding
 import com.example.ukeje.countrypedia.utils.AppUtils
 import com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 
@@ -39,6 +41,47 @@ class CountryDetailsFragment : BaseFragment() {
 
     private fun initView() {
         viewModel.setUpUITimeZones()
+
+        //register favourite click listener
+        mainActivity.onFavoriteSelectionListener = {
+            if(it){
+                //make country favourite
+                compositeDisposable.add(viewModel.insertFavourite()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                {
+                                    AppUtils.debug("insertFavourite successful")
+                                    mainActivity.makeFavoriteMenuSelected()
+                                },
+                                { error -> AppUtils.error("insertFavourite error: $error") }
+                        ))
+            }else{
+                //remove country from favourite
+                compositeDisposable.add(viewModel.deleteFavouriteByNumericCode()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                {
+                                    AppUtils.debug("deleteFavouriteByNumericCode successful")
+                                    mainActivity.makeFavoriteMenuSelected(false)
+                                },
+                                { error -> AppUtils.error("deleteFavouriteByNumericCode error: $error") }
+                        ))
+            }
+        }
+
+        compositeDisposable.add(viewModel.fetchFavouriteByNumericCode()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {
+                            AppUtils.debug("fetchFavouriteByNumericCode successful")
+                            mainActivity.makeFavoriteMenuSelected()
+                        },
+                        { error -> AppUtils.error("fetchFavouriteByNumericCode error: $error") }
+                ))
+
     }
 
 

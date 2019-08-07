@@ -1,10 +1,8 @@
 package com.example.ukeje.countrypedia.database
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
-import java.util.*
 
 /**
  * @author .: Ukeje Emeka
@@ -13,16 +11,14 @@ import java.util.*
  */
 
 @Entity
-data class Favourite(var name: String?, var numericCode: String?,
-                     @PrimaryKey
-                     @ColumnInfo(name = "country_id")
-                     val id: String = UUID.randomUUID().toString()) : Serializable {
+data class Favourite(@PrimaryKey
+                     var numericCode: String) : Serializable {
 
-    constructor() : this("", "0")
+    constructor() : this("")
 
     companion object {
         fun buildFavouriteWithCountry(country: Country): Favourite {
-            return Favourite(country.name, country.numericCode)
+            return Favourite(country.numericCode!!)
         }
     }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ukeje.countrypedia.database.Country
+import com.example.ukeje.countrypedia.database.Favourite
 import com.example.ukeje.countrypedia.repository.CountryPediaRepository
 import com.example.ukeje.countrypedia.utils.AppUtils
 import com.example.ukeje.countrypedia.web.helper.ApiResponse
@@ -17,7 +18,6 @@ import kotlin.math.roundToInt
 
 class SharedFragmentViewModel : ViewModel() {
 
-    private val searchedCountry: String? = null
     private val regionSelected: String? = null
     var countryDetails: CountryResponse? = null
     var countryList: List<CountryResponse> = ArrayList()
@@ -121,6 +121,12 @@ class SharedFragmentViewModel : ViewModel() {
 
         return formattedString.toString()
     }
+
+    fun fetchFavouriteByNumericCode() = countryPediaRepository!!.fetchFavouriteByNumericCode(countryDetails!!.numericCode)
+
+    fun deleteFavouriteByNumericCode() = countryPediaRepository!!.deleteFavouriteByNumericCode(countryDetails!!.numericCode)
+
+    fun insertFavourite() = countryPediaRepository!!.insertFavourite(Favourite(countryDetails!!.numericCode))
 
     /*public ArrayList<String> getFavoriteCountries(){ return favoriteCountries; }
 

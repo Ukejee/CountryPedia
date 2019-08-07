@@ -23,6 +23,9 @@ interface FavouriteDao {
     fun fetchAllFavourites(): Flowable<List<Favourite>>
 
     @Query("SELECT * FROM Favourite WHERE numericCode =:numericCode")
-    fun fetchFavouriteByNumericCode(numericCode: Int): Flowable<Favourite>
+    fun fetchFavouriteByNumericCode(numericCode: String): Flowable<Favourite>
+
+    @Query("DELETE FROM Favourite WHERE numericCode =:numericCode")
+    fun deleteFavouriteByNumericCode(numericCode: String): Completable
 
 }
