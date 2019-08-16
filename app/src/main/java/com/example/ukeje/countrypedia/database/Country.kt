@@ -12,6 +12,9 @@ import java.util.*
  * @created : 6/11/19
  */
 
+
+
+//TODO: Add flag, region
 @Entity
 data class Country(var name: String?,
                    var capital: String?,
