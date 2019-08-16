@@ -40,7 +40,6 @@ class CountryDetailsFragment : BaseFragment() {
     }
 
     private fun initView() {
-        viewModel.setUpUITimeZones()
 
         //register favourite click listener
         mainActivity.onFavoriteSelectionListener = {

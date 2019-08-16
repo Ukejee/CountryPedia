@@ -28,4 +28,6 @@ interface FavouriteDao {
     @Query("DELETE FROM Favourite WHERE numericCode =:numericCode")
     fun deleteFavouriteByNumericCode(numericCode: String): Completable
 
+    @Query("SELECT * FROM Country INNER JOIN Favourite ON country.numericCode=favourite.numericCode")
+    fun favouriteCountries() : Flowable<List<Country>>
 }

@@ -13,7 +13,7 @@ import com.example.ukeje.countrypedia.web.responses.CountryResponse
  * @email ..: ukejee3@gmail.com
  * @created : 6/26/19
  */
-class SearchResultListAdapter(var list: List<CountryResponse>, internal var listener: (countryResponse: CountryResponse) -> Unit) : RecyclerView.Adapter<SearchResultListAdapter.MyViewHolder>() {
+class SearchResultListAdapter(var list: List<CountryResponse>, private var listener: (countryResponse: CountryResponse) -> Unit) : RecyclerView.Adapter<SearchResultListAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -46,9 +46,5 @@ class SearchResultListAdapter(var list: List<CountryResponse>, internal var list
                 listener(list[adapterPosition])
             }
         }
-    }
-
-    interface CountryListClickListener {
-        fun onItemClick(countryResponse: CountryResponse)
     }
 }

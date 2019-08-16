@@ -31,7 +31,6 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
     View view;
     Context mContext;
 
-
     public CountryListAdapter(List<CountryResponse> list, View.OnClickListener listener, Context mContext) {
         this.list = list;
         this.listener = listener;
@@ -71,9 +70,9 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
 
         public MyHolder(View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.country_list_flag);
-            name = itemView.findViewById(R.id.country_list_name);
-            capital = itemView.findViewById(R.id.country_list_capital);
+            image = itemView.findViewById(R.id.country_flag);
+            name = itemView.findViewById(R.id.country_name);
+            capital = itemView.findViewById(R.id.country_capital);
         }
 
     }

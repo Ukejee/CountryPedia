@@ -17,8 +17,8 @@ class Sample (private val countryPediaDatabase: CountryPediaDatabase) {
         val compositeDisposable = CompositeDisposable()
 
         //sample country
-        val sampleCountry = Country("Togo", "Lome", "228")
-        val sampleCountry2 = Country("Nigeria", "Abuja", "224")
+        val sampleCountry = Country("Togo", "Lome","0", "Lome", "https://restcountries.eu/data/ken.svg")
+        val sampleCountry2 = Country("Nigeria", "Abuja","0", "Abuja", "https://restcountries.eu/data/ken.svg")
 
 
         compositeDisposable.add(countryPediaDatabase.countryDao().insertCountry(sampleCountry)

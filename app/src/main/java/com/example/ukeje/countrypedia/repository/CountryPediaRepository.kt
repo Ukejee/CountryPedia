@@ -82,7 +82,7 @@ class CountryPediaRepository(val countryPedeiaDatabase: CountryPediaDatabase) {
                     //clear db
                     clearCountryTable(onSuccess = {
                         //insert into db
-                        insertCountries(it.successObject!!.map { item -> Country(item.name, item.capital, item.numericCode) },
+                        insertCountries(it.successObject!!.map { item -> Country(item.name, item.capital, item.numericCode, item.region, item.flag) },
                                 onSuccess = {
                                     responseMediatorLiveData.value = it
                                 },
@@ -120,7 +120,7 @@ class CountryPediaRepository(val countryPedeiaDatabase: CountryPediaDatabase) {
     }
 
     private fun insertCountries(countryList: List<Country>, onSuccess: () -> Unit, onError: (Throwable) -> Unit) {
-        compositeDisposable.add(insertCountries(countryList.map { item -> Country(item.name, item.capital, item.numericCode) })
+        compositeDisposable.add(insertCountries(countryList.map { item -> Country(item.name, item.capital, item.numericCode, item.region, item.flagImageUrl) })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -142,6 +142,8 @@ class CountryPediaRepository(val countryPedeiaDatabase: CountryPediaDatabase) {
     fun deleteFavouriteByNumericCode(numericCode: String) = countryPedeiaDatabase.favoriteDao().deleteFavouriteByNumericCode(numericCode)
 
     fun insertFavourite(favourite: Favourite) = countryPedeiaDatabase.favoriteDao().insertFavourite(favourite)
+
+    fun getFavouriteCountries() = countryPedeiaDatabase.favoriteDao().favouriteCountries()
 
 
     /**

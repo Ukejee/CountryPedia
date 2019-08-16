@@ -25,6 +25,8 @@ class SharedFragmentViewModel : ViewModel() {
     var favoriteCountries = ArrayList<String>()
     var funFacts: ArrayList<String>? = null
 
+    var nigeriaCountry = Country("Nigeria", "Abuja", "566", "Africa", "https://restcountries.eu/data/nga.svg")
+
     var splitTimeZones = MutableLiveData<Boolean>()
         get() {
             field.value = countryDetails?.timezones?.size!! > 1
@@ -51,7 +53,6 @@ class SharedFragmentViewModel : ViewModel() {
             return field
         }
 
-
     var formattedAltSpelling = " - "
         get() {
             field = formatStringListIntoString(countryDetails?.altSpellings as List<String>, ", ")
@@ -66,10 +67,6 @@ class SharedFragmentViewModel : ViewModel() {
         }
 
     var randomCountryLiveData = MutableLiveData<Country>()
-
-    fun setUpUITimeZones() {
-//        splitTimeZonesIntoHalves()
-    }
 
     fun callGetCountryDetailsApi(countryName: String): LiveData<ApiResponse<List<CountryResponse>, ErrorResponse>> {
         return countryPediaRepository!!.getCountryDetailsFromApi(countryName)
@@ -93,10 +90,9 @@ class SharedFragmentViewModel : ViewModel() {
                     val ranNum = Random().nextInt(it.size - 1) + 1
                     randomCountryLiveData.value = it[ranNum]
                 }, { throwable ->
-                    val country = Country("Nigeria", "Abuja", "566")
-                    AppUtils.error("unable to get random country. error: ${throwable.message}.\n showing default country: ${country}")
+                    AppUtils.error("unable to get random country. error: ${throwable.message}.\n showing default country: $nigeriaCountry")
 
-                    randomCountryLiveData.value = country
+                    randomCountryLiveData.value = nigeriaCountry
                 }))
 
     }
@@ -127,6 +123,9 @@ class SharedFragmentViewModel : ViewModel() {
     fun deleteFavouriteByNumericCode() = countryPediaRepository!!.deleteFavouriteByNumericCode(countryDetails!!.numericCode)
 
     fun insertFavourite() = countryPediaRepository!!.insertFavourite(Favourite(countryDetails!!.numericCode))
+
+    fun getFavouriteCountries() = countryPediaRepository!!.getFavouriteCountries()
+
 
     /*public ArrayList<String> getFavoriteCountries(){ return favoriteCountries; }
 

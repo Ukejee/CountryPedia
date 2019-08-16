@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
+                android:theme="@style/MainToolbarTheme"
                 app:backgroundTint="#266876"
                 app:navigationIcon="@drawable/menu_icon"/>
 

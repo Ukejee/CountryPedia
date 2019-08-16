@@ -14,15 +14,16 @@ import java.util.*
 
 
 
-//TODO: Add flag, region
 @Entity
 data class Country(var name: String?,
                    var capital: String?,
                    var numericCode: String?,
+                   var region: String?,
+                   var flagImageUrl: String?,
                    @PrimaryKey
                    @ColumnInfo(name = "country_id")
                    val id: String = UUID.randomUUID().toString()) : Serializable {
 
-    constructor() : this("", "", "0")
+    constructor() : this("", "","0", "", "")
 
 }
