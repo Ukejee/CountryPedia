@@ -4,12 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ukeje.countrypedia.R
 import com.example.ukeje.countrypedia.adapters.FavoriteListRvAdapter
+import com.example.ukeje.countrypedia.database.Country
 import com.example.ukeje.countrypedia.databinding.FragmentFavoriteListBinding
 import com.example.ukeje.countrypedia.utils.AppUtils
 import com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel
+import com.example.ukeje.countrypedia.web.helper.ResponseType
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -40,8 +45,28 @@ class FavoriteListFragment : BaseFragment() {
 
     private fun init() {
 
-        favListRvRvAdapter = FavoriteListRvAdapter(listOf(), requireActivity()){
-            AppUtils.debug("clicked: $it")
+        favListRvRvAdapter = FavoriteListRvAdapter(listOf(), requireActivity()){favCountry ->
+            AppUtils.debug("clicked: $favCountry")
+            val favCountryDetailLiveData = viewModel.callGetCountryDetailsApi(favCountry.name!!)
+            favCountryDetailLiveData.observe(viewLifecycleOwner, Observer {
+                when(it.responseType){
+                    ResponseType.LOADING ->{
+                        showProgressDialog()
+                    }
+                    ResponseType.SUCCESS ->{
+                        viewModel.countryDetails = it.successObject!![0]
+                        cancelProgressDialog()
+                        findNavController().navigate(R.id.action_favoriteListFragment_to_countryDetailsFragment)
+                    }
+                    ResponseType.ERROR -> {
+                        showAlert(it.errorObject?.message ?: "An Error occurred try again")
+                    }
+                    ResponseType.NETWORK_FAILURE -> {
+                        showAlert("Network Unavailable")
+                    }
+                }
+            })
+
         }
 
         linearLayoutManager = LinearLayoutManager(activity)

@@ -20,7 +20,6 @@ import com.example.ukeje.countrypedia.web.helper.ResponseType
 
 class SearchCountryFragment : BaseFragment() {
 
-    private var v: View? = null
     private var linearLayoutManager: RecyclerView.LayoutManager? = null
     private lateinit var searchResultListAdapter: SearchResultListAdapter
 
