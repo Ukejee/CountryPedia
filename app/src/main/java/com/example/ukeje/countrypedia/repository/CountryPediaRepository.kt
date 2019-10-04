@@ -112,7 +112,7 @@ class CountryPediaRepository(val countryPedeiaDatabase: CountryPediaDatabase) {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    //inserted successfully
+                    //deleted successfully
                     onSuccess()
                 }, { throwable ->
                     onError(throwable)

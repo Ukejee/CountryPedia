@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         //set up db
-        countryPediaDatabase = Room.databaseBuilder(this, CountryPediaDatabase::class.java, COUNTRY_PEDIA_DB_NAME).build()
+        countryPediaDatabase = Room.databaseBuilder(this, CountryPediaDatabase::class.java, COUNTRY_PEDIA_DB_NAME).fallbackToDestructiveMigration().build()
         //initialize CountryRepository with countryPediaDatabase from the mainActivity
         countryPediaRepository = CountryPediaRepository(countryPediaDatabase)
 

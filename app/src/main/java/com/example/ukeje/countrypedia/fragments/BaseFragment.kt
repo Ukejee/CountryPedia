@@ -56,7 +56,6 @@ abstract class BaseFragment : Fragment() {
 
     fun showProgressDialog() {
         if (mProgressDialog.isShowing) cancelProgressDialog()
-
         mProgressDialog.window!!.requestFeature(Window.FEATURE_NO_TITLE)
         mProgressDialog.setContentView(R.layout.progress_indicator)
         mProgressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
