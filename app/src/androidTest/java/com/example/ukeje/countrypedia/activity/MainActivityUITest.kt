@@ -1,7 +1,6 @@
 package com.example.ukeje.countrypedia.activity
 
 import androidx.test.runner.AndroidJUnit4
-import org.junit.Assert.*
 import org.junit.runner.RunWith
 
 /**

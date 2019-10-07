@@ -15,9 +15,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import androidx.room.Room
+import com.example.ukeje.countrypedia.databinding.ActivityMainBinding
 import com.example.ukeje.countrypedia.R
 import com.example.ukeje.countrypedia.database.CountryPediaDatabase
-import com.example.ukeje.countrypedia.databinding.ActivityMainBinding
 import com.example.ukeje.countrypedia.dto.HomeNavItem
 import com.example.ukeje.countrypedia.extensions.getFragmentTag
 import com.example.ukeje.countrypedia.extensions.obtainNavHostFragment

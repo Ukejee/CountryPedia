@@ -1,13 +1,10 @@
 package com.example.ukeje.countrypedia.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-import com.example.ukeje.countrypedia.R
 import com.example.ukeje.countrypedia.databinding.ItemRegionListBinding
 
 import java.util.ArrayList

@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ukeje.countrypedia.R
 import com.example.ukeje.countrypedia.adapters.FavoriteListRvAdapter
-import com.example.ukeje.countrypedia.database.Country
 import com.example.ukeje.countrypedia.databinding.FragmentFavoriteListBinding
 import com.example.ukeje.countrypedia.utils.AppUtils
 import com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel

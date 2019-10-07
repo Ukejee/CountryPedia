@@ -2,8 +2,6 @@ package com.example.ukeje.countrypedia.web.helper;
 
 import androidx.annotation.Nullable;
 
-import java.util.List;
-
 /**
  * @author .: Oriaghan Uyi
  * @email ..: uyioriaghan@gmail.com, uyi.oriaghan@cwg-plc.com

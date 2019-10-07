@@ -17,7 +17,6 @@ import com.example.ukeje.countrypedia.databinding.FragmentRegionListBinding
 import com.example.ukeje.countrypedia.utils.AppUtils
 import com.example.ukeje.countrypedia.viewmodel.SharedFragmentViewModel
 import com.example.ukeje.countrypedia.web.helper.ResponseType
-import com.google.android.material.snackbar.Snackbar
 
 import java.util.ArrayList
 import java.util.Arrays
@@ -65,8 +64,10 @@ class RegionListFragment : BaseFragment() {
             when{
                 it.responseType == ResponseType.LOADING -> {
                     //empty
+                    showProgressDialog()
                 }
                 it.responseType == ResponseType.SUCCESS -> {
+                    cancelProgressDialog()
                     viewModel.countryList = it.successObject!!
                     findNavController().navigate(R.id.action_regionListFragment_to_countryListFragment)
                 }
